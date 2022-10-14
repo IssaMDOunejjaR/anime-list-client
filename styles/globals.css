@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	* {
+		@apply outline-none;
+	}
+
+	body {
+		@apply dark:bg-primary;
+	}
+
+	button {
+		@apply uppercase font-semibold rounded-sm transition-colors shadow-sm;
+	}
+
+	a {
+		@apply block uppercase rounded-sm transition-colors shadow-sm w-full p-2 text-center text-xs;
+	}
+}
+
+@layer utilities {
+	.custom-input {
+		@apply w-full p-2 px-4 pr-11 bg-slate-200 rounded-sm dark:bg-secondary;
+	}
+
+	.custom-button {
+		@apply py-2 px-6 text-xs border-[1px] border-black hover:text-white hover:bg-black dark:border-white dark:hover:bg-white dark:hover:text-black;
+	}
+
+	.custom-link {
+		@apply bg-gradient-blue text-white;
+	}
+
+	.custom-button-gradient {
+		@apply py-2 px-6 text-xs hover:text-white hover:bg-transparent dark:hover:bg-transparent;
+	}
+
+	.bg-gradient-blue {
+		@apply bg-gradient-to-r from-[#36D1DC] to-[#5B86E5];
+	}
+}

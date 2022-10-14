@@ -10,6 +10,15 @@ module.exports = {
 			backgroundColor: {
 				primary: "#272C38",
 				secondary: "#1E2530",
+				"light-gray": "#C8C6C8",
+			},
+			textColor: {
+				primary: "#999999",
+			},
+			borderColor: {
+				primary: "#272C38",
+				secondary: "#1E2530",
+				"light-gray": "#C8C6C8",
 			},
 		},
 	},
