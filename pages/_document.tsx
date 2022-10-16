@@ -5,7 +5,7 @@ export default function Document() {
 	const { theme } = useTheme();
 
 	return (
-		<Html className={theme}>
+		<Html className={`${theme} overflow-x-hidden`}>
 			<Head />
 			<body>
 				<Main />

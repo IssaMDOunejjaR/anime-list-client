@@ -7,6 +7,10 @@
 		@apply outline-none;
 	}
 
+	html {
+		@apply scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-gray-600;
+	}
+
 	body {
 		@apply dark:bg-primary;
 	}
@@ -31,6 +35,10 @@
 
 	.custom-link {
 		@apply bg-gradient-blue text-white;
+	}
+
+	.custom-link-gradient {
+		@apply text-black hover:bg-transparent hover:text-white dark:text-white dark:hover:bg-transparent;
 	}
 
 	.custom-button-gradient {

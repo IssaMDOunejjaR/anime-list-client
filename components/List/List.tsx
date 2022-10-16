@@ -1,23 +1,61 @@
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { IconButton } from "@mui/material";
+import GradientBorder from "../GradientBorder/GradientBorder";
 
 interface Props {
 	children: ReactNode;
 	title: string;
+	url: string;
 }
 
-export default function List({ children, title }: Props) {
+export default function List({ children, title, url }: Props) {
+	const listRef = useRef<HTMLDivElement>(null);
+
+	const handleScrollLeft = () => {
+		if (listRef && listRef.current) {
+			listRef.current.scrollLeft += listRef.current.clientWidth;
+		}
+	};
+
+	const handleScrollRight = () => {
+		if (listRef && listRef.current) {
+			listRef.current.scrollLeft -= listRef.current.clientWidth;
+		}
+	};
+
 	return (
-		<div className="px-6 py-4">
-			<h2 className="text-2xl font-bold py-4">{title}</h2>
-			<div className="flex space-x-4">{children}</div>
-			<div className="relative flex justify-center">
+		<div className="pr-3">
+			<h2 className="flex items-center text-2xl font-bold py-4">
+				{title}
+				<span className="ml-auto">
+					<IconButton onClick={handleScrollRight}>
+						<ChevronLeftIcon className="!text-white" />
+					</IconButton>
+					<IconButton onClick={handleScrollLeft}>
+						<ChevronRightIcon className="!text-white" />
+					</IconButton>
+				</span>
+			</h2>
+			<div
+				className="flex overflow-x-auto scroll-smooth scrollbar-hide space-x-4"
+				ref={listRef}
+			>
+				{children}
+			</div>
+			<div className="relative flex justify-center mt-4">
 				<span className="absolute h-[1px] w-full bg-light-gray top-2/4 -translate-y-2/4 -z-10"></span>
-				<Link href="/popular">
-					<a className="custom-link w-fit py-3 px-8 outline-8">
-						More
-					</a>
-				</Link>
+				<div className="bg-white dark:bg-primary px-4 min-w-[100px] w-1/6">
+					<GradientBorder>
+						<Link href={url}>
+							<a className="custom-link-gradient bg-white dark:bg-primary py-3 font-semibold">
+								More
+							</a>
+						</Link>
+					</GradientBorder>
+				</div>
 			</div>
 		</div>
 	);

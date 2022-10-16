@@ -9,14 +9,56 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Home</title>
 			</Head>
-			<List title="Most Popular">
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-				<Card />
-			</List>
+			<div className="w-full px-5">
+				<List title="New Episodes" url="/animes/new-episodes">
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+				</List>
+				<List title="New Animes" url="/animes/new-animes">
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+				</List>
+				<List title="Popular" url="/animes/new-animes">
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+				</List>
+				<List title="Popular" url="/animes/new-animes">
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+					<Card />
+				</List>
+			</div>
 		</>
 	);
 };

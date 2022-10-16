@@ -10,7 +10,7 @@ module.exports = {
 			backgroundColor: {
 				primary: "#272C38",
 				secondary: "#1E2530",
-				"light-gray": "#C8C6C8",
+				"light-gray": "#444",
 			},
 			textColor: {
 				primary: "#999999",
@@ -18,9 +18,12 @@ module.exports = {
 			borderColor: {
 				primary: "#272C38",
 				secondary: "#1E2530",
-				"light-gray": "#C8C6C8",
+				"light-gray": "#444",
 			},
 		},
 	},
-	plugins: [],
+	plugins: [
+		require("tailwind-scrollbar-hide"),
+		require("tailwind-scrollbar"),
+	],
 };

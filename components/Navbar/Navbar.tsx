@@ -19,9 +19,9 @@ const NavLink = ({ children, pathname }: NavLinkProps) => {
 
 export default function Navbar() {
 	return (
-		<nav className="sticky left-0 h-screen bg-slate-200 dark:bg-secondary w-14">
+		<nav className="sticky top-0 h-screen bg-slate-200 dark:bg-secondary w-14">
 			<div className="w-full p-3.5 border-b-[1px] border-light-gray flex justify-center items-center font-extrabold text-3xl">
-				L
+				A
 			</div>
 			<ul className="p-2">
 				<NavLink pathname="/">
