@@ -8,14 +8,15 @@ import SignUp from "../SignUp/SignUp";
 
 interface SearchProps {
 	searchValue: string;
+	isFocused: boolean;
 }
 
-const Search = ({ searchValue }: SearchProps) => {
+const Search = ({ searchValue, isFocused }: SearchProps) => {
 	return (
 		<div className={`absolute top-full rounded-sm w-full`}>
 			<div
 				className={`bg-slate-200 dark:bg-secondary mt-1 overflow-y-auto transition-all duration-500 shadow-md scrollbar-thin scrollbar-thumb-slate-500 dark:scrollbar-thumb-gray-600 ${
-					!searchValue ? "h-0" : "h-[380px]"
+					!searchValue || !isFocused ? "h-0" : "h-[380px]"
 				}`}
 			>
 				<div className="p-2">
@@ -83,6 +84,7 @@ const Search = ({ searchValue }: SearchProps) => {
 export default function Header() {
 	const { theme, setTheme, systemTheme } = useTheme();
 	const [searchValue, setSearchValue] = useState("");
+	const [isFocused, setIsFocused] = useState(false);
 
 	const [openSignIn, setOpenSignIn] = useState(false);
 	const [openSignUp, setOpenSignUp] = useState(false);
@@ -113,10 +115,12 @@ export default function Header() {
 							onChange={(e: any) =>
 								setSearchValue(e.target.value)
 							}
+							onFocus={() => setIsFocused(true)}
+							onBlur={() => setIsFocused(false)}
 						/>
 						<SearchIcon className="absolute right-3 top-2/4 -translate-y-2/4 text-primary" />
 					</div>
-					<Search searchValue={searchValue} />
+					<Search searchValue={searchValue} isFocused={isFocused} />
 				</div>
 				<div className="flex space-x-4">
 					<button
