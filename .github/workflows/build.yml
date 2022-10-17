@@ -1,0 +1,46 @@
+name: Build and Deploy Frontend
+
+on: push
+
+jobs:
+    build:
+        runs-on: ubuntu-22.04
+        strategy:
+            matrix:
+                node-version: [16]
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Setup Node
+              uses: "actions/setup-node@v2"
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm"
+            - name: Install Dependencies
+              run: npm install
+            - name: Build
+              run: npm run build
+    deploy:
+        needs: build
+        name: Deploy frontend
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v2
+            - name: Copy Files
+              uses: appleboy/scp-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USERNAME }}
+                  password: ${{ secrets.PASSWORD }}
+                  source: "."
+                  target: "/home/${{ secrets.USERNAME }}/home-lab/websites/anime-list/client/"
+            - name: Ssh into host
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USERNAME }}
+                  password: ${{ secrets.PASSWORD }}
+                  script: |
+                      cd /home/${{ secrets.USERNAME }}/home-lab/websites/anime-list/
+                      docker compose rm -s -v client
+                      docker compose up -d client
