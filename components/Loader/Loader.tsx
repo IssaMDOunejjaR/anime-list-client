@@ -5,7 +5,7 @@ interface Props {
 
 export default function Loader({ bgLight, bgDark }: Props) {
 	return (
-		<div className="flex items-center justify-center w-full h-full relative z-[1]">
+		<div className="flex items-center justify-center w-full h-full relative z-[1] p-8">
 			<div className="relative w-16 h-16 bg-gradient-blue bg-clip-text">
 				<span className="absolute w-full h-full bg-gradient-blue -z-10 pt-1 pl-1 animate-spin rounded-full">
 					<div
