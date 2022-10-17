@@ -28,7 +28,7 @@ export default function List({ children, title, url }: Props) {
 
 	return (
 		<div className="pr-3">
-			<h2 className="flex items-center text-2xl font-bold py-4">
+			<h2 className="flex items-center text-2xl font-bold py-4 uppercase">
 				{title}
 				<span className="ml-auto">
 					<IconButton onClick={handleScrollRight}>
@@ -40,7 +40,7 @@ export default function List({ children, title, url }: Props) {
 				</span>
 			</h2>
 			<div
-				className="flex overflow-x-auto scroll-smooth scrollbar-hide space-x-4"
+				className="flex overflow-hidden space-x-3 scroll-smooth"
 				ref={listRef}
 			>
 				{children}
