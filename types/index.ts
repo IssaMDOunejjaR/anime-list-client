@@ -6,6 +6,7 @@ export type Anime = {
 	coverImage: {
 		extraLarge: string;
 	};
+	format: string;
 	status: string;
 	description: string;
 	episodes: number;

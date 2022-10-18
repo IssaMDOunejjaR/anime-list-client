@@ -14,16 +14,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<>
 			<ThemeProvider attribute="class">
 				<QueryClientProvider client={queryClient}>
-					<div className="flex w-screen">
-						<Navbar />
-						<div className="flex-1 flex flex-col overflow-x-hidden">
-							<Header />
-							<div className="flex-1 overflow-x-hidden">
-								<Component {...pageProps} />
-							</div>
-							<Footer />
-						</div>
-					</div>
+					<Header />
+					<Component {...pageProps} />
+					<Footer />
 					<ReactQueryDevtools initialIsOpen={false} />
 				</QueryClientProvider>
 			</ThemeProvider>

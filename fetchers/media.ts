@@ -148,3 +148,44 @@ export const getMoviesByPopularity = async (page: number): Promise<Anime[]> => {
 
 	return media;
 };
+
+export const getSearchedMedia = async (
+	page: number,
+	searchValue: string
+): Promise<Anime[]> => {
+	const {
+		Page: { media },
+	} = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: ${page}) {
+					media(sort: TITLE_ROMAJI, type: ANIME, search: "${searchValue}") {
+                        id
+						title {
+							romaji
+						}
+						coverImage {
+							extraLarge
+						}
+						format
+						status
+						description
+						episodes
+						genres
+						averageScore
+                        studios {
+                            edges {
+                                node {
+                                    name
+                                }
+                            }
+                        }
+					}
+				}
+			}
+		`
+	);
+
+	return media;
+};

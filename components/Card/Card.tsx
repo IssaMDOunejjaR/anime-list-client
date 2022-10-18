@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Anime } from "../../types";
+import parse from "html-react-parser";
 
 interface Props {
 	data: Anime;
@@ -72,8 +73,10 @@ export default function Card({ data }: Props) {
 					className="shadow-md w-[170px] h-[260px]"
 				/>
 			</div>
-			<div className="p-2 flex">
-				<h3 className="font-semibold">{data.title.romaji}</h3>
+			<div className="py-2 flex">
+				<h3 className="font-semibold truncate w-[170px]">
+					{data.title.romaji}
+				</h3>
 			</div>
 			<div
 				className={`overflow-hidden w-0 group-hover:w-[250px] transition-all absolute h-full top-0 ${
@@ -93,7 +96,7 @@ export default function Card({ data }: Props) {
 							{data.title.romaji}
 						</h3>
 						<p className="text-xs text-primary mb-3 overflow-hidden max-h-32 text-ellipsis">
-							{data.description}
+							{parse(data.description)}
 						</p>
 						<div className="flex flex-wrap justify-center mt-auto p-2">
 							{data.genres.map((genre, index) => (

@@ -40,7 +40,7 @@ export default function List({ children, title, url }: Props) {
 				</span>
 			</h2>
 			<div
-				className="flex overflow-hidden space-x-3 scroll-smooth min-h-[250px]"
+				className="flex overflow-x-auto scrollbar-hide space-x-3 scroll-smooth h-[300px]"
 				ref={listRef}
 			>
 				{children}

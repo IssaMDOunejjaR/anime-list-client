@@ -5,10 +5,15 @@ import { useState } from "react";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
 import SearchContainer from "../Search/Search";
+import { FormControlLabel, IconButton, Switch } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import Navbar from "../Navbar/Navbar";
+import Link from "next/link";
 
 export default function Header() {
 	const { theme, setTheme, systemTheme } = useTheme();
 
+	const [openNavbar, setOpenNavbar] = useState(false);
 	const [openSignIn, setOpenSignIn] = useState(false);
 	const [openSignUp, setOpenSignUp] = useState(false);
 
@@ -20,28 +25,50 @@ export default function Header() {
 	return (
 		<>
 			<header className="sticky top-0 z-50 bg-white dark:bg-primary">
+				<Navbar open={openNavbar} />
 				<div className="flex justify-between items-center border-b-[1px] border-light-gray py-3 px-5 pr-8">
-					<h1 className="text-3xl font-extrabold uppercase">
-						<span className="bg-gradient-blue p-0.5 text-white">
-							Ani
-						</span>
-						<span className="bg-gradient-blue bg-clip-text text-transparent p-0.5">
-							me
-						</span>
-					</h1>
+					<div className="flex items-center">
+						<IconButton
+							className="!shadow-none dark:!text-white"
+							onClick={() => setOpenNavbar(!openNavbar)}
+						>
+							<MenuIcon />
+						</IconButton>
+						<Link href="/">
+							<a>
+								<h1 className="ml-4 text-3xl font-extrabold uppercase">
+									<span className="bg-gradient-blue p-0.5 text-white">
+										Ani
+									</span>
+									<span className="bg-gradient-blue bg-clip-text text-transparent p-0.5">
+										me
+									</span>
+								</h1>
+							</a>
+						</Link>
+					</div>
 					<div className="w-1/3 relative hidden md:block">
 						<SearchContainer />
 					</div>
 					<div className="flex space-x-4">
-						<button
-							onClick={() =>
-								setTheme(
-									currentTheme === "dark" ? "light" : "dark"
-								)
+						<FormControlLabel
+							value="end"
+							control={
+								<Switch
+									size="small"
+									checked={currentTheme === "dark"}
+									onChange={() =>
+										setTheme(
+											currentTheme === "dark"
+												? "light"
+												: "dark"
+										)
+									}
+								/>
 							}
-						>
-							dark
-						</button>
+							label="Dark"
+							labelPlacement="end"
+						/>
 						<button
 							className={`custom-button`}
 							onClick={() => setOpenSignIn(true)}

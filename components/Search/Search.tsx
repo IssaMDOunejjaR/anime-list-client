@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Loader from "../Loader/Loader";
+import { useMediaSearch } from "../../hooks/useMediaSearch";
 
 interface SearchProps {
 	searchValue: string;
@@ -8,6 +9,8 @@ interface SearchProps {
 }
 
 const Search = ({ searchValue, isFocused }: SearchProps) => {
+	const { data: medias } = useMediaSearch(1, searchValue, isFocused);
+
 	return (
 		<div className={`absolute top-full rounded-sm w-full`}>
 			<div
@@ -16,18 +19,27 @@ const Search = ({ searchValue, isFocused }: SearchProps) => {
 				}`}
 			>
 				<div className="p-2 h-full">
-					{/* <div className="flex mb-1">
-						<img
-							src="https://cdn.myanimelist.net/r/320x440/images/anime/1228/125011.webp?s=3f3c8911b02f22c7a04caf7b0bb65568"
-							alt=""
-							className="max-w-[130px]"
-						/>
-						<div className="px-4">
-							<h2 className="font-bold">Mob Psycho 100</h2>
-							<span className="text-xs italic">Tv</span>
-						</div>
-					</div> */}
-					<Loader bgLight="bg-slate-200" bgDark="bg-secondary" />
+					{medias ? (
+						medias.map((media) => (
+							<div className="flex mb-1">
+								<img
+									src={media.coverImage.extraLarge}
+									alt={media.title.romaji}
+									className="max-w-[130px]"
+								/>
+								<div className="px-4">
+									<h2 className="font-bold">
+										{media.title.romaji}
+									</h2>
+									<span className="text-xs italic capitalize">
+										{media.format?.toLowerCase()}
+									</span>
+								</div>
+							</div>
+						))
+					) : (
+						<Loader bgLight="bg-slate-200" bgDark="bg-secondary" />
+					)}
 				</div>
 			</div>
 		</div>

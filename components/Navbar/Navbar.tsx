@@ -17,17 +17,24 @@ const NavLink = ({ children, pathname }: NavLinkProps) => {
 	);
 };
 
-export default function Navbar() {
+interface NavbarProps {
+	open: boolean;
+}
+
+export default function Navbar({ open }: NavbarProps) {
 	return (
-		<nav className="sticky top-0 h-screen bg-slate-200 dark:bg-secondary w-14">
-			<div className="w-full p-3.5 border-b-[1px] border-light-gray flex justify-center items-center font-extrabold text-3xl">
-				A
+		<nav
+			className={`absolute top-full h-screen overflow-hidden bg-slate-200 dark:bg-secondary transition-all ${
+				open ? "w-[70px]" : "w-0"
+			}`}
+		>
+			<div className="w-[70px] overflow-hidden">
+				<ul className="p-2">
+					<NavLink pathname="/">
+						<HomeIcon className="!text-3xl !text-primary" />
+					</NavLink>
+				</ul>
 			</div>
-			<ul className="p-2">
-				<NavLink pathname="/">
-					<HomeIcon className="!text-3xl !text-primary" />
-				</NavLink>
-			</ul>
 		</nav>
 	);
 }
