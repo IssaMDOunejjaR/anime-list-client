@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAnimesByPopularity } from "../fetchers/media";
+import { getMediaById } from "../fetchers/media";
 
 export const useAnimeById = (id: number) => {
-	// return useQuery([`anime-`], () => );
+	return useQuery([`anime-${id}`], () => getMediaById(id), { enabled: !!id });
 };

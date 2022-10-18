@@ -189,3 +189,72 @@ export const getSearchedMedia = async (
 
 	return media;
 };
+
+export const getMediaById = async (id: number): Promise<Anime> => {
+	const { Media } = await request(
+		endpoint,
+		gql`
+			query {
+				Media(id: ${id}) {
+					id
+					title {
+						romaji
+					}
+					coverImage {
+						extraLarge
+					}
+					trailer {
+						thumbnail
+						site
+						id
+					}
+					format
+					status
+					description
+					episodes
+					genres
+					averageScore
+					bannerImage
+					relations {
+						nodes {
+							id
+							type
+						}
+					}
+					characters(sort: ROLE) {
+						nodes {
+							name {
+								full
+								native
+							}
+							image {
+								large
+							}
+						}
+					}
+					studios {
+						edges {
+							node {
+								name
+							}
+						}
+					}
+					staff(sort: LANGUAGE) {
+						nodes {
+							name {
+								full
+								native
+							}
+							image {
+								large
+							}
+							primaryOccupations
+						}
+					}
+				}
+			}
+		`
+	);
+
+	return Media;
+};

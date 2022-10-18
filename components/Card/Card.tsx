@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Anime } from "../../types";
 import parse from "html-react-parser";
+import Link from "next/link";
 
 interface Props {
 	data: Anime;
@@ -105,9 +106,9 @@ export default function Card({ data }: Props) {
 								</span>
 							))}
 						</div>
-						<a href="#" className="custom-link">
-							More
-						</a>
+						<Link href={`/anime/${data.id}`}>
+							<a className="custom-link">More</a>
+						</Link>
 					</div>
 				</div>
 			</div>

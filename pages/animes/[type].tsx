@@ -71,7 +71,7 @@ export default function AnimeList() {
 			<h2 className="text-lg md:text-4xl capitalize font-extrabold w-2/4 border-b-2 pb-3">
 				{title?.replace("-", " ")}
 			</h2>
-			<div className="flex flex-wrap py-4 gap-4">
+			<div className="flex flex-wrap py-4 gap-4 justify-center">
 				<Component />
 			</div>
 		</section>

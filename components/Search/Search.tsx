@@ -2,6 +2,7 @@ import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Loader from "../Loader/Loader";
 import { useMediaSearch } from "../../hooks/useMediaSearch";
+import Link from "next/link";
 
 interface SearchProps {
 	searchValue: string;
@@ -21,21 +22,23 @@ const Search = ({ searchValue, isFocused }: SearchProps) => {
 				<div className="p-2 h-full">
 					{medias ? (
 						medias.map((media) => (
-							<div className="flex mb-1">
-								<img
-									src={media.coverImage.extraLarge}
-									alt={media.title.romaji}
-									className="max-w-[130px]"
-								/>
-								<div className="px-4">
-									<h2 className="font-bold">
-										{media.title.romaji}
-									</h2>
-									<span className="text-xs italic capitalize">
-										{media.format?.toLowerCase()}
-									</span>
+							<Link href={`/anime/${media.id}`}>
+								<div className="flex mb-1 cursor-pointer">
+									<img
+										src={media.coverImage.extraLarge}
+										alt={media.title.romaji}
+										className="max-w-[130px]"
+									/>
+									<div className="px-4">
+										<h2 className="font-bold">
+											{media.title.romaji}
+										</h2>
+										<span className="text-xs italic capitalize">
+											{media.format?.toLowerCase()}
+										</span>
+									</div>
 								</div>
-							</div>
+							</Link>
 						))
 					) : (
 						<Loader bgLight="bg-slate-200" bgDark="bg-secondary" />
