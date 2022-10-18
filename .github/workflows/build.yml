@@ -42,5 +42,5 @@ jobs:
                   password: ${{ secrets.PASSWORD }}
                   script: |
                       cd /home/${{ secrets.USERNAME }}/home-lab/websites/anime-list/
-                      docker compose rm -s -v client
-                      docker compose up -d client
+                      echo y | docker compose rm -s -v client
+                      docker compose up --build -d client
