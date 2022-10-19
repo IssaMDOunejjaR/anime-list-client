@@ -199,6 +199,8 @@ export const getMediaById = async (id: number): Promise<Anime> => {
 					id
 					title {
 						romaji
+						english
+        				native
 					}
 					coverImage {
 						extraLarge
@@ -210,11 +212,57 @@ export const getMediaById = async (id: number): Promise<Anime> => {
 					}
 					format
 					status
+					duration
 					description
 					episodes
 					genres
+					season
 					averageScore
 					bannerImage
+					source
+					genres
+					startDate {
+						year
+						month
+						day
+					}
+					endDate {
+						year
+						month
+						day
+					}
+					tags {
+						id
+						name
+						description
+					}
+					nextAiringEpisode {
+						timeUntilAiring
+						episode
+						airingAt
+					}
+					recommendations {
+						nodes {
+							mediaRecommendation {
+								id
+								title {
+									romaji
+								}
+								description
+								coverImage {
+									extraLarge
+								}
+								genres
+							}
+						}
+					}
+					externalLinks {
+						icon
+						url
+						color
+						site
+						language
+					}
 					relations {
 						nodes {
 							id

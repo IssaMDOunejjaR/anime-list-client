@@ -23,7 +23,7 @@ const Section = ({ title, children, setTabValue }: SectionProps) => {
 	return (
 		<div className="my-4">
 			<h3
-				className="text-lg md:text-xl font-semibold cursor-pointer"
+				className="text-lg md:text-xl py-2 font-semibold cursor-pointer border-b-[1px] lg:w-2/4"
 				onClick={() =>
 					title.toLowerCase() !== "trailer" &&
 					title.toLowerCase() !== "anime relations" &&
@@ -87,6 +87,13 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 								src={`https://www.youtube.com/embed/${data.trailer.id}`}
 							></iframe>
 						)}
+					</div>
+				</Section>
+				<Section title="Recommendations" setTabValue={setTabValue}>
+					<div className="flex flex-wrap gap-4 py-4">
+						{data.recommendations.nodes.slice(0, 5).map((s) => (
+							<Card data={s.mediaRecommendation as Anime} />
+						))}
 					</div>
 				</Section>
 			</div>
