@@ -18,10 +18,6 @@
 	button {
 		@apply uppercase font-semibold rounded-sm transition-colors shadow-sm;
 	}
-
-	a {
-		@apply block uppercase rounded-sm transition-colors shadow-sm w-full p-2 text-center text-xs;
-	}
 }
 
 @layer utilities {
@@ -34,7 +30,7 @@
 	}
 
 	.custom-link {
-		@apply bg-gradient-blue text-white;
+		@apply bg-gradient-blue text-white block uppercase rounded-sm transition-colors shadow-sm w-full p-2 text-center text-xs;
 	}
 
 	.custom-link-gradient {

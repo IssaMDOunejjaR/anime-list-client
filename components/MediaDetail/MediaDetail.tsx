@@ -28,6 +28,7 @@ const Section = ({ title, children, setTabValue }: SectionProps) => {
 					title.toLowerCase() !== "trailer" &&
 					title.toLowerCase() !== "anime relations" &&
 					title.toLowerCase() !== "manga relations" &&
+					title.toLowerCase() !== "recommendations" &&
 					setTabValue(title.toLocaleLowerCase())
 				}
 			>

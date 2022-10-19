@@ -19,7 +19,7 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Home</title>
 			</Head>
-			<div className="w-full px-5">
+			<div className="w-full px-5 mb-16">
 				<List title="Trending Now" url="/animes/trending">
 					{trendingAnime ? (
 						trendingAnime

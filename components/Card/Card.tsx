@@ -80,14 +80,16 @@ export default function Card({ data }: Props) {
 				</h3>
 			</div>
 			<div
-				className={`overflow-hidden w-0 group-hover:w-[250px] transition-all absolute h-full top-0 ${
-					cardPosition > windowSize / 2 ? "right-full" : "left-full"
+				className={`overflow-hidden w-0 group-hover:w-full group-hover:md:w-[250px] transition-all absolute h-full top-0 left-0 ${
+					cardPosition > windowSize / 2
+						? "md:right-full"
+						: "md:left-full"
 				} z-10 text-black`}
 			>
-				<div className="px-3 w-[250px] h-full">
+				<div className="md:px-3 w-[170px] md:w-[250px] h-full">
 					<div className="bg-slate-200 h-full dark:bg-white p-3 flex flex-col w-full relative shadow-md">
 						<span
-							className={`absolute top-2 ${
+							className={`hidden md:block absolute top-2 ${
 								cardPosition > windowSize / 2
 									? "left-full border-l-slate-200 dark:border-l-white"
 									: "right-full border-r-slate-200 dark:border-r-white"
@@ -101,9 +103,11 @@ export default function Card({ data }: Props) {
 						</p>
 						<div className="flex flex-wrap justify-center mt-auto p-2">
 							{data.genres.map((genre, index) => (
-								<span key={index} className="text-[10px] px-1">
-									{genre}
-								</span>
+								<Link href={`/genre/${genre}`}>
+									<a key={index} className="text-[10px] px-1">
+										{genre}
+									</a>
+								</Link>
 							))}
 						</div>
 						<Link href={`/anime/${data.id}`}>

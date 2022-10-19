@@ -50,7 +50,7 @@ export default function List({ children, title, url }: Props) {
 				<div className="bg-white dark:bg-primary px-4 min-w-[100px] w-1/6">
 					<GradientBorder>
 						<Link href={url}>
-							<a className="custom-link-gradient bg-white dark:bg-primary py-3 font-semibold">
+							<a className="block uppercase rounded-sm transition-colors shadow-sm w-full p-2 text-center text-xs custom-link-gradient bg-white dark:bg-primary py-3 font-semibold">
 								More
 							</a>
 						</Link>
