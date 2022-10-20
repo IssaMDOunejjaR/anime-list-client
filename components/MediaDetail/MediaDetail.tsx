@@ -48,55 +48,71 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 	return (
 		<div>
 			<div className="flex-1">
-				<Section title="Anime Relations" setTabValue={setTabValue}>
-					<div className="flex flex-wrap gap-4 py-4">
-						{data.relations.nodes
-							.filter((relation) => relation.type !== "MANGA")
-							.map((relation) => (
-								<Relation id={relation.id} />
+				{data.relations.nodes.filter(
+					(relation) => relation.type !== "MANGA"
+				).length > 0 && (
+					<Section title="Anime Relations" setTabValue={setTabValue}>
+						<div className="flex flex-wrap gap-4 py-4">
+							{data.relations.nodes
+								.filter((relation) => relation.type !== "MANGA")
+								.map((relation) => (
+									<Relation id={relation.id} />
+								))}
+						</div>
+					</Section>
+				)}
+				{data.relations.nodes.filter(
+					(relation) => relation.type !== "ANIME"
+				).length > 0 && (
+					<Section title="Manga Relations" setTabValue={setTabValue}>
+						<div className="flex flex-wrap gap-4 py-4">
+							{data.relations.nodes
+								.filter((relation) => relation.type !== "ANIME")
+								.map((relation) => (
+									<Relation id={relation.id} />
+								))}
+						</div>
+					</Section>
+				)}
+				{data.characters.nodes.length > 0 && (
+					<Section title="Characters" setTabValue={setTabValue}>
+						<div className="flex flex-wrap gap-4 py-4">
+							{data.characters.nodes
+								.slice(0, 6)
+								.map((character) => (
+									<Character data={character} />
+								))}
+						</div>
+					</Section>
+				)}
+				{data.staff.nodes.length > 0 && (
+					<Section title="Staff" setTabValue={setTabValue}>
+						<div className="flex flex-wrap gap-4 py-4">
+							{data.staff.nodes.slice(0, 6).map((s) => (
+								<Character data={s} />
 							))}
-					</div>
-				</Section>
-				<Section title="Manga Relations" setTabValue={setTabValue}>
-					<div className="flex flex-wrap gap-4 py-4">
-						{data.relations.nodes
-							.filter((relation) => relation.type !== "ANIME")
-							.map((relation) => (
-								<Relation id={relation.id} />
-							))}
-					</div>
-				</Section>
-				<Section title="Characters" setTabValue={setTabValue}>
-					<div className="flex flex-wrap gap-4 py-4">
-						{data.characters.nodes.slice(0, 6).map((character) => (
-							<Character data={character} />
-						))}
-					</div>
-				</Section>
-				<Section title="Staff" setTabValue={setTabValue}>
-					<div className="flex flex-wrap gap-4 py-4">
-						{data.staff.nodes.slice(0, 6).map((s) => (
-							<Character data={s} />
-						))}
-					</div>
-				</Section>
-				<Section title="Trailer" setTabValue={setTabValue}>
-					<div className="mt-4 w-3/4">
-						{data.trailer && (
+						</div>
+					</Section>
+				)}
+				{data.trailer && (
+					<Section title="Trailer" setTabValue={setTabValue}>
+						<div className="mt-4 w-3/4">
 							<iframe
 								className="aspect-video w-full"
 								src={`https://www.youtube.com/embed/${data.trailer.id}`}
 							></iframe>
-						)}
-					</div>
-				</Section>
-				<Section title="Recommendations" setTabValue={setTabValue}>
-					<div className="flex flex-wrap gap-4 py-4">
-						{data.recommendations.nodes.slice(0, 5).map((s) => (
-							<Card data={s.mediaRecommendation as Anime} />
-						))}
-					</div>
-				</Section>
+						</div>
+					</Section>
+				)}
+				{data.recommendations.nodes.length > 0 && (
+					<Section title="Recommendations" setTabValue={setTabValue}>
+						<div className="flex flex-wrap gap-4 py-4">
+							{data.recommendations.nodes.slice(0, 5).map((s) => (
+								<Card data={s.mediaRecommendation as Anime} />
+							))}
+						</div>
+					</Section>
+				)}
 			</div>
 		</div>
 	);

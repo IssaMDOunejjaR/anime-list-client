@@ -64,47 +64,53 @@ export default function AnimeInformation() {
 				<div className={`p-8 pt-24 relative`}>
 					<div className="absolute top-0 left-0 -z-10 h-[280px] w-full">
 						<div className="absolute top-0 h-full w-full bg-secondary bg-opacity-80 z-[1]"></div>
-						<img
-							src={data.bannerImage}
-							alt={data.title.romaji}
-							className="h-full w-full object-cover"
-						/>
+						{data.bannerImage && (
+							<img
+								src={data.bannerImage}
+								alt={data.title.romaji}
+								className="h-full w-full object-cover"
+							/>
+						)}
 					</div>
 					<Container>
-						<div className="flex flex-col items-center md:flex-row">
-							<div className="rounded-sm overflow-hidden">
+						<div className="grid grid-cols-1 md:grid-cols-4">
+							<div className="rounded-sm overflow-hidden flex justify-center">
 								<img
 									src={data.coverImage.extraLarge}
 									alt={data.title.romaji}
-									className="shadow-md"
+									className="shadow-md h-[490px]"
 								/>
 							</div>
-							<div className="p-8 flex flex-col justify-end items-center md:items-start w-full">
-								<div className="flex items-end md:pt-24 mb-8">
-									<h2 className="text-white font-bold text-xl md:text-3xl">
+							<div className="p-8 w-full col-span-3">
+								<div className="md:pt-24 mb-8">
+									<h2 className="text-white text-center md:text-left font-bold text-xl md:text-3xl">
 										{data.title.romaji}
 									</h2>
 								</div>
-								<div className="py-4 w-full">
-									<h3 className="font-semibold text-md md:text-xl mb-4">
+								<div className="w-full relative pb-10">
+									<h3 className="font-semibold text-md text-center md:text-left md:text-xl mb-1">
 										Synopsis
 									</h3>
 									<p
 										className={`text-[14px] text-primary dark:text-[#bbb] w-full transition-all ${
-											extendDescription ? "h-fit" : "h-32"
-										} text-ellipsis overflow-hidden`}
+											extendDescription
+												? "h-full"
+												: "h-[135px]"
+										} text-ellipsis overflow-hidden py-2`}
 									>
 										{parse(data.description)}
 									</p>
-									<span
-										className="text-xs cursor-pointer bg-gradient-blue bg-clip-text text-transparent"
-										onClick={() =>
-											setExtendDescription(
-												!extendDescription
-											)
-										}
-									>
-										Show more
+									<span className="absolute bottom-0 right-0 bg-white dark:bg-primary">
+										<span
+											className="text-xs cursor-pointer bg-gradient-blue bg-clip-text text-transparent"
+											onClick={() =>
+												setExtendDescription(
+													!extendDescription
+												)
+											}
+										>
+											Show more
+										</span>
 									</span>
 								</div>
 							</div>
@@ -137,34 +143,56 @@ export default function AnimeInformation() {
 											</span>
 										</Information>
 									)}
-									<Information title="Format">
-										<span>{data.format}</span>
-									</Information>
-									<Information title="Episode Duration">
-										<span>{data.duration} min</span>
-									</Information>
+									{data.format && (
+										<Information title="Format">
+											<span>{data.format}</span>
+										</Information>
+									)}
+									{data.episodes && (
+										<Information title="Episodes">
+											<span>{data.episodes}</span>
+										</Information>
+									)}
+									{data.duration && (
+										<Information title="Episode Duration">
+											<span>{data.duration} min</span>
+										</Information>
+									)}
 									<Information title="Status">
-										<span>{data.status.toLowerCase()}</span>
-									</Information>
-									<Information title="Start Date">
 										<span>
-											{moment(
-												`${data.startDate.month} ${data.startDate.day} ${data.startDate.year}`
-											).format("MMM Do YYYY")}
+											{data.status
+												.toLowerCase()
+												.replace(
+													new RegExp("_", "g"),
+													" "
+												)}
 										</span>
 									</Information>
-									<Information title="End Date">
-										<span>
-											{moment(
-												`${data.endDate.month} ${data.endDate.day} ${data.endDate.year}`
-											).format("MMM Do YYYY")}
-										</span>
-									</Information>
-									<Information title="Season">
-										<span>
-											{data.season?.toLowerCase()}
-										</span>
-									</Information>
+									{data.startDate.year && (
+										<Information title="Start Date">
+											<span>
+												{moment(
+													`${data.startDate.month} ${data.startDate.day} ${data.startDate.year}`
+												).format("MMM Do YYYY")}
+											</span>
+										</Information>
+									)}
+									{data.endDate.year && (
+										<Information title="End Date">
+											<span>
+												{moment(
+													`${data.endDate.month} ${data.endDate.day} ${data.endDate.year}`
+												).format("MMM Do YYYY")}
+											</span>
+										</Information>
+									)}
+									{data.season && (
+										<Information title="Season">
+											<span>
+												{data.season.toLowerCase()}
+											</span>
+										</Information>
+									)}
 									<Information title="Studios">
 										{data.studios.edges.map((studio) => (
 											<span>{studio.node.name}</span>
@@ -183,19 +211,25 @@ export default function AnimeInformation() {
 											</Link>
 										))}
 									</Information>
-									<Information title="Romaji">
-										<span>{data.title.romaji}</span>
-									</Information>
-									<Information title="English">
-										<span>{data.title.english}</span>
-									</Information>
-									<Information title="Native">
-										<span>{data.title.native}</span>
-									</Information>
+									{data.title.romaji && (
+										<Information title="Romaji">
+											<span>{data.title.romaji}</span>
+										</Information>
+									)}
+									{data.title.english && (
+										<Information title="English">
+											<span>{data.title.english}</span>
+										</Information>
+									)}
+									{data.title.native && (
+										<Information title="Native">
+											<span>{data.title.native}</span>
+										</Information>
+									)}
 								</div>
-								<div className="p-6 space-y-4 rounded-sm w-full bg-slate-200 dark:bg-secondary">
+								<div className="p-6 rounded-sm w-full bg-slate-200 dark:bg-secondary">
 									<Information title="External Links">
-										<span>
+										<span className="space-y-4 mt-2">
 											{data.externalLinks.map((link) => (
 												<a
 													href={link.url}

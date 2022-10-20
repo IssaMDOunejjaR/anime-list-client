@@ -80,9 +80,9 @@ export default function Card({ data }: Props) {
 				</h3>
 			</div>
 			<div
-				className={`overflow-hidden w-0 group-hover:w-full group-hover:md:w-[250px] transition-all absolute h-full top-0 left-0 ${
+				className={`overflow-hidden w-0 group-hover:w-full group-hover:md:w-[250px] transition-all absolute h-full top-0 ${
 					cardPosition > windowSize / 2
-						? "md:right-full"
+						? "left md:right-full"
 						: "md:left-full"
 				} z-10 text-black`}
 			>
