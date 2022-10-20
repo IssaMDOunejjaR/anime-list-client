@@ -172,10 +172,10 @@ export default function AnimeList() {
 				<title>{title}</title>
 			</Head>
 			<section className="p-5 min-h-screen">
-				<h2 className="text-lg md:text-4xl capitalize font-extrabold w-2/4 border-b-2 pb-3">
+				<h2 className="text-lg md:text-3xl capitalize font-extrabold w-2/4 border-b-[1px] pb-3">
 					{title?.replace("-", " ")}
 				</h2>
-				<div className="flex flex-wrap py-4 gap-4 justify-center">
+				<div className="flex flex-wrap py-4 gap-4">
 					<Component scrollY={scrollY} />
 				</div>
 			</section>

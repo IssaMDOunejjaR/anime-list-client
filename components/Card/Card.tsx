@@ -103,7 +103,10 @@ export default function Card({ data }: Props) {
 						</p>
 						<div className="flex flex-wrap justify-center mt-auto p-2">
 							{data.genres.map((genre, index) => (
-								<Link key={index} href={`/genre/${genre}`}>
+								<Link
+									key={index}
+									href={`/genre/${genre.toLowerCase()}`}
+								>
 									<a key={index} className="text-[10px] px-1">
 										{genre}
 									</a>

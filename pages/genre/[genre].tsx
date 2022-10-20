@@ -35,10 +35,10 @@ export default function Genre() {
 				<title>{genre}</title>
 			</Head>
 			<section className="p-5 min-h-screen">
-				<h2 className="text-lg md:text-4xl capitalize font-extrabold w-2/4 border-b-2 pb-3">
+				<h2 className="text-lg md:text-3xl capitalize font-extrabold w-2/4 border-b-[1px] pb-3">
 					{genre}
 				</h2>
-				<div className="flex flex-wrap py-4 gap-4 justify-center">
+				<div className="flex flex-wrap py-4 gap-4">
 					{data ? (
 						data.pages.map((page, index) => (
 							<Fragment key={index}>

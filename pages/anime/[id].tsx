@@ -204,7 +204,9 @@ export default function AnimeInformation() {
 									</Information>
 									<Information title="Genres">
 										{data.genres.map((genre) => (
-											<Link href={`/genre/${genre}`}>
+											<Link
+												href={`/genre/${genre.toLowerCase()}`}
+											>
 												<a>{genre}</a>
 											</Link>
 										))}
