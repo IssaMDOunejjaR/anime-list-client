@@ -20,7 +20,7 @@ const PopularAnime = ({ scrollY }: Props) => {
 	} = useAnimesByPopularity();
 
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
@@ -53,7 +53,7 @@ const TrendingAnime = ({ scrollY }: Props) => {
 	} = useAnimesByTrending();
 
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
@@ -86,7 +86,7 @@ const TrendingMovies = ({ scrollY }: Props) => {
 	} = useMoviesByTrending();
 
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
@@ -118,7 +118,7 @@ const PopularMovies = ({ scrollY }: Props) => {
 	} = useMoviesByPopularity();
 
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
@@ -164,7 +164,7 @@ export default function AnimeList() {
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
 		};
-	});
+	}, []);
 
 	return (
 		<>
