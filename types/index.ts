@@ -1,3 +1,11 @@
+export type Page = {
+	pageInfo: {
+		currentPage: number;
+		hasNextPage: boolean;
+	};
+	media: Anime[];
+};
+
 export type Anime = {
 	id: number;
 	title: {

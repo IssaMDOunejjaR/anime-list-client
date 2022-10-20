@@ -1,15 +1,19 @@
 import { request, gql } from "graphql-request";
 import { endpoint } from "../constants";
-import { Anime } from "../types";
+import { Anime, Page } from "../types";
 
-export const getAnimesByPopularity = async (page: number): Promise<Anime[]> => {
-	const {
-		Page: { media },
-	} = await request(
+export const getAnimesByPopularity = async ({
+	pageParam = 1,
+}): Promise<Page> => {
+	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${page}) {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
 					media(sort: POPULARITY_DESC, type: ANIME, format: TV) {
                         id
 						title {
@@ -36,17 +40,19 @@ export const getAnimesByPopularity = async (page: number): Promise<Anime[]> => {
 		`
 	);
 
-	return media;
+	return Page;
 };
 
-export const getAnimesByTrending = async (page: number): Promise<Anime[]> => {
-	const {
-		Page: { media },
-	} = await request(
+export const getAnimesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
+	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${page}) {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
 					media(sort: TRENDING_DESC, type: ANIME, format: TV) {
                         id
 						title {
@@ -73,17 +79,19 @@ export const getAnimesByTrending = async (page: number): Promise<Anime[]> => {
 		`
 	);
 
-	return media;
+	return Page;
 };
 
-export const getMoviesByTrending = async (page: number): Promise<Anime[]> => {
-	const {
-		Page: { media },
-	} = await request(
+export const getMoviesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
+	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${page}) {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
 					media(sort: TRENDING_DESC, type: ANIME, format: MOVIE) {
                         id
 						title {
@@ -110,17 +118,21 @@ export const getMoviesByTrending = async (page: number): Promise<Anime[]> => {
 		`
 	);
 
-	return media;
+	return Page;
 };
 
-export const getMoviesByPopularity = async (page: number): Promise<Anime[]> => {
-	const {
-		Page: { media },
-	} = await request(
+export const getMoviesByPopularity = async ({
+	pageParam = 1,
+}): Promise<Page> => {
+	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${page}) {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
 					media(sort: POPULARITY_DESC, type: ANIME, format: MOVIE) {
                         id
 						title {
@@ -147,20 +159,25 @@ export const getMoviesByPopularity = async (page: number): Promise<Anime[]> => {
 		`
 	);
 
-	return media;
+	return Page;
 };
 
-export const getMediaByGenre = async (
-	page: number,
-	genre: string
-): Promise<Anime[]> => {
-	const {
-		Page: { media },
-	} = await request(
+export const getMediaByGenre = async ({
+	pageParam = 1,
+	genre,
+}: {
+	pageParam: number;
+	genre: string;
+}): Promise<Page> => {
+	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${page}) {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
 					media(genre: "${genre}", sort: POPULARITY_DESC) {
                         id
 						title {
@@ -187,20 +204,25 @@ export const getMediaByGenre = async (
 		`
 	);
 
-	return media;
+	return Page;
 };
 
-export const getSearchedMedia = async (
-	page: number,
-	searchValue: string
-): Promise<Anime[]> => {
-	const {
-		Page: { media },
-	} = await request(
+export const getSearchedMedia = async ({
+	pageParam = 1,
+	searchValue,
+}: {
+	pageParam: number;
+	searchValue: string;
+}): Promise<Page> => {
+	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${page}) {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
 					media(sort: TITLE_ROMAJI, type: ANIME, search: "${searchValue}") {
                         id
 						title {
@@ -228,7 +250,7 @@ export const getSearchedMedia = async (
 		`
 	);
 
-	return media;
+	return Page;
 };
 
 export const getMediaById = async (id: number): Promise<Anime> => {

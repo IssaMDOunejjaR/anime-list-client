@@ -1,6 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getMoviesByPopularity } from "../fetchers/media";
 
-export const useMoviesByPopularity = (page: number) => {
-	return useQuery(["popular-movies"], () => getMoviesByPopularity(page));
+export const useMoviesByPopularity = () => {
+	return useInfiniteQuery(["popular-movies"], getMoviesByPopularity, {
+		getNextPageParam: (lastPage) => {
+			if (lastPage.pageInfo.hasNextPage)
+				return lastPage.pageInfo.currentPage + 1;
+			else return undefined;
+		},
+	});
 };

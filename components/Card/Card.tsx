@@ -99,11 +99,11 @@ export default function Card({ data }: Props) {
 							{data.title.romaji}
 						</h3>
 						<p className="text-xs text-primary mb-3 overflow-hidden max-h-32 text-ellipsis">
-							{parse(data.description)}
+							{parse(data.description || "No description")}
 						</p>
 						<div className="flex flex-wrap justify-center mt-auto p-2">
 							{data.genres.map((genre, index) => (
-								<Link href={`/genre/${genre}`}>
+								<Link key={index} href={`/genre/${genre}`}>
 									<a key={index} className="text-[10px] px-1">
 										{genre}
 									</a>

@@ -1,56 +1,142 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
-import { useAnimesByPopularity } from "../../hooks/useAllAnimeData";
+import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../../hooks/useAnimeByTrending";
 import { useMoviesByPopularity } from "../../hooks/useMoviesByPopularity";
+import { useMoviesByTrending } from "../../hooks/useMoviesByTrending";
 
-const PopularAnime = () => {
-	const { data: popularAnime } = useAnimesByPopularity(1);
+interface Props {
+	scrollY: number;
+}
+
+const PopularAnime = ({ scrollY }: Props) => {
+	const {
+		data: popularAnime,
+		fetchNextPage,
+		isFetchingNextPage,
+	} = useAnimesByPopularity();
+
+	useEffect(() => {
+		if (document.body.clientHeight / 2 < scrollY) {
+			fetchNextPage();
+		}
+	}, [scrollY]);
 
 	return (
 		<>
 			{popularAnime ? (
-				popularAnime.map((anime) => (
-					<Card key={anime.id} data={anime} />
+				popularAnime.pages.map((page, index) => (
+					<Fragment key={index}>
+						{page.media.map((anime) => (
+							<Card key={anime.id} data={anime} />
+						))}
+					</Fragment>
 				))
 			) : (
 				<Loader bgLight="bg-white" bgDark="bg-primary" />
 			)}
+			{isFetchingNextPage && (
+				<Loader bgLight="bg-white" bgDark="bg-primary" />
+			)}
 		</>
 	);
-
-	// const { data: trendingMovies } = useMoviesByTrending(1);
 };
 
-const TrendingAnime = () => {
-	const { data: trendingAnime } = useAnimesByTrending(1);
+const TrendingAnime = ({ scrollY }: Props) => {
+	const {
+		data: trendingAnime,
+		fetchNextPage,
+		isFetchingNextPage,
+	} = useAnimesByTrending();
+
+	useEffect(() => {
+		if (document.body.clientHeight / 2 < scrollY) {
+			fetchNextPage();
+		}
+	}, [scrollY]);
 
 	return (
 		<>
 			{trendingAnime ? (
-				trendingAnime.map((anime) => (
-					<Card key={anime.id} data={anime} />
+				trendingAnime.pages.map((page, index) => (
+					<Fragment key={index}>
+						{page.media.map((anime) => (
+							<Card key={anime.id} data={anime} />
+						))}
+					</Fragment>
 				))
 			) : (
+				<Loader bgLight="bg-white" bgDark="bg-primary" />
+			)}
+			{isFetchingNextPage && (
 				<Loader bgLight="bg-white" bgDark="bg-primary" />
 			)}
 		</>
 	);
 };
 
-const PopularMovies = () => {
-	const { data: popularMovies } = useMoviesByPopularity(1);
+const TrendingMovies = ({ scrollY }: Props) => {
+	const {
+		data: trendingMovies,
+		fetchNextPage,
+		isFetchingNextPage,
+	} = useMoviesByTrending();
+
+	useEffect(() => {
+		if (document.body.clientHeight / 2 < scrollY) {
+			fetchNextPage();
+		}
+	}, [scrollY]);
+
+	return (
+		<>
+			{trendingMovies ? (
+				trendingMovies.pages.map((page, index) => (
+					<Fragment key={index}>
+						{page.media.map((anime) => (
+							<Card key={anime.id} data={anime} />
+						))}
+					</Fragment>
+				))
+			) : (
+				<Loader bgLight="bg-white" bgDark="bg-primary" />
+			)}
+			{isFetchingNextPage && (
+				<Loader bgLight="bg-white" bgDark="bg-primary" />
+			)}
+		</>
+	);
+};
+const PopularMovies = ({ scrollY }: Props) => {
+	const {
+		data: popularMovies,
+		fetchNextPage,
+		isFetchingNextPage,
+	} = useMoviesByPopularity();
+
+	useEffect(() => {
+		if (document.body.clientHeight / 2 < scrollY) {
+			fetchNextPage();
+		}
+	}, [scrollY]);
 
 	return (
 		<>
 			{popularMovies ? (
-				popularMovies.map((anime) => (
-					<Card key={anime.id} data={anime} />
+				popularMovies.pages.map((page, index) => (
+					<Fragment key={index}>
+						{page.media.map((anime) => (
+							<Card key={anime.id} data={anime} />
+						))}
+					</Fragment>
 				))
 			) : (
+				<Loader bgLight="bg-white" bgDark="bg-primary" />
+			)}
+			{isFetchingNextPage && (
 				<Loader bgLight="bg-white" bgDark="bg-primary" />
 			)}
 		</>
@@ -58,6 +144,7 @@ const PopularMovies = () => {
 };
 
 export default function AnimeList() {
+	const [scrollY, setScrollY] = useState(0);
 	const { query } = useRouter();
 	const title = query.type as string;
 
@@ -65,7 +152,19 @@ export default function AnimeList() {
 
 	if (title === "trending") Component = TrendingAnime;
 	else if (title === "popular-movies") Component = PopularMovies;
-	else if (title === "trending-movies") Component = PopularMovies;
+	else if (title === "trending-movies") Component = TrendingMovies;
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setScrollY(window.scrollY);
+		};
+
+		window.addEventListener("scroll", handleScroll);
+
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	});
 
 	return (
 		<>
@@ -77,7 +176,7 @@ export default function AnimeList() {
 					{title?.replace("-", " ")}
 				</h2>
 				<div className="flex flex-wrap py-4 gap-4 justify-center">
-					<Component />
+					<Component scrollY={scrollY} />
 				</div>
 			</section>
 		</>
