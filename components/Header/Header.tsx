@@ -54,6 +54,7 @@ export default function Header() {
 					</div>
 					<div className="flex space-x-4">
 						<FormControlLabel
+							className="!hidden md:!block"
 							value="end"
 							control={
 								<Switch
