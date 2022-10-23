@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Loader from "../Loader/Loader";
 import { useMediaSearch } from "../../hooks/useMediaSearch";
 import Link from "next/link";
+import parse from "html-react-parser";
 
 interface SearchProps {
 	searchValue: string;
@@ -63,21 +64,38 @@ const Search = ({ searchValue, isFocused }: SearchProps) => {
 										key={media.id}
 										href={`/anime/${media.id}`}
 									>
-										<div className="flex mb-1 cursor-pointer">
+										<div className="flex mb-1 cursor-pointer h-[185px]">
 											<img
 												src={
 													media.coverImage.extraLarge
 												}
 												alt={media.title.romaji}
-												className="max-w-[130px]"
+												className="w-[130px]"
 											/>
-											<div className="px-4">
+											<div className="px-4 flex flex-col py-1">
 												<h2 className="font-bold">
 													{media.title.romaji}
 												</h2>
-												<span className="text-xs italic capitalize">
+												<span className="text-xs italic capitalize text-[#aaa] mb-2">
 													{media.format?.toLowerCase()}
+													{media.format !== "MOVIE" &&
+														media.format !==
+															"MANGA" &&
+														(media.episodes
+															? ` | Episodes: ${media.episodes}`
+															: ` | Last Episode: ${
+																	media
+																		.nextAiringEpisode
+																		?.episode -
+																	1
+															  }`)}
 												</span>
+												<p className="flex-1 overflow-hidden text-xs text-ellipsis text-[#aaa] py-1">
+													{parse(
+														media.description ||
+															"No description"
+													)}
+												</p>
 											</div>
 										</div>
 									</Link>

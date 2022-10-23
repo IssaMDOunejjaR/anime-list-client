@@ -14,7 +14,7 @@ export const getAnimesByPopularity = async ({
 						currentPage
 						hasNextPage
 					}
-					media(sort: POPULARITY_DESC, type: ANIME, format: TV) {
+					media(sort: POPULARITY_DESC, type: ANIME, format: TV, isAdult: false) {
                         id
 						title {
 							romaji
@@ -22,9 +22,13 @@ export const getAnimesByPopularity = async ({
 						coverImage {
 							extraLarge
 						}
+						format
 						status
 						description
 						episodes
+						nextAiringEpisode {
+							episode
+						}
 						genres
 						averageScore
                         studios {
@@ -53,7 +57,7 @@ export const getAnimesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
 						currentPage
 						hasNextPage
 					}
-					media(sort: TRENDING_DESC, type: ANIME, format: TV) {
+					media(sort: TRENDING_DESC, type: ANIME, format: TV, isAdult: false) {
                         id
 						title {
 							romaji
@@ -61,9 +65,13 @@ export const getAnimesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
 						coverImage {
 							extraLarge
 						}
+						format
 						status
 						description
 						episodes
+						nextAiringEpisode {
+							episode
+						}
 						genres
 						averageScore
                         studios {
@@ -92,7 +100,7 @@ export const getMoviesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
 						currentPage
 						hasNextPage
 					}
-					media(sort: TRENDING_DESC, type: ANIME, format: MOVIE) {
+					media(sort: TRENDING_DESC, type: ANIME, format: MOVIE, isAdult: false) {
                         id
 						title {
 							romaji
@@ -100,9 +108,13 @@ export const getMoviesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
 						coverImage {
 							extraLarge
 						}
+						format
 						status
 						description
 						episodes
+						nextAiringEpisode {
+							episode
+						}
 						genres
 						averageScore
                         studios {
@@ -133,7 +145,7 @@ export const getMoviesByPopularity = async ({
 						currentPage
 						hasNextPage
 					}
-					media(sort: POPULARITY_DESC, type: ANIME, format: MOVIE) {
+					media(sort: POPULARITY_DESC, type: ANIME, format: MOVIE, isAdult: false) {
                         id
 						title {
 							romaji
@@ -141,9 +153,13 @@ export const getMoviesByPopularity = async ({
 						coverImage {
 							extraLarge
 						}
+						format
 						status
 						description
 						episodes
+						nextAiringEpisode {
+							episode
+						}
 						genres
 						averageScore
                         studios {
@@ -178,7 +194,7 @@ export const getMediaByGenre = async ({
 						currentPage
 						hasNextPage
 					}
-					media(genre: "${genre}", sort: POPULARITY_DESC) {
+					media(genre: "${genre}", sort: POPULARITY_DESC, isAdult: false) {
                         id
 						title {
 							romaji
@@ -186,9 +202,13 @@ export const getMediaByGenre = async ({
 						coverImage {
 							extraLarge
 						}
+						format
 						status
 						description
 						episodes
+						nextAiringEpisode {
+							episode
+						}
 						genres
 						averageScore
                         studios {
@@ -223,7 +243,7 @@ export const getSearchedMedia = async ({
 						currentPage
 						hasNextPage
 					}
-					media(sort: TITLE_ROMAJI, type: ANIME, search: "${searchValue}") {
+					media(sort: TITLE_ROMAJI, type: ANIME, search: "${searchValue}", isAdult: false) {
                         id
 						title {
 							romaji
@@ -235,6 +255,9 @@ export const getSearchedMedia = async ({
 						status
 						description
 						episodes
+						nextAiringEpisode {
+							episode
+						}
 						genres
 						averageScore
                         studios {

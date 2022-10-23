@@ -9,7 +9,7 @@ interface Props {
 
 export default function Modal({ open, onClose, children }: Props) {
 	return (
-		<Dialog onClose={onClose} open={open} sx={{ borderRadius: 0 }}>
+		<Dialog onClose={onClose} open={open}>
 			{children}
 		</Dialog>
 	);

@@ -9,6 +9,8 @@ import { FormControlLabel, IconButton, Switch } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Navbar from "../Navbar/Navbar";
 import Link from "next/link";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import LoginIcon from "@mui/icons-material/Login";
 
 export default function Header() {
 	const { theme, setTheme, systemTheme } = useTheme();
@@ -36,7 +38,7 @@ export default function Header() {
 						</IconButton>
 						<Link href="/">
 							<a>
-								<h1 className="ml-4 text-3xl font-extrabold uppercase">
+								<h1 className="ml-4 text-2xl md:text-3xl font-extrabold uppercase">
 									<span className="bg-gradient-blue p-0.5 text-white">
 										Ani
 									</span>
@@ -73,14 +75,18 @@ export default function Header() {
 							className={`custom-button`}
 							onClick={() => setOpenSignIn(true)}
 						>
-							Login
+							<span className="hidden md:inline">Login</span>
+							<LoginIcon className="md:!hidden" />
 						</button>
 						<GradientBorder>
 							<button
 								className={`custom-button-gradient bg-white dark:bg-primary`}
 								onClick={() => setOpenSignUp(true)}
 							>
-								Register
+								<span className="hidden md:inline">
+									Register
+								</span>
+								<AssignmentIcon className="md:!hidden" />
 							</button>
 						</GradientBorder>
 					</div>
@@ -92,10 +98,10 @@ export default function Header() {
 				</div>
 			</header>
 			<Modal open={openSignIn} onClose={handleCloseSignIn}>
-				<SignIn />
+				<SignIn close={handleCloseSignIn} />
 			</Modal>
 			<Modal open={openSignUp} onClose={handleCloseSignUp}>
-				<SignUp />
+				<SignUp close={handleCloseSignIn} />
 			</Modal>
 		</>
 	);
