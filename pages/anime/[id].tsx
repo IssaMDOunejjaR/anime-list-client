@@ -128,9 +128,9 @@ export default function AnimeInformation() {
 				</Tabs>
 				<div className="p-8">
 					<Container>
-						<div className="flex gap-8">
-							<div className="w-52 flex flex-col h-fit space-y-3">
-								<div className="p-6 space-y-4 rounded-sm w-full bg-slate-200 dark:bg-secondary">
+						<div className="flex gap-8 flex-col md:flex-row">
+							<div className="md:w-52 flex flex-col h-fit space-y-3">
+								<div className="p-6 grid grid-cols-3 gap-4 flex-col md:flex rounded-sm w-full bg-slate-200 dark:bg-secondary">
 									{data.nextAiringEpisode && (
 										<Information title="Airing">
 											<span className="bg-gradient-blue bg-clip-text text-transparent font-semibold normal-case">
@@ -232,7 +232,7 @@ export default function AnimeInformation() {
 								</div>
 								<div className="p-6 rounded-sm w-full bg-slate-200 dark:bg-secondary">
 									<Information title="External Links">
-										<span className="space-y-4 mt-2">
+										<span className="gap-4 flex flex-col mt-2">
 											{data.externalLinks.map((link) => (
 												<a
 													href={link.url}
