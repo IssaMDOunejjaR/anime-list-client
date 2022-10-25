@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import Card from "../components/Card/Card";
 import List from "../components/List/List";
 import Loader from "../components/Loader/Loader";
+import Main from "../components/Main/Main";
 import { useAnimesByPopularity } from "../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../hooks/useAnimeByTrending";
 import { useMoviesByPopularity } from "../hooks/useMoviesByPopularity";
@@ -20,6 +21,9 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Home</title>
 			</Head>
+			<div>
+				<Main />
+			</div>
 			<div className="w-full px-5 mb-16">
 				<List title="Trending Now" url="/animes/trending">
 					{trendingAnime ? (

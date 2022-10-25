@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { IconButton } from "@mui/material";
@@ -12,13 +12,15 @@ interface Props {
 }
 
 export default function List({ children, title, url }: Props) {
+	const [scrollPos, setScrollPos] = useState(0);
+
 	const listRef = useRef<HTMLDivElement>(null);
 
-	const handleScrollLeft = () => {
+	const handleScrollLeft = useCallback(() => {
 		if (listRef && listRef.current) {
 			listRef.current.scrollLeft += listRef.current.clientWidth;
 		}
-	};
+	}, [listRef]);
 
 	const handleScrollRight = () => {
 		if (listRef && listRef.current) {
@@ -26,15 +28,45 @@ export default function List({ children, title, url }: Props) {
 		}
 	};
 
+	useEffect(() => {
+		const handleScroll = () => {
+			if (listRef && listRef.current) {
+				setScrollPos(
+					listRef.current.scrollLeft + listRef.current.clientWidth
+				);
+			}
+		};
+
+		if (listRef && listRef.current) {
+			listRef.current.addEventListener("scroll", handleScroll);
+		}
+
+		return () => {
+			if (listRef && listRef.current) {
+				listRef.current.removeEventListener("scroll", handleScroll);
+			}
+		};
+	}, [listRef]);
+
 	return (
 		<div className="pr-3">
 			<h2 className="flex items-center text-2xl font-bold py-4 uppercase">
 				{title}
 				<span className="ml-auto">
-					<IconButton onClick={handleScrollRight}>
+					<IconButton
+						onClick={handleScrollRight}
+						disabled={listRef?.current?.scrollLeft === 0}
+						className="disabled:!opacity-50"
+					>
 						<ChevronLeftIcon className="!text-white" />
 					</IconButton>
-					<IconButton onClick={handleScrollLeft}>
+					<IconButton
+						onClick={handleScrollLeft}
+						disabled={
+							scrollPos >= Number(listRef?.current?.scrollWidth)
+						}
+						className="disabled:!opacity-50"
+					>
 						<ChevronRightIcon className="!text-white" />
 					</IconButton>
 				</span>

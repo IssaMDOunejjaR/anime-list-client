@@ -22,7 +22,9 @@
     "next": "latest",
     "next-themes": "^0.2.1",
     "react": "18.1.0",
+    "react-countdown-circle-timer": "^3.0.9",
     "react-dom": "18.1.0",
+    "react-select": "^5.5.4",
     "tailwind-scrollbar": "^2.1.0-preview.0",
     "tailwind-scrollbar-hide": "^1.1.7"
   },

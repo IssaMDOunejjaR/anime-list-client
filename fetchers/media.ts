@@ -2,6 +2,53 @@ import { request, gql } from "graphql-request";
 import { endpoint } from "../constants";
 import { Anime, Page } from "../types";
 
+export const getGenres = async (): Promise<string[]> => {
+	const { GenreCollection } = await request(
+		endpoint,
+		gql`
+			query {
+				GenreCollection
+			}
+		`
+	);
+
+	return GenreCollection;
+};
+
+export const getAnimePopularBySeason = async ({
+	season,
+	seasonYear,
+}: {
+	season: string;
+	seasonYear: number;
+}): Promise<Page> => {
+	const { Page } = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: 1, perPage: 7) {
+					media(
+						type: ANIME
+						season: ${`${season}`}
+						seasonYear: ${`${seasonYear}`}
+						status: RELEASING
+						isAdult: false
+						sort: POPULARITY_DESC
+					) {
+						title {
+							romaji
+						}
+						bannerImage
+						description
+					}
+				}
+			}
+		`
+	);
+
+	return Page;
+};
+
 export const getAnimesByPopularity = async ({
 	pageParam = 1,
 }): Promise<Page> => {

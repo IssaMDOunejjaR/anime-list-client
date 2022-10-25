@@ -29,7 +29,6 @@ const Search = ({ searchValue, isFocused }: SearchProps) => {
 			divRef.current &&
 			divRef.current.scrollHeight / 2 < scrollY
 		) {
-			console.log("ok");
 			fetchNextPage();
 		}
 	}, [scrollY, scrollRef, divRef]);

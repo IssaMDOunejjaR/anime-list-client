@@ -15,7 +15,5 @@ export const getLoggedUser = async (): Promise<User> => {
 		`
 	);
 
-	console.log("LoggedUser:", LoggedUser);
-
 	return LoggedUser;
 };

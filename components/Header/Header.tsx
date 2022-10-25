@@ -31,8 +31,6 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 
 	const { data: me } = useLoggedUser();
 
-	console.log(me);
-
 	const currentTheme = theme === "system" ? systemTheme : theme;
 
 	const handleCloseSignIn = () => setOpenSignIn(false);
