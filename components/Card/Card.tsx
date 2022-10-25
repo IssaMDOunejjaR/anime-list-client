@@ -2,6 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import { Anime } from "../../types";
 import parse from "html-react-parser";
 import Link from "next/link";
+import { Skeleton } from "@mui/material";
+
+export const CardSkeleton = () => {
+	return (
+		<div className="basis-[170px] flex-shrink-0 flex-grow-0 group relative flex flex-col">
+			<div className="flex-1">
+				<Skeleton variant="rectangular" height="100%" />
+			</div>
+			<div className="py-2 flex flex-col">
+				<Skeleton variant="rectangular" />
+			</div>
+		</div>
+	);
+};
 
 interface Props {
 	data: Anime;

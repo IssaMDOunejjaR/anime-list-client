@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useAnimePopularBySeason } from "../../hooks/useAnimePopularBySeason";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useEffect, useRef, useState } from "react";
+import { Skeleton } from "@mui/material";
 
 function getCurrentSeason() {
 	const now = new Date();
@@ -41,6 +42,22 @@ function getCurrentSeason() {
 	return day < 22 ? "fall" : "winter";
 }
 
+export const MainSkeleton = () => {
+	return (
+		<div className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 overflow-hidden flex items-center rounded-md dark:bg-opacity-30 bg-[#555]">
+			<div className="w-2/4 ml-8">
+				<h2 className="font-bold text-lg md:text-2xl mb-4">
+					<Skeleton variant="rectangular" />
+				</h2>
+				<p className="h-[100px] overflow-hidden mb-4 text-md text-[#ddd]">
+					<Skeleton variant="rectangular" height="100%" />
+				</p>
+				<Skeleton variant="rectangular" />
+			</div>
+		</div>
+	);
+};
+
 export default function Main() {
 	const { data } = useAnimePopularBySeason({
 		season: getCurrentSeason()?.toUpperCase(),
@@ -68,7 +85,10 @@ export default function Main() {
 			>
 				{data
 					? data.media.map((anime) => (
-							<div className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 overflow-hidden flex items-center rounded-md shadow-2xl">
+							<div
+								key={anime.id}
+								className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 overflow-hidden flex items-center rounded-md shadow-2xl"
+							>
 								<div className="absolute w-full h-full">
 									{anime.bannerImage && (
 										<img
@@ -93,7 +113,7 @@ export default function Main() {
 								</div>
 							</div>
 					  ))
-					: null}
+					: [...new Array(7)].map((_) => <MainSkeleton />)}
 			</div>
 			<div className="flex justify-center gap-3 p-8">
 				{data

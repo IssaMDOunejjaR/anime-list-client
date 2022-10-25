@@ -49,6 +49,53 @@ export const getAnimePopularBySeason = async ({
 	return Page;
 };
 
+export const getAnimesLatestEpisode = async (): Promise<any> => {
+	const {
+		Page: { airingSchedules },
+	} = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: 1) {
+					airingSchedules(
+						airingAt_lesser: 1666708460
+						sort: TIME_DESC
+					) {
+						episode
+						media {
+							id
+							title {
+								romaji
+							}
+							coverImage {
+								extraLarge
+							}
+							format
+							status
+							description
+							episodes
+							nextAiringEpisode {
+								episode
+							}
+							genres
+							averageScore
+							studios {
+								edges {
+									node {
+										name
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		`
+	);
+
+	return airingSchedules;
+};
+
 export const getAnimesByPopularity = async ({
 	pageParam = 1,
 }): Promise<Page> => {

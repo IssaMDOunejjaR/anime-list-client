@@ -5,12 +5,32 @@ import Card from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
 import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../../hooks/useAnimeByTrending";
+import { useAnimesLatestEpisode } from "../../hooks/useAnimesLatestEpisode";
 import { useMoviesByPopularity } from "../../hooks/useMoviesByPopularity";
 import { useMoviesByTrending } from "../../hooks/useMoviesByTrending";
+import { Anime } from "../../types";
 
 interface Props {
 	scrollY: number;
 }
+
+const LatestEpisodes = ({ scrollY }: Props) => {
+	const { data: latestEpisodes } = useAnimesLatestEpisode();
+
+	return (
+		<>
+			{latestEpisodes ? (
+				latestEpisodes.map(
+					({ episode, media }: { episode: number; media: Anime }) => (
+						<Card key={media.id + episode} data={media} />
+					)
+				)
+			) : (
+				<Loader bgLight="bg-white" bgDark="bg-primary" />
+			)}
+		</>
+	);
+};
 
 const PopularAnime = ({ scrollY }: Props) => {
 	const {
@@ -153,6 +173,7 @@ export default function AnimeList() {
 	if (title === "trending") Component = TrendingAnime;
 	else if (title === "popular-movies") Component = PopularMovies;
 	else if (title === "trending-movies") Component = TrendingMovies;
+	else if (title === "latest-episodes") Component = LatestEpisodes;
 
 	useEffect(() => {
 		const handleScroll = () => {
