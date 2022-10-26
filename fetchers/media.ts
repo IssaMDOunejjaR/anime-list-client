@@ -50,6 +50,8 @@ export const getAnimePopularBySeason = async ({
 };
 
 export const getAnimesLatestEpisode = async (): Promise<any> => {
+	const now = Math.round(Date.now() / 1000);
+
 	const {
 		Page: { airingSchedules },
 	} = await request(
@@ -58,7 +60,7 @@ export const getAnimesLatestEpisode = async (): Promise<any> => {
 			query {
 				Page(page: 1) {
 					airingSchedules(
-						airingAt_lesser: 1666708460
+						airingAt_lesser: ${now},
 						sort: TIME_DESC
 					) {
 						episode
@@ -74,6 +76,8 @@ export const getAnimesLatestEpisode = async (): Promise<any> => {
 							status
 							description
 							episodes
+							countryOfOrigin
+							isAdult
 							nextAiringEpisode {
 								episode
 							}

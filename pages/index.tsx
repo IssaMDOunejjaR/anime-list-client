@@ -19,7 +19,9 @@ const Home: NextPage = () => {
 	const { data: popularMovies } = useMoviesByPopularity();
 	const { data: trendingMovies } = useMoviesByTrending();
 
-	const placeholder = [...new Array(20)].map((_) => <CardSkeleton />);
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
 
 	return (
 		<>
@@ -33,6 +35,10 @@ const Home: NextPage = () => {
 				<List title="Latest Episodes" url="/animes/latest-episodes">
 					{latestEpisodes
 						? latestEpisodes
+								.filter(
+									({ media }: { media: Anime }) =>
+										media.isAdult === false
+								)
 								.slice(0, 20)
 								.map(
 									({

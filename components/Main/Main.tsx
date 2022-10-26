@@ -78,7 +78,7 @@ export default function Main() {
 	}, [divRef, count]);
 
 	return (
-		<div className="w-full h-[45vh] px-4 pr-8 overflow-hidden flex flex-col justify-center">
+		<div className="w-full h-[550px] px-4 pr-8 overflow-hidden flex flex-col justify-end">
 			<div
 				ref={divRef}
 				className="flex items-center gap-4 overflow-x-scroll scrollbar-hide"
@@ -113,58 +113,62 @@ export default function Main() {
 								</div>
 							</div>
 					  ))
-					: [...new Array(7)].map((_) => <MainSkeleton />)}
+					: [...new Array(7)].map((_, index) => (
+							<MainSkeleton key={index} />
+					  ))}
 			</div>
 			<div className="flex justify-center gap-3 p-8">
-				{data
-					? data.media.map((_anime, index) => (
-							<div
-								key={index}
-								className={`relativw-10 cursor-pointer transition-all duration-300 ${
-									count === index
-										? "opacity-100"
-										: "opacity-20"
-								}`}
-								onClick={() => setCount(index)}
-							>
-								{count === index ? (
-									<CountdownCircleTimer
-										isPlaying
-										initialRemainingTime={5}
-										duration={5}
-										colors={[
-											"#004777",
-											"#F7B801",
-											"#A30000",
-											"#A30000",
-										]}
-										colorsTime={[7, 5, 2, 0]}
-										size={26}
-										strokeWidth={2}
-										onComplete={() => {
-											setCount(
-												count === data.media.length - 1
-													? 0
-													: count + 1
-											);
+				{data ? (
+					data.media.map((_anime, index) => (
+						<div
+							key={index}
+							className={`relativw-10 cursor-pointer transition-all duration-300 ${
+								count === index ? "opacity-100" : "opacity-20"
+							}`}
+							onClick={() => setCount(index)}
+						>
+							{count === index ? (
+								<CountdownCircleTimer
+									isPlaying
+									initialRemainingTime={5}
+									duration={5}
+									colors={[
+										"#004777",
+										"#F7B801",
+										"#A30000",
+										"#A30000",
+									]}
+									colorsTime={[7, 5, 2, 0]}
+									size={26}
+									strokeWidth={2}
+									onComplete={() => {
+										setCount(
+											count === data.media.length - 1
+												? 0
+												: count + 1
+										);
 
-											return { shouldRepeat: true };
-										}}
-									>
-										{({ remainingTime }) => (
-											<span className="text-xs">
-												{remainingTime}
-											</span>
-										)}
-									</CountdownCircleTimer>
-								) : (
-									<span className="w-[26px] h-[26px] border-2 rounded-full flex items-center justify-center">
-										<span className="bg-white rounded-full w-1 h-1"></span>
-									</span>
-								)}
-							</div>
-					  ))
-					: null}
+										return { shouldRepeat: true };
+									}}
+								>
+									{(_) => <></>}
+								</CountdownCircleTimer>
+							) : (
+								<span className="w-[26px] h-[26px] border-2 rounded-full flex items-center justify-center"></span>
+							)}
+						</div>
+					))
+				) : (
+					<>
+						<Skeleton variant="circular" width={24} height={24} />
+						<Skeleton variant="circular" width={24} height={24} />
+						<Skeleton variant="circular" width={24} height={24} />
+						<Skeleton variant="circular" width={24} height={24} />
+						<Skeleton variant="circular" width={24} height={24} />
+						<Skeleton variant="circular" width={24} height={24} />
+						<Skeleton variant="circular" width={24} height={24} />
+					</>
+				)}
 			</div>
 		</div>
 	);
