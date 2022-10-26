@@ -45,15 +45,8 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 	return (
 		<>
 			<header className="sticky top-0 z-[99999] bg-white dark:bg-primary">
-				{/* <Navbar open={openNavbar} /> */}
 				<div className="flex justify-between items-center border-b-[1px] border-light-gray py-3 px-5 pr-8">
 					<div className="flex items-center">
-						{/* <IconButton
-							className="!shadow-none dark:!text-white"
-							onClick={() => setOpenNavbar(!openNavbar)}
-						>
-							<MenuIcon />
-						</IconButton> */}
 						<Link href="/">
 							<a>
 								<h1 className="ml-4 text-2xl md:text-3xl font-extrabold uppercase">
@@ -70,7 +63,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					<div className="w-1/3 relative hidden items-center gap-2 md:flex">
 						<SearchContainer />
 						<Link href="/search">
-							<a>
+							<a className="bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>
 						</Link>
@@ -137,7 +130,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					<div className="relative items-center gap-2 flex">
 						<SearchContainer />
 						<Link href="/search">
-							<a>
+							<a className="bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>
 						</Link>
