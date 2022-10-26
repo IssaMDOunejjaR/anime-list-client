@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export const CardSkeleton = () => {
 	return (
-		<div className="basis-[170px] flex-shrink-0 flex-grow-0 group relative flex flex-col">
+		<div className="basis-[170px] h-[300px] flex-shrink-0 flex-grow-0 group relative flex flex-col">
 			<div className="flex-1">
 				<Skeleton variant="rectangular" height="100%" />
 			</div>

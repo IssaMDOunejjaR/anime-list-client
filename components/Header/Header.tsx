@@ -15,6 +15,7 @@ import { useLoggedUser } from "../../hooks/useLoggedUser";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
+import TuneIcon from "@mui/icons-material/Tune";
 
 interface Props {
 	openProfile: boolean;
@@ -44,15 +45,15 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 	return (
 		<>
 			<header className="sticky top-0 z-[99999] bg-white dark:bg-primary">
-				<Navbar open={openNavbar} />
+				{/* <Navbar open={openNavbar} /> */}
 				<div className="flex justify-between items-center border-b-[1px] border-light-gray py-3 px-5 pr-8">
 					<div className="flex items-center">
-						<IconButton
+						{/* <IconButton
 							className="!shadow-none dark:!text-white"
 							onClick={() => setOpenNavbar(!openNavbar)}
 						>
 							<MenuIcon />
-						</IconButton>
+						</IconButton> */}
 						<Link href="/">
 							<a>
 								<h1 className="ml-4 text-2xl md:text-3xl font-extrabold uppercase">
@@ -66,8 +67,13 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 							</a>
 						</Link>
 					</div>
-					<div className="w-1/3 relative hidden md:block">
+					<div className="w-1/3 relative hidden items-center gap-2 md:flex">
 						<SearchContainer />
+						<Link href="/search">
+							<a>
+								<TuneIcon />
+							</a>
+						</Link>
 					</div>
 					<div className="flex space-x-4 items-center">
 						<FormControlLabel
@@ -128,8 +134,13 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					</div>
 				</div>
 				<div className="p-4 pr-8 md:hidden">
-					<div className="relative">
+					<div className="relative items-center gap-2 flex">
 						<SearchContainer />
+						<Link href="/search">
+							<a>
+								<TuneIcon />
+							</a>
+						</Link>
 					</div>
 				</div>
 			</header>

@@ -122,8 +122,6 @@ export default function Search() {
 		fetchNextPage,
 	} = useAdvancedSearchedMedia(state);
 
-	// console.log(state);
-
 	const handleSearchChange = (e: any) => {
 		dispatch({ type: "SET_SEARCH_VALUE", payload: e.target.value });
 	};

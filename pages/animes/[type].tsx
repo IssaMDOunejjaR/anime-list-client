@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
-import Card from "../../components/Card/Card";
+import Card, { CardSkeleton } from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
 import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../../hooks/useAnimeByTrending";
@@ -17,17 +17,23 @@ interface Props {
 const LatestEpisodes = ({ scrollY }: Props) => {
 	const { data: latestEpisodes } = useAnimesLatestEpisode();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	return (
 		<>
-			{latestEpisodes ? (
-				latestEpisodes.map(
-					({ episode, media }: { episode: number; media: Anime }) => (
-						<Card key={media.id + episode} data={media} />
-					)
-				)
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{latestEpisodes
+				? latestEpisodes.map(
+						({
+							episode,
+							media,
+						}: {
+							episode: number;
+							media: Anime;
+						}) => <Card key={media.id + episode} data={media} />
+				  )
+				: placeholder}
 		</>
 	);
 };
@@ -39,6 +45,10 @@ const PopularAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByPopularity();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
 		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
@@ -47,20 +57,16 @@ const PopularAnime = ({ scrollY }: Props) => {
 
 	return (
 		<>
-			{popularAnime ? (
-				popularAnime.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{popularAnime
+				? popularAnime.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };
@@ -72,6 +78,10 @@ const TrendingAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByTrending();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
 		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
@@ -80,20 +90,16 @@ const TrendingAnime = ({ scrollY }: Props) => {
 
 	return (
 		<>
-			{trendingAnime ? (
-				trendingAnime.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{trendingAnime
+				? trendingAnime.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };
@@ -105,6 +111,10 @@ const TrendingMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByTrending();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
 		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
@@ -113,20 +123,16 @@ const TrendingMovies = ({ scrollY }: Props) => {
 
 	return (
 		<>
-			{trendingMovies ? (
-				trendingMovies.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{trendingMovies
+				? trendingMovies.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };
@@ -137,6 +143,10 @@ const PopularMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByPopularity();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
 		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
@@ -145,20 +155,16 @@ const PopularMovies = ({ scrollY }: Props) => {
 
 	return (
 		<>
-			{popularMovies ? (
-				popularMovies.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{popularMovies
+				? popularMovies.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };

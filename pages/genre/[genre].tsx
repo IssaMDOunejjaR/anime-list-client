@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
-import Card from "../../components/Card/Card";
+import Card, { CardSkeleton } from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
 import { useMediaByGenre } from "../../hooks/useMediaByGenre";
 
@@ -10,6 +10,10 @@ export default function Genre() {
 	const genre = query.genre as string;
 	const [scrollY, setScrollY] = useState(0);
 	const { data, fetchNextPage, isFetchingNextPage } = useMediaByGenre(genre);
+
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
 
 	useEffect(() => {
 		if (document.body.clientHeight / 2 < scrollY) {
@@ -39,20 +43,16 @@ export default function Genre() {
 					{genre}
 				</h2>
 				<div className="flex flex-wrap py-4 gap-4">
-					{data ? (
-						data.pages.map((page, index) => (
-							<Fragment key={index}>
-								{page.media.map((anime) => (
-									<Card key={anime.id} data={anime} />
-								))}
-							</Fragment>
-						))
-					) : (
-						<Loader bgLight="bg-white" bgDark="bg-primary" />
-					)}
-					{isFetchingNextPage && (
-						<Loader bgLight="bg-white" bgDark="bg-primary" />
-					)}
+					{data
+						? data.pages.map((page, index) => (
+								<Fragment key={index}>
+									{page.media.map((anime) => (
+										<Card key={anime.id} data={anime} />
+									))}
+								</Fragment>
+						  ))
+						: placeholder}
+					{isFetchingNextPage && placeholder}
 				</div>
 			</section>
 		</>
