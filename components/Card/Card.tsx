@@ -3,6 +3,7 @@ import { Anime } from "../../types";
 import parse from "html-react-parser";
 import Link from "next/link";
 import { Skeleton } from "@mui/material";
+import { motion } from "framer-motion";
 
 export const CardSkeleton = () => {
 	return (
@@ -77,9 +78,12 @@ export default function Card({ data }: Props) {
 	}, [cardRef]);
 
 	return (
-		<div
+		<motion.div
 			ref={cardRef}
 			className="basis-[170px] flex-shrink-0 flex-grow-0 group relative"
+			initial={{ scale: 0 }}
+			whileInView={{ scale: 1 }}
+			viewport={{ once: true }}
 		>
 			<div>
 				<img
@@ -141,6 +145,6 @@ export default function Card({ data }: Props) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 }

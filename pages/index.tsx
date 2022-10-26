@@ -3,7 +3,6 @@ import Head from "next/head";
 import { Fragment } from "react";
 import Card, { CardSkeleton } from "../components/Card/Card";
 import List from "../components/List/List";
-import Loader from "../components/Loader/Loader";
 import Main from "../components/Main/Main";
 import { useAnimesByPopularity } from "../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../hooks/useAnimeByTrending";

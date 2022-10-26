@@ -4,6 +4,7 @@ import { useAnimePopularBySeason } from "../../hooks/useAnimePopularBySeason";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "@mui/material";
+import { motion } from "framer-motion";
 
 function getCurrentSeason() {
 	const now = new Date();
@@ -63,31 +64,61 @@ export default function Main() {
 		season: getCurrentSeason()?.toUpperCase(),
 		seasonYear: new Date().getFullYear(),
 	});
+	const [scrollPos, setScrollPos] = useState(0);
 	const [count, setCount] = useState(0);
 
 	const divRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (divRef) {
+		if (divRef && divRef.current) {
 			divRef.current?.children[count]?.scrollIntoView({
 				behavior: "smooth",
 				block: "end",
 				inline: "start",
 			});
+
+			// if (scrollPos >= divRef.current.scrollWidth) {
+			// 	console.log(0);
+			// 	setScrollPos(0);
+			// }
+			// divRef.current.scrollTo({
+			// 	behavior: "smooth",
+			// 	left: scrollPos,
+			// });
+			// console.log(scrollPos);
+			// setScrollPos(
+			// 	divRef.current.children[count].clientWidth * (count + 1)
+			// );
 		}
 	}, [divRef, count]);
+
+	// useEffect(() => {
+	// 	const handleScroll = () => {
+	// 		if (divRef && divRef.current) {
+	// 			setScrollPos(scrollPos + divRef.current.clientWidth);
+	// 		}
+	// 	};
+
+	// 	divRef?.current?.addEventListener("scroll", handleScroll);
+
+	// 	return () => {
+	// 		divRef?.current?.removeEventListener("scroll", handleScroll);
+	// 	};
+	// }, [divRef]);
 
 	return (
 		<div className="w-full h-[550px] px-4 pr-8 overflow-hidden flex flex-col justify-end">
 			<div
 				ref={divRef}
-				className="flex items-center gap-4 overflow-x-scroll scrollbar-hide"
+				className="flex items-center gap-4 overflow-x-scroll overflow-y-hidden scrollbar-hide"
 			>
 				{data
 					? data.media.map((anime) => (
-							<div
+							<motion.div
 								key={anime.id}
 								className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 overflow-hidden flex items-center rounded-md shadow-2xl"
+								initial={{ scaleX: 0 }}
+								animate={{ scaleX: 1 }}
 							>
 								<div className="absolute w-full h-full">
 									{anime.bannerImage && (
@@ -111,7 +142,7 @@ export default function Main() {
 										</a>
 									</Link>
 								</div>
-							</div>
+							</motion.div>
 					  ))
 					: [...new Array(7)].map((_, index) => (
 							<MainSkeleton key={index} />

@@ -1,5 +1,6 @@
 import { request, gql } from "graphql-request";
 import { endpoint } from "../constants";
+import { SearchOptions } from "../pages/search";
 import { Anime, Page } from "../types";
 
 export const getGenres = async (): Promise<string[]> => {
@@ -13,6 +14,23 @@ export const getGenres = async (): Promise<string[]> => {
 	);
 
 	return GenreCollection;
+};
+export const getTags = async (): Promise<
+	{ name: string; isAdult: boolean }[]
+> => {
+	const { MediaTagCollection } = await request(
+		endpoint,
+		gql`
+			query {
+				MediaTagCollection {
+					name
+					isAdult
+				}
+			}
+		`
+	);
+
+	return MediaTagCollection;
 };
 
 export const getAnimePopularBySeason = async ({
@@ -35,6 +53,7 @@ export const getAnimePopularBySeason = async ({
 						isAdult: false
 						sort: POPULARITY_DESC
 					) {
+						id
 						title {
 							romaji
 						}
@@ -342,6 +361,67 @@ export const getSearchedMedia = async ({
 						hasNextPage
 					}
 					media(sort: TITLE_ROMAJI, type: ANIME, search: "${searchValue}", isAdult: false) {
+                        id
+						title {
+							romaji
+						}
+						coverImage {
+							extraLarge
+						}
+						format
+						status
+						description
+						episodes
+						nextAiringEpisode {
+							episode
+						}
+						genres
+						averageScore
+                        studios {
+                            edges {
+                                node {
+                                    name
+                                }
+                            }
+                        }
+					}
+				}
+			}
+		`
+	);
+
+	return Page;
+};
+
+export const getAdvancedSearchedMedia = async ({
+	pageParam = 1,
+	searchOptions,
+}: {
+	pageParam: number;
+	searchOptions: SearchOptions;
+}): Promise<Page> => {
+	const { Page } = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
+					media(sort: TITLE_ROMAJI, type: ANIME, search: ${
+						searchOptions.searchValue
+							? `"${searchOptions.searchValue}"`
+							: null
+					}, genre_in: ${
+			searchOptions.genres ? JSON.stringify(searchOptions.genres) : null
+		}, tag_in: ${
+			searchOptions.tags ? JSON.stringify(searchOptions.tags) : null
+		}, seasonYear: ${searchOptions.year}, ${
+			searchOptions.season ? `season: ${searchOptions.season},` : ""
+		} ${
+			searchOptions.format ? `format: ${searchOptions.format},` : ""
+		} isAdult: false) {
                         id
 						title {
 							romaji

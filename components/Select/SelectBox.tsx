@@ -1,16 +1,17 @@
-import { ReactNode } from "react";
-import Select, { StylesConfig, components } from "react-select";
+import Select, { StylesConfig } from "react-select";
 
 interface Props {
-	options?: { value: string; label: string }[];
+	placeholder: string;
+	options: string[];
 }
 
-export default function SelectBox({ options }: Props) {
+export default function SelectBox({ placeholder, options }: Props) {
 	const styles: StylesConfig = {
 		control: (css) => ({
 			...css,
 			backgroundColor: "#1E2530",
 			border: "none",
+			padding: 12,
 		}),
 		option: (css) => ({
 			...css,
@@ -23,19 +24,18 @@ export default function SelectBox({ options }: Props) {
 			...css,
 			backgroundColor: "#1E2530",
 		}),
+		singleValue: (css) => ({
+			...css,
+			color: "white",
+		}),
 	};
-
-	// const Control = ({ children, ...props }: { children: ReactNode }) => {
-	// 	return <components.Control {...props}>{children}</components.Control>;
-	// };
 
 	return (
 		<Select
 			closeMenuOnSelect={false}
-			isMulti
-			options={options}
+			options={options.map((opt) => ({ value: opt, label: opt }))}
 			styles={styles}
-			placeholder="Genre"
+			placeholder={placeholder}
 		/>
 	);
 }
