@@ -47,7 +47,8 @@ export default function SelectBox({
 			styles={styles}
 			placeholder={placeholder}
 			isSearchable
-			onChange={(e: any) => change(e.value)}
+			isClearable
+			onChange={(e: any) => change(e ? e.value : null)}
 		/>
 	);
 }
