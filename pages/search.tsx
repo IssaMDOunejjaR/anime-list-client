@@ -165,7 +165,7 @@ export default function Search() {
 		fetchNextPage,
 	} = useAdvancedSearchedMedia(state);
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(5)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 

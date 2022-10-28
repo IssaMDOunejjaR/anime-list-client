@@ -11,7 +11,7 @@ export default function Genre() {
 	const [scrollY, setScrollY] = useState(0);
 	const { data, fetchNextPage, isFetchingNextPage } = useMediaByGenre(genre);
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(5)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 

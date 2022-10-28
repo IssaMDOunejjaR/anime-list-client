@@ -17,7 +17,7 @@ interface Props {
 const LatestEpisodes = ({ scrollY }: Props) => {
 	const { data: latestEpisodes } = useAnimesLatestEpisode();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(5)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -45,7 +45,7 @@ const PopularAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByPopularity();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(5)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -78,7 +78,7 @@ const TrendingAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByTrending();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(5)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -111,7 +111,7 @@ const TrendingMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByTrending();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(5)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -143,7 +143,7 @@ const PopularMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByPopularity();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(5)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
