@@ -2,7 +2,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
 import Card, { CardSkeleton } from "../../components/Card/Card";
-import Loader from "../../components/Loader/Loader";
 import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../../hooks/useAnimeByTrending";
 import { useAnimesLatestEpisode } from "../../hooks/useAnimesLatestEpisode";

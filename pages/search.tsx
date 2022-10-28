@@ -230,7 +230,7 @@ export default function Search() {
 			<div className="flex gap-3 flex-wrap w-full">
 				<div className="flex flex-col md:flex-row gap-2 w-full">
 					<input
-						className="custom-input !py-3 shadow-md md:!w-2/4"
+						className="custom-input !py-3 shadow-[0_1px_1px_#aaa] dark:shadow-[0_1px_1px_#222] md:!w-2/4"
 						type="text"
 						placeholder="Search..."
 						value={state.searchValue || ""}
@@ -276,7 +276,7 @@ export default function Search() {
 				</div>
 				<div className="grid gap-2">
 					<div>
-						<Accordion className="dark:!bg-secondary dark:!text-white">
+						<Accordion className="bg-slate-200 dark:!bg-secondary dark:!text-white">
 							<AccordionSummary
 								expandIcon={
 									<ExpandMoreIcon className="dark:!text-white" />
@@ -306,7 +306,7 @@ export default function Search() {
 						</Accordion>
 					</div>
 					<div>
-						<Accordion className="dark:!bg-secondary dark:!text-white">
+						<Accordion className="bg-slate-200 dark:!bg-secondary dark:!text-white">
 							<AccordionSummary
 								expandIcon={
 									<ExpandMoreIcon className="dark:!text-white" />

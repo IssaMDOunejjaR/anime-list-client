@@ -107,16 +107,16 @@ export default function Main() {
 	// }, [divRef]);
 
 	return (
-		<div className="w-full h-[550px] px-4 pr-8 overflow-hidden flex flex-col justify-end">
+		<div className="w-full h-[550px] px-4 pr-8 flex flex-col justify-end">
 			<div
 				ref={divRef}
-				className="flex items-center gap-4 overflow-x-scroll overflow-y-hidden scrollbar-hide"
+				className="flex items-center gap-4 py-4 overflow-x-scroll scrollbar-hide"
 			>
 				{data
 					? data.media.map((anime) => (
 							<motion.div
 								key={anime.id}
-								className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 overflow-hidden flex items-center rounded-md shadow-2xl"
+								className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 flex items-center rounded-md shadow-[0_2px_8px_#999] dark:shadow-[0_2px_8px_#333]"
 								initial={{ scaleX: 0 }}
 								animate={{ scaleX: 1 }}
 							>
@@ -125,7 +125,7 @@ export default function Main() {
 										<img
 											src={anime.bannerImage}
 											alt={anime.title.romaji}
-											className="w-full h-full object-cover absolute right-0 opacity-[0.25]"
+											className="w-full h-full object-cover absolute right-0 opacity-[0.5]"
 										/>
 									)}
 								</div>
@@ -133,7 +133,7 @@ export default function Main() {
 									<h2 className="font-bold text-lg md:text-2xl mb-4">
 										{anime.title.romaji}
 									</h2>
-									<p className="h-[100px] overflow-hidden mb-4 text-md text-[#ddd]">
+									<p className="h-[100px] overflow-hidden mb-4 text-md text-[#333] dark:text-[#ddd]">
 										{HTMLReactParser(anime.description)}
 									</p>
 									<Link href={`/anime/${anime.id}`}>

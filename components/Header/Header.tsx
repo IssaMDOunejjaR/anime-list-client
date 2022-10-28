@@ -26,7 +26,6 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 	const { theme, setTheme, systemTheme } = useTheme();
 	const router = useRouter();
 
-	const [openNavbar, setOpenNavbar] = useState(false);
 	const [openSignIn, setOpenSignIn] = useState(false);
 	const [openSignUp, setOpenSignUp] = useState(false);
 
@@ -44,7 +43,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 
 	return (
 		<>
-			<header className="sticky top-0 z-[99999] bg-white dark:bg-primary">
+			<header className="sticky top-0 z-50 bg-white dark:bg-primary">
 				<div className="flex justify-between items-center border-b-[1px] border-light-gray py-3 px-5 pr-8">
 					<div className="flex items-center">
 						<Link href="/">
@@ -63,7 +62,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					<div className="w-1/3 relative hidden items-center gap-2 md:flex">
 						<SearchContainer />
 						<Link href="/search">
-							<a className="bg-secondary p-[6.6px] rounded-sm">
+							<a className="bg-slate-200 dark:bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>
 						</Link>
@@ -130,7 +129,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					<div className="relative items-center gap-2 flex">
 						<SearchContainer />
 						<Link href="/search">
-							<a className="bg-secondary p-[6.6px] rounded-sm">
+							<a className="bg-slate-200 dark:bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>
 						</Link>

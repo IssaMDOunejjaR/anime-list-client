@@ -10,7 +10,6 @@ import Staff from "../../components/Staff/Staff";
 import moment from "moment";
 import Link from "next/link";
 import Head from "next/head";
-import { motion } from "framer-motion";
 
 const AnimeInformationSkeleton = () => {
 	return (
@@ -86,19 +85,10 @@ export default function AnimeInformation() {
 		setTabValue(newValue);
 	};
 
-	// if (!data) return <AnimeInformationSkeleton />;
-
 	const duration = moment.duration(
 		Number(data?.nextAiringEpisode?.timeUntilAiring) * 1000,
 		"milliseconds"
 	);
-
-	// return (
-	// 	<>
-	// 		<AnimeInformationSkeleton />;
-	// 		<InformationSkeleton />
-	// 	</>
-	// );
 
 	return (
 		<>
@@ -173,9 +163,29 @@ export default function AnimeInformation() {
 					className="!border-b-[1px] !border-[#ccc] dark:!border-light-gray"
 					centered
 				>
-					<Tab label="Overview" value="overview" />
-					<Tab label="Characters" value="characters" />
-					<Tab label="Staff" value="staff" />
+					<Tab
+						label="Overview"
+						value="overview"
+						className={`${
+							tabValue !== "overview" ? "dark:!text-white" : null
+						}`}
+					/>
+					<Tab
+						label="Characters"
+						value="characters"
+						className={`${
+							tabValue !== "characters"
+								? "dark:!text-white"
+								: null
+						}`}
+					/>
+					<Tab
+						label="Staff"
+						value="staff"
+						className={`${
+							tabValue !== "staff" ? "dark:!text-white" : null
+						}`}
+					/>
 				</Tabs>
 				<div className="p-8">
 					<Container>
