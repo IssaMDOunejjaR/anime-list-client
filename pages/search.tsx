@@ -38,6 +38,7 @@ export type SearchOptions = {
 	year: number | null;
 	season: string | null;
 	format: string | null;
+	sort: "POPULARITY_DESC" | "TRENDING_DESC" | "TITLE_ROMAJI";
 };
 
 type SearchAction =
@@ -72,15 +73,20 @@ type SearchAction =
 	| {
 			type: "SET_ANIME_FORMAT";
 			payload: string;
+	  }
+	| {
+			type: "SET_SORT";
+			payload: "POPULARITY_DESC" | "TRENDING_DESC" | "TITLE_ROMAJI";
 	  };
 
-const initialState = {
+const initialState: SearchOptions = {
 	searchValue: null,
 	genres: new Array<string>(0),
 	tags: new Array<string>(0),
 	year: null,
 	season: null,
 	format: null,
+	sort: "TITLE_ROMAJI",
 };
 
 const reducer = (state: SearchOptions, action: SearchAction) => {
@@ -128,6 +134,11 @@ const reducer = (state: SearchOptions, action: SearchAction) => {
 			return {
 				...state,
 				format: action.payload,
+			};
+		case "SET_SORT":
+			return {
+				...state,
+				sort: action.payload,
 			};
 		default:
 			return state;
@@ -186,6 +197,12 @@ export default function Search() {
 
 	const handleFormatChange = (value: string) => {
 		dispatch({ type: "SET_ANIME_FORMAT", payload: value });
+	};
+
+	const handleSortChange = (
+		value: "POPULARITY_DESC" | "TRENDING_DESC" | "TITLE_ROMAJI"
+	) => {
+		dispatch({ type: "SET_SORT", payload: value });
 	};
 
 	useEffect(() => {
@@ -321,7 +338,42 @@ export default function Search() {
 				</div>
 			</div>
 			<div className="px-2 py-4">
-				<h2 className="font-semibold md:text-2xl">Results for:</h2>
+				<h2 className="font-semibold flex items-end md:text-2xl">
+					Results for:
+					<span className="ml-auto text-xs flex gap-2">
+						SORT:
+						<button
+							className={`${
+								state.sort === "TITLE_ROMAJI"
+									? "underline"
+									: null
+							} hover:underline`}
+							onClick={() => handleSortChange("TITLE_ROMAJI")}
+						>
+							name
+						</button>
+						<button
+							className={`${
+								state.sort === "POPULARITY_DESC"
+									? "underline"
+									: null
+							} hover:underline`}
+							onClick={() => handleSortChange("POPULARITY_DESC")}
+						>
+							popularity
+						</button>
+						<button
+							className={`${
+								state.sort === "TRENDING_DESC"
+									? "underline"
+									: null
+							} hover:underline`}
+							onClick={() => handleSortChange("TRENDING_DESC")}
+						>
+							trending
+						</button>
+					</span>
+				</h2>
 				<div className="flex flex-wrap py-4 gap-4">
 					{results
 						? results.pages.map((page, index) => (

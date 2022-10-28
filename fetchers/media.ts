@@ -409,11 +409,9 @@ export const getAdvancedSearchedMedia = async ({
 						currentPage
 						hasNextPage
 					}
-					media(sort: TITLE_ROMAJI, type: ANIME, search: ${
-						searchOptions.searchValue
-							? `"${searchOptions.searchValue}"`
-							: null
-					}, genre_in: ${
+					media(sort: ${searchOptions.sort}, type: ANIME, search: ${
+			searchOptions.searchValue ? `"${searchOptions.searchValue}"` : null
+		}, genre_in: ${
 			searchOptions.genres.length
 				? JSON.stringify(searchOptions.genres)
 				: null

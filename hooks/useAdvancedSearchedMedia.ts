@@ -12,6 +12,7 @@ export const useAdvancedSearchedMedia = (searchOptions: SearchOptions) => {
 			searchOptions.year,
 			searchOptions.genres,
 			searchOptions.tags,
+			searchOptions.sort,
 		],
 		({ pageParam = 1 }) =>
 			getAdvancedSearchedMedia({ pageParam, searchOptions }),
