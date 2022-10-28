@@ -2,6 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { Anime } from "../../types";
 import parse from "html-react-parser";
 import Link from "next/link";
+import { Skeleton } from "@mui/material";
+import { motion } from "framer-motion";
+
+export const CardSkeleton = () => {
+	return (
+		<div className="basis-[170px] h-[300px] flex-shrink-0 flex-grow-0 group relative flex flex-col">
+			<div className="flex-1">
+				<Skeleton variant="rectangular" height="100%" />
+			</div>
+			<div className="py-2 flex flex-col">
+				<Skeleton variant="rectangular" />
+			</div>
+		</div>
+	);
+};
 
 interface Props {
 	data: Anime;
@@ -63,9 +78,12 @@ export default function Card({ data }: Props) {
 	}, [cardRef]);
 
 	return (
-		<div
+		<motion.div
 			ref={cardRef}
 			className="basis-[170px] flex-shrink-0 flex-grow-0 group relative"
+			initial={{ scale: 0 }}
+			whileInView={{ scale: 1 }}
+			viewport={{ once: true }}
 		>
 			<div>
 				<img
@@ -74,7 +92,7 @@ export default function Card({ data }: Props) {
 					className="shadow-md w-[170px] h-[260px]"
 				/>
 			</div>
-			<div className="py-2 flex">
+			<div className="py-2 flex flex-col">
 				<h3 className="font-semibold truncate w-[170px]">
 					{data.title.romaji}
 				</h3>
@@ -95,15 +113,26 @@ export default function Card({ data }: Props) {
 									: "right-full border-r-slate-200 dark:border-r-white"
 							} border-8 border-transparent z-20`}
 						></span>
-						<h3 className="font-semibold mb-2">
-							{data.title.romaji}
-						</h3>
+						<h3 className="font-semibold">{data.title.romaji}</h3>
+						<span className="mb-2 text-xs italic text-[#444] capitalize">
+							{data.format?.toLowerCase()}
+							{data.format !== "MOVIE" &&
+								data.format !== "MANGA" &&
+								(data.episodes
+									? ` | Episodes: ${data.episodes}`
+									: ` | Last Episode: ${
+											data.nextAiringEpisode?.episode - 1
+									  }`)}
+						</span>
 						<p className="text-xs text-primary mb-3 overflow-hidden max-h-32 text-ellipsis">
 							{parse(data.description || "No description")}
 						</p>
 						<div className="flex flex-wrap justify-center mt-auto p-2">
 							{data.genres.map((genre, index) => (
-								<Link key={index} href={`/genre/${genre}`}>
+								<Link
+									key={index}
+									href={`/genre/${genre.toLowerCase()}`}
+								>
 									<a key={index} className="text-[10px] px-1">
 										{genre}
 									</a>
@@ -116,6 +145,6 @@ export default function Card({ data }: Props) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 }

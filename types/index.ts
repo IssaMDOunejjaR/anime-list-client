@@ -26,6 +26,8 @@ export type Anime = {
 	averageScore: number;
 	season: string;
 	source: string;
+	countryOfOrigin: string;
+	isAdult: boolean;
 	startDate: {
 		year: number | null;
 		month: number | null;

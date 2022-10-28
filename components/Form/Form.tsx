@@ -1,4 +1,9 @@
-import { ReactNode } from "react";
+import {
+	DetailedHTMLProps,
+	HTMLAttributes,
+	InputHTMLAttributes,
+	ReactNode,
+} from "react";
 import GradientBorder from "../GradientBorder/GradientBorder";
 
 export default function Form({
@@ -6,7 +11,7 @@ export default function Form({
 	...restOfProps
 }: {
 	children: ReactNode;
-}) {
+} & DetailedHTMLProps<HTMLAttributes<HTMLFormElement>, HTMLFormElement>) {
 	return (
 		<form
 			className="flex flex-col space-y-4 bg-white dark:bg-primary p-8 w-[30vw] max-w-[500px] min-w-[300px]"
@@ -33,12 +38,25 @@ Form.Title = function FormTitle({
 	);
 };
 
-Form.Input = function FormInput({ ...restOfProps }) {
+Form.Input = function FormInput({
+	error,
+	...restOfProps
+}: { error?: string } & DetailedHTMLProps<
+	InputHTMLAttributes<HTMLInputElement>,
+	HTMLInputElement
+>) {
 	return (
-		<input
-			className="custom-input text-black dark:bg-secondary dark:text-white"
-			{...restOfProps}
-		/>
+		<div className="">
+			<input
+				className="custom-input text-black dark:bg-secondary dark:text-white"
+				{...restOfProps}
+			/>
+			{error && (
+				<div className="bg-red-500 mt-2 p-1 text-center text-white">
+					{error}
+				</div>
+			)}
+		</div>
 	);
 };
 
@@ -51,6 +69,7 @@ Form.Button = function FormInput({
 	return (
 		<GradientBorder>
 			<button
+				type="submit"
 				className="custom-button-gradient bg-white w-full dark:bg-primary dark:text-white"
 				{...restOfProps}
 			>

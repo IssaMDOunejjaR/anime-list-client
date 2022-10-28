@@ -1,16 +1,42 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
-import Card from "../../components/Card/Card";
+import Card, { CardSkeleton } from "../../components/Card/Card";
 import Loader from "../../components/Loader/Loader";
 import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../../hooks/useAnimeByTrending";
+import { useAnimesLatestEpisode } from "../../hooks/useAnimesLatestEpisode";
 import { useMoviesByPopularity } from "../../hooks/useMoviesByPopularity";
 import { useMoviesByTrending } from "../../hooks/useMoviesByTrending";
+import { Anime } from "../../types";
 
 interface Props {
 	scrollY: number;
 }
+
+const LatestEpisodes = ({ scrollY }: Props) => {
+	const { data: latestEpisodes } = useAnimesLatestEpisode();
+
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
+	return (
+		<>
+			{latestEpisodes
+				? latestEpisodes.map(
+						({
+							episode,
+							media,
+						}: {
+							episode: number;
+							media: Anime;
+						}) => <Card key={media.id + episode} data={media} />
+				  )
+				: placeholder}
+		</>
+	);
+};
 
 const PopularAnime = ({ scrollY }: Props) => {
 	const {
@@ -19,28 +45,28 @@ const PopularAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByPopularity();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
 
 	return (
 		<>
-			{popularAnime ? (
-				popularAnime.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{popularAnime
+				? popularAnime.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };
@@ -52,28 +78,28 @@ const TrendingAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByTrending();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
 
 	return (
 		<>
-			{trendingAnime ? (
-				trendingAnime.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{trendingAnime
+				? trendingAnime.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };
@@ -85,28 +111,28 @@ const TrendingMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByTrending();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
 
 	return (
 		<>
-			{trendingMovies ? (
-				trendingMovies.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{trendingMovies
+				? trendingMovies.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };
@@ -117,28 +143,28 @@ const PopularMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByPopularity();
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
 	useEffect(() => {
-		if (document.body.clientHeight / 2 < scrollY) {
+		if (document.body.clientHeight === scrollY + window.innerHeight) {
 			fetchNextPage();
 		}
 	}, [scrollY]);
 
 	return (
 		<>
-			{popularMovies ? (
-				popularMovies.pages.map((page, index) => (
-					<Fragment key={index}>
-						{page.media.map((anime) => (
-							<Card key={anime.id} data={anime} />
-						))}
-					</Fragment>
-				))
-			) : (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
-			{isFetchingNextPage && (
-				<Loader bgLight="bg-white" bgDark="bg-primary" />
-			)}
+			{popularMovies
+				? popularMovies.pages.map((page, index) => (
+						<Fragment key={index}>
+							{page.media.map((anime) => (
+								<Card key={anime.id} data={anime} />
+							))}
+						</Fragment>
+				  ))
+				: placeholder}
+			{isFetchingNextPage && placeholder}
 		</>
 	);
 };
@@ -153,6 +179,7 @@ export default function AnimeList() {
 	if (title === "trending") Component = TrendingAnime;
 	else if (title === "popular-movies") Component = PopularMovies;
 	else if (title === "trending-movies") Component = TrendingMovies;
+	else if (title === "latest-episodes") Component = LatestEpisodes;
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -164,7 +191,7 @@ export default function AnimeList() {
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
 		};
-	});
+	}, []);
 
 	return (
 		<>
@@ -172,10 +199,10 @@ export default function AnimeList() {
 				<title>{title}</title>
 			</Head>
 			<section className="p-5 min-h-screen">
-				<h2 className="text-lg md:text-4xl capitalize font-extrabold w-2/4 border-b-2 pb-3">
+				<h2 className="text-lg md:text-3xl capitalize font-extrabold w-2/4 border-b-[1px] pb-3">
 					{title?.replace("-", " ")}
 				</h2>
-				<div className="flex flex-wrap py-4 gap-4 justify-center">
+				<div className="flex flex-wrap py-4 gap-4">
 					<Component scrollY={scrollY} />
 				</div>
 			</section>

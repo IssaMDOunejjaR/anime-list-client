@@ -2,13 +2,13 @@ import Link from "next/link";
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
 import { useAnimeById } from "../../hooks/useAnimeById";
 import { Anime } from "../../types";
-import Card from "../Card/Card";
+import Card, { CardSkeleton } from "../Card/Card";
 import Character from "../Character/Character";
 
 const Relation = ({ id }: { id: number }) => {
 	const { data } = useAnimeById(id);
 
-	if (!data) return null;
+	if (!data) return <CardSkeleton />;
 
 	return <Card data={data} />;
 };

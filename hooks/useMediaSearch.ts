@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getSearchedMedia } from "../fetchers/media";
 
 export const useMediaSearch = (
@@ -6,11 +6,16 @@ export const useMediaSearch = (
 	searchValue: string,
 	startFetching: boolean
 ) => {
-	return useQuery(
+	return useInfiniteQuery(
 		[`search-${searchValue}`],
-		() => getSearchedMedia(page, searchValue),
+		({ pageParam = 1 }) => getSearchedMedia({ pageParam, searchValue }),
 		{
 			enabled: startFetching,
+			getNextPageParam: (lastPage) => {
+				if (lastPage.pageInfo.hasNextPage)
+					return lastPage.pageInfo.currentPage + 1;
+				else return undefined;
+			},
 		}
 	);
 };

@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getMoviesByTrending } from "../fetchers/media";
 
 export const useMoviesByTrending = () => {
