@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
 import SearchContainer from "../Search/Search";
-import { Avatar, FormControlLabel, IconButton, Switch } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import Link from "next/link";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import LoginIcon from "@mui/icons-material/Login";
@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import TuneIcon from "@mui/icons-material/Tune";
+import DarkModeSwitch from "../DarkModeSwitch/DarkModeSwitch";
 
 interface Props {
 	openProfile: boolean;
@@ -66,24 +67,13 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 						</Link>
 					</div>
 					<div className="flex space-x-4 items-center">
-						<FormControlLabel
-							className="!hidden md:!block"
-							value="end"
-							control={
-								<Switch
-									size="small"
-									checked={currentTheme === "dark"}
-									onChange={() =>
-										setTheme(
-											currentTheme === "dark"
-												? "light"
-												: "dark"
-										)
-									}
-								/>
+						<DarkModeSwitch
+							value={currentTheme === "dark"}
+							change={() =>
+								setTheme(
+									currentTheme === "dark" ? "light" : "dark"
+								)
 							}
-							label="Dark"
-							labelPlacement="end"
 						/>
 						{me ? (
 							<div className="flex gap-4">

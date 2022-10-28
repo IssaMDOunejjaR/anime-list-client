@@ -374,7 +374,7 @@ export default function Search() {
 						</button>
 					</span>
 				</h2>
-				<div className="flex flex-wrap py-4 gap-4">
+				<div className="flex flex-wrap py-4 gap-4 justify-between">
 					{results
 						? results.pages.map((page, index) => (
 								<Fragment key={index}>

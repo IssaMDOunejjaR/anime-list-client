@@ -23,15 +23,20 @@ const LatestEpisodes = ({ scrollY }: Props) => {
 	return (
 		<>
 			{latestEpisodes
-				? latestEpisodes.map(
-						({
-							episode,
-							media,
-						}: {
-							episode: number;
-							media: Anime;
-						}) => <Card key={media.id + episode} data={media} />
-				  )
+				? latestEpisodes
+						.filter(
+							({ media }: { media: Anime }) =>
+								media.isAdult === false
+						)
+						.map(
+							({
+								episode,
+								media,
+							}: {
+								episode: number;
+								media: Anime;
+							}) => <Card key={media.id + episode} data={media} />
+						)
 				: placeholder}
 		</>
 	);
@@ -201,7 +206,7 @@ export default function AnimeList() {
 				<h2 className="text-lg md:text-3xl capitalize font-extrabold w-2/4 border-b-[1px] pb-3">
 					{title?.replace("-", " ")}
 				</h2>
-				<div className="flex flex-wrap py-4 gap-4">
+				<div className="flex flex-wrap py-4 gap-4 justify-between">
 					<Component scrollY={scrollY} />
 				</div>
 			</section>

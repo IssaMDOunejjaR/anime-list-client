@@ -41,7 +41,7 @@ export default function Tag() {
 				<h2 className="text-lg md:text-3xl capitalize font-extrabold w-2/4 border-b-[1px] pb-3">
 					{tag}
 				</h2>
-				<div className="flex flex-wrap py-4 gap-4">
+				<div className="flex flex-wrap py-4 gap-4 justify-between">
 					{data
 						? data.pages.map((page, index) => (
 								<Fragment key={index}>
