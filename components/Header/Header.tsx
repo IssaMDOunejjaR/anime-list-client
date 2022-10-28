@@ -6,8 +6,6 @@ import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
 import SearchContainer from "../Search/Search";
 import { Avatar, FormControlLabel, IconButton, Switch } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Navbar from "../Navbar/Navbar";
 import Link from "next/link";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import LoginIcon from "@mui/icons-material/Login";
@@ -44,7 +42,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 	return (
 		<>
 			<header className="sticky top-0 z-50 bg-white dark:bg-primary">
-				<div className="flex justify-between items-center border-b-[1px] border-light-gray py-3 px-5 pr-8">
+				<div className="flex justify-between items-center border-b-[1px] dark:border-light-gray py-3 px-5 pr-8">
 					<div className="flex items-center">
 						<Link href="/">
 							<a>

@@ -56,18 +56,18 @@ export default function List({ children, title, url }: Props) {
 					<IconButton
 						onClick={handleScrollRight}
 						disabled={listRef?.current?.scrollLeft === 0}
-						className="disabled:!opacity-50"
+						className="!shadow-none disabled:!opacity-50"
 					>
-						<ChevronLeftIcon className="!text-white" />
+						<ChevronLeftIcon className="dark:!text-white" />
 					</IconButton>
 					<IconButton
 						onClick={handleScrollLeft}
 						disabled={
 							scrollPos >= Number(listRef?.current?.scrollWidth)
 						}
-						className="disabled:!opacity-50"
+						className="!shadow-none disabled:!opacity-50"
 					>
-						<ChevronRightIcon className="!text-white" />
+						<ChevronRightIcon className="dark:!text-white" />
 					</IconButton>
 				</span>
 			</h2>
@@ -78,7 +78,7 @@ export default function List({ children, title, url }: Props) {
 				{children}
 			</div>
 			<div className="relative flex justify-center mt-4">
-				<span className="absolute h-[1px] w-full bg-light-gray top-2/4 -translate-y-2/4 -z-10"></span>
+				<span className="absolute h-[1px] w-full bg-[#ddd] dark:bg-light-gray top-2/4 -translate-y-2/4 -z-10"></span>
 				<div className="bg-white dark:bg-primary px-4 min-w-[100px] w-1/6">
 					<GradientBorder>
 						<Link href={url}>

@@ -185,7 +185,7 @@ export default function Main() {
 									{(_) => <></>}
 								</CountdownCircleTimer>
 							) : (
-								<span className="w-[26px] h-[26px] border-2 rounded-full flex items-center justify-center"></span>
+								<span className="w-[26px] h-[26px] border-2 border-[#bbb] rounded-full flex items-center justify-center"></span>
 							)}
 						</div>
 					))
