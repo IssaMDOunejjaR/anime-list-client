@@ -211,14 +211,19 @@ export default function AnimeInformation() {
 												<span>{data.format}</span>
 											</Information>
 										)}
-										<Information title="Episodes">
-											<span>
-												{data.episodes
-													? data.episodes
-													: data.nextAiringEpisode
-															.episode - 1}
-											</span>
-										</Information>
+										{data.episodes ||
+											(data.nextAiringEpisode && (
+												<Information title="Episodes">
+													<span>
+														{data.episodes
+															? data.episodes
+															: data
+																	.nextAiringEpisode
+																	.episode -
+															  1}
+													</span>
+												</Information>
+											))}
 										{data.duration && (
 											<Information title="Episode Duration">
 												<span>{data.duration} min</span>
@@ -282,6 +287,15 @@ export default function AnimeInformation() {
 													href={`/genre/${genre.toLowerCase()}`}
 												>
 													<a>{genre}</a>
+												</Link>
+											))}
+										</Information>
+										<Information title="Tags">
+											{data.tags.map((tag) => (
+												<Link
+													href={`/tag/${tag.name.toLowerCase()}`}
+												>
+													<a>{tag.name}</a>
 												</Link>
 											))}
 										</Information>

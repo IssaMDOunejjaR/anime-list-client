@@ -295,6 +295,55 @@ export const getMoviesByPopularity = async ({
 	return Page;
 };
 
+export const getMediaByTag = async ({
+	pageParam = 1,
+	tag,
+}: {
+	pageParam: number;
+	tag: string;
+}): Promise<Page> => {
+	const { Page } = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
+					media(tag: "${tag}", sort: POPULARITY_DESC, isAdult: false) {
+                        id
+						title {
+							romaji
+						}
+						coverImage {
+							extraLarge
+						}
+						format
+						status
+						description
+						episodes
+						nextAiringEpisode {
+							episode
+						}
+						genres
+						averageScore
+                        studios {
+                            edges {
+                                node {
+                                    name
+                                }
+                            }
+                        }
+					}
+				}
+			}
+		`
+	);
+
+	return Page;
+};
+
 export const getMediaByGenre = async ({
 	pageParam = 1,
 	genre,
