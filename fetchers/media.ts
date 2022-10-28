@@ -414,9 +414,13 @@ export const getAdvancedSearchedMedia = async ({
 							? `"${searchOptions.searchValue}"`
 							: null
 					}, genre_in: ${
-			searchOptions.genres ? JSON.stringify(searchOptions.genres) : null
+			searchOptions.genres.length
+				? JSON.stringify(searchOptions.genres)
+				: null
 		}, tag_in: ${
-			searchOptions.tags ? JSON.stringify(searchOptions.tags) : null
+			searchOptions.tags.length
+				? JSON.stringify(searchOptions.tags)
+				: null
 		}, seasonYear: ${searchOptions.year}, ${
 			searchOptions.season ? `season: ${searchOptions.season},` : ""
 		} ${

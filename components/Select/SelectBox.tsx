@@ -3,9 +3,16 @@ import Select, { StylesConfig } from "react-select";
 interface Props {
 	placeholder: string;
 	options: string[];
+	defaultValue: string;
+	change: (value: string) => void;
 }
 
-export default function SelectBox({ placeholder, options }: Props) {
+export default function SelectBox({
+	defaultValue,
+	placeholder,
+	options,
+	change,
+}: Props) {
 	const styles: StylesConfig = {
 		control: (css) => ({
 			...css,
@@ -32,10 +39,15 @@ export default function SelectBox({ placeholder, options }: Props) {
 
 	return (
 		<Select
-			closeMenuOnSelect={false}
-			options={options.map((opt) => ({ value: opt, label: opt }))}
+			defaultValue={defaultValue}
+			closeMenuOnSelect={true}
+			options={options
+				.map((opt) => ({ value: opt, label: opt }))
+				.sort((a, b) => +b.value - +a.value)}
 			styles={styles}
 			placeholder={placeholder}
+			isSearchable
+			onChange={(e: any) => change(e.value)}
 		/>
 	);
 }

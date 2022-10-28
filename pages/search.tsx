@@ -12,8 +12,7 @@ import { Fragment, useEffect, useReducer, useState } from "react";
 import { useTags } from "../hooks/useTags";
 import SelectBox from "../components/Select/SelectBox";
 import { useAdvancedSearchedMedia } from "../hooks/useAdvancedSearchedMedia";
-import Loader from "../components/Loader/Loader";
-import Card from "../components/Card/Card";
+import Card, { CardSkeleton } from "../components/Card/Card";
 
 enum AnimeSeason {
 	WINTER = "WINTER",
@@ -34,11 +33,11 @@ enum AnimeFormat {
 
 export type SearchOptions = {
 	searchValue: string | null;
-	genres: string[] | null;
-	tags: string[] | null;
+	genres: string[];
+	tags: string[];
 	year: number | null;
-	season: AnimeSeason | null;
-	format: AnimeFormat | null;
+	season: string | null;
+	format: string | null;
 };
 
 type SearchAction =
@@ -51,7 +50,15 @@ type SearchAction =
 			payload: string;
 	  }
 	| {
+			type: "DELETE_GENRE";
+			payload: string;
+	  }
+	| {
 			type: "SET_TAG";
+			payload: string;
+	  }
+	| {
+			type: "DELETE_TAG";
 			payload: string;
 	  }
 	| {
@@ -60,17 +67,17 @@ type SearchAction =
 	  }
 	| {
 			type: "SET_ANIME_SEASON";
-			payload: AnimeSeason;
+			payload: string;
 	  }
 	| {
 			type: "SET_ANIME_FORMAT";
-			payload: AnimeFormat;
+			payload: string;
 	  };
 
 const initialState = {
 	searchValue: null,
-	genres: null,
-	tags: null,
+	genres: new Array<string>(0),
+	tags: new Array<string>(0),
 	year: null,
 	season: null,
 	format: null,
@@ -86,16 +93,41 @@ const reducer = (state: SearchOptions, action: SearchAction) => {
 		case "SET_GENRE":
 			return {
 				...state,
-				genres: state.genres
-					? [...state.genres, action.payload]
-					: [action.payload],
+				genres: [...state.genres, action.payload],
+			};
+		case "DELETE_GENRE":
+			return {
+				...state,
+				genres: [
+					...state.genres?.filter(
+						(genre) => genre !== action.payload
+					),
+				],
 			};
 		case "SET_TAG":
 			return {
 				...state,
-				tags: state.tags
-					? [...state.tags, action.payload]
-					: [action.payload],
+				tags: [...state.tags, action.payload],
+			};
+		case "DELETE_TAG":
+			return {
+				...state,
+				tags: [...state.tags?.filter((tag) => tag !== action.payload)],
+			};
+		case "SET_YEAR":
+			return {
+				...state,
+				year: action.payload,
+			};
+		case "SET_ANIME_SEASON":
+			return {
+				...state,
+				season: action.payload,
+			};
+		case "SET_ANIME_FORMAT":
+			return {
+				...state,
+				format: action.payload,
 			};
 		default:
 			return state;
@@ -103,7 +135,7 @@ const reducer = (state: SearchOptions, action: SearchAction) => {
 };
 
 const years = (startYear: number) => {
-	const currentYear = new Date().getFullYear();
+	const currentYear = new Date().getFullYear() + 1;
 	const years = [];
 
 	for (let i = startYear; i <= currentYear; i++) years.push(`${i}`);
@@ -122,17 +154,38 @@ export default function Search() {
 		fetchNextPage,
 	} = useAdvancedSearchedMedia(state);
 
+	const placeholder = [...new Array(20)].map((_, index) => (
+		<CardSkeleton key={index} />
+	));
+
+	console.log(state);
+
 	const handleSearchChange = (e: any) => {
 		dispatch({ type: "SET_SEARCH_VALUE", payload: e.target.value });
 	};
 
 	const handleGenreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(e.target.checked);
-		dispatch({ type: "SET_GENRE", payload: e.target.value });
+		if (e.target.checked)
+			dispatch({ type: "SET_GENRE", payload: e.target.value });
+		else dispatch({ type: "DELETE_GENRE", payload: e.target.value });
 	};
 
 	const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch({ type: "SET_TAG", payload: e.target.value });
+		if (e.target.checked)
+			dispatch({ type: "SET_TAG", payload: e.target.value });
+		else dispatch({ type: "DELETE_TAG", payload: e.target.value });
+	};
+
+	const handleYearChange = (value: string) => {
+		dispatch({ type: "SET_YEAR", payload: +value });
+	};
+
+	const handleSeasonChange = (value: string) => {
+		dispatch({ type: "SET_ANIME_SEASON", payload: value });
+	};
+
+	const handleFormatChange = (value: string) => {
+		dispatch({ type: "SET_ANIME_FORMAT", payload: value });
 	};
 
 	useEffect(() => {
@@ -167,10 +220,16 @@ export default function Search() {
 						onChange={handleSearchChange}
 					/>
 					<div className="flex-1">
-						<SelectBox placeholder="Year" options={years(1940)} />
+						<SelectBox
+							defaultValue={`${state.year}`}
+							placeholder="Year"
+							options={years(1940)}
+							change={handleYearChange}
+						/>
 					</div>
 					<div className="flex-1">
 						<SelectBox
+							defaultValue={`${state.season}`}
 							placeholder="Season"
 							options={[
 								AnimeSeason.WINTER,
@@ -178,10 +237,12 @@ export default function Search() {
 								AnimeSeason.SUMMER,
 								AnimeSeason.FALL,
 							]}
+							change={handleSeasonChange}
 						/>
 					</div>
 					<div className="flex-1">
 						<SelectBox
+							defaultValue={`${state.format}`}
 							placeholder="Format"
 							options={[
 								AnimeFormat.TV,
@@ -192,6 +253,7 @@ export default function Search() {
 								AnimeFormat.ONA,
 								AnimeFormat.MUSIC,
 							]}
+							change={handleFormatChange}
 						/>
 					</div>
 				</div>
@@ -261,20 +323,16 @@ export default function Search() {
 			<div className="px-2 py-4">
 				<h2 className="font-semibold md:text-2xl">Results for:</h2>
 				<div className="flex flex-wrap py-4 gap-4">
-					{results ? (
-						results.pages.map((page, index) => (
-							<Fragment key={index}>
-								{page.media.map((anime) => (
-									<Card key={anime.id} data={anime} />
-								))}
-							</Fragment>
-						))
-					) : (
-						<Loader bgLight="bg-white" bgDark="bg-primary" />
-					)}
-					{isFetchingNextPage && (
-						<Loader bgLight="bg-white" bgDark="bg-primary" />
-					)}
+					{results
+						? results.pages.map((page, index) => (
+								<Fragment key={index}>
+									{page.media.map((anime) => (
+										<Card key={anime.id} data={anime} />
+									))}
+								</Fragment>
+						  ))
+						: placeholder}
+					{isFetchingNextPage && placeholder}
 				</div>
 			</div>
 		</div>
