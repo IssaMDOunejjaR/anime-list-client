@@ -10,7 +10,7 @@ export default function Tag() {
 	const [scrollY, setScrollY] = useState(0);
 	const { data, fetchNextPage, isFetchingNextPage } = useMediaByTag(tag);
 
-	const placeholder = [...new Array(5)].map((_, index) => (
+	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
