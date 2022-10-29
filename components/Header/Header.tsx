@@ -12,9 +12,9 @@ import LoginIcon from "@mui/icons-material/Login";
 import { useLoggedUser } from "../../hooks/useLoggedUser";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Cookie from "js-cookie";
-import { useRouter } from "next/router";
 import TuneIcon from "@mui/icons-material/Tune";
 import DarkModeSwitch from "../DarkModeSwitch/DarkModeSwitch";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
 	openProfile: boolean;
@@ -23,7 +23,8 @@ interface Props {
 
 export default function Header({ openProfile, setOpenProfile }: Props) {
 	const { theme, setTheme, systemTheme } = useTheme();
-	const router = useRouter();
+
+	const queryClient = useQueryClient();
 
 	const [openSignIn, setOpenSignIn] = useState(false);
 	const [openSignUp, setOpenSignUp] = useState(false);
@@ -37,7 +38,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 
 	const handleLogout = () => {
 		Cookie.remove("token");
-		router.reload();
+		queryClient.resetQueries(["logged-user"]);
 	};
 
 	return (

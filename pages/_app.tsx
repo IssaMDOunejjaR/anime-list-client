@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					<div className="flex">
 						<div
 							className={`relative transition-all duration-500 ${
-								openProfile ? "w-2/4" : "w-full"
+								openProfile ? "w-0 lg:w-2/4" : "w-full"
 							}`}
 						>
 							<div
@@ -65,7 +65,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 						</div>
 						<div
 							className={`transition-all scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-gray-600 duration-500 sticky top-[65px] right-0 h-[calc(100vh-65px)] overflow-y-auto ${
-								openProfile ? "w-2/4" : "w-0"
+								openProfile ? "w-full lg:w-2/4" : "w-0"
 							} bg-slate-200 dark:bg-secondary`}
 						>
 							<Profile />

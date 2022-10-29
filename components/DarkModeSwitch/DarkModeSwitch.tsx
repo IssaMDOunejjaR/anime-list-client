@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function DarkModeSwitch({ value, change }: Props) {
-	console.log(value);
 	return (
 		<div
 			className={`relative ${

@@ -13,6 +13,10 @@ interface Props {
 
 export default function List({ children, title, url }: Props) {
 	const [scrollPos, setScrollPos] = useState(0);
+	const [scrollState, setScrollState] = useState<{
+		start: number;
+		end: number;
+	}>({ start: 0, end: 0 });
 
 	const listRef = useRef<HTMLDivElement>(null);
 
@@ -37,13 +41,41 @@ export default function List({ children, title, url }: Props) {
 			}
 		};
 
+		const handleMouseDown = (e: MouseEvent) => {
+			setScrollState({ ...scrollState, start: e.clientX });
+		};
+
+		const handleMouseMove = (e: MouseEvent) => {
+			if (e.clientX < scrollState.start) {
+				setScrollPos(scrollPos + (scrollState.start - e.clientX));
+			} else if (e.clientX > scrollState.start) {
+				setScrollPos(scrollPos - (e.clientX - scrollState.start));
+			}
+		};
+
+		const handleMouseUp = (e: MouseEvent) => {
+			console.log(e.target);
+		};
+
 		if (listRef && listRef.current) {
-			listRef.current.addEventListener("scroll", handleScroll);
+			listRef.current.removeEventListener("scroll", handleScroll);
+			listRef.current.addEventListener("mousedown", handleMouseDown);
+			listRef.current.addEventListener("mousemove", handleMouseMove);
+			listRef.current.addEventListener("mouseup", handleMouseUp);
 		}
 
 		return () => {
 			if (listRef && listRef.current) {
 				listRef.current.removeEventListener("scroll", handleScroll);
+				listRef.current.removeEventListener(
+					"mousedown",
+					handleMouseDown
+				);
+				listRef.current.removeEventListener(
+					"mousemove",
+					handleMouseMove
+				);
+				listRef.current.removeEventListener("mouseup", handleMouseUp);
 			}
 		};
 	}, [listRef]);

@@ -1,5 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { login } from "../../fetchers/auth";
 import Form from "../Form/Form";
@@ -13,7 +12,7 @@ export default function SignIn({ close }: Props) {
 	const [password, setPassword] = useState("");
 	const { mutate } = useMutation(login);
 
-	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
@@ -25,7 +24,7 @@ export default function SignIn({ close }: Props) {
 			{
 				onSuccess: () => {
 					close();
-					router.reload();
+					queryClient.invalidateQueries(["logged-user"]);
 				},
 				onError: (err) => {
 					console.log(err);
