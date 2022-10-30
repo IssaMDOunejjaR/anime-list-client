@@ -58,7 +58,7 @@ export default function List({ children, title, url }: Props) {
 		};
 
 		if (listRef && listRef.current) {
-			listRef.current.removeEventListener("scroll", handleScroll);
+			listRef.current.addEventListener("scroll", handleScroll);
 			listRef.current.addEventListener("mousedown", handleMouseDown);
 			listRef.current.addEventListener("mousemove", handleMouseMove);
 			listRef.current.addEventListener("mouseup", handleMouseUp);

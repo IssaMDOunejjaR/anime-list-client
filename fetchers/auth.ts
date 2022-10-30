@@ -26,7 +26,7 @@ export const login = async ({
 		gql`
 			mutation {
 				Login(username: ${`"${username}"`}, password: ${`"${password}"`}) {
-					id
+					access_token
 				}
 			}
 		`

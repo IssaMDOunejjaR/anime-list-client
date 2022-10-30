@@ -9,7 +9,13 @@ import { useEffect, useState } from "react";
 import Profile from "../components/Profile/Profile";
 
 function MyApp({ Component, pageProps }: AppProps) {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+			},
+		},
+	});
 
 	const [openProfile, setOpenProfile] = useState(false);
 
@@ -68,7 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 								openProfile ? "w-full lg:w-2/4" : "w-0"
 							} bg-slate-200 dark:bg-secondary`}
 						>
-							<Profile />
+							<Profile setOpenProfile={setOpenProfile} />
 						</div>
 					</div>
 					<ReactQueryDevtools initialIsOpen={false} />

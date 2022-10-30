@@ -15,6 +15,7 @@ import Cookie from "js-cookie";
 import TuneIcon from "@mui/icons-material/Tune";
 import DarkModeSwitch from "../DarkModeSwitch/DarkModeSwitch";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 interface Props {
 	openProfile: boolean;
@@ -33,12 +34,17 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 
 	const currentTheme = theme === "system" ? systemTheme : theme;
 
+	const { reload } = useRouter();
+
 	const handleCloseSignIn = () => setOpenSignIn(false);
 	const handleCloseSignUp = () => setOpenSignUp(false);
 
 	const handleLogout = () => {
-		Cookie.remove("token");
-		queryClient.resetQueries(["logged-user"]);
+		if (typeof window !== "undefined") {
+			localStorage.removeItem("token");
+			// queryClient.resetQueries(["logged-user"]);
+			reload();
+		}
 	};
 
 	return (
@@ -78,7 +84,10 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 						/>
 						{me ? (
 							<div className="flex gap-4">
-								<IconButton onClick={handleLogout}>
+								<IconButton
+									onClick={handleLogout}
+									className="!shadow-none"
+								>
 									<LogoutIcon className="!w-6 !h-6 dark:!text-white" />
 								</IconButton>
 								<Avatar

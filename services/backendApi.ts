@@ -4,6 +4,11 @@ import axios from "axios";
 
 export const backendGql = new GraphQLClient(backendEndpoint, {
 	credentials: "include",
+	headers: {
+		Authorization: `Bearer ${
+			typeof window !== "undefined" && localStorage.getItem("token")
+		}`,
+	},
 });
 
 export const backendRest = axios.create({

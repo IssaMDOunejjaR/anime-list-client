@@ -211,19 +211,17 @@ export default function AnimeInformation() {
 												<span>{data.format}</span>
 											</Information>
 										)}
-										{data.episodes ||
-											(data.nextAiringEpisode && (
-												<Information title="Episodes">
-													<span>
-														{data.episodes
-															? data.episodes
-															: data
-																	.nextAiringEpisode
-																	.episode -
-															  1}
-													</span>
-												</Information>
-											))}
+										{(data.episodes ||
+											data.nextAiringEpisode) && (
+											<Information title="Episodes">
+												<span>
+													{data.episodes
+														? data.episodes
+														: data.nextAiringEpisode
+																.episode - 1}
+												</span>
+											</Information>
+										)}
 										{data.duration && (
 											<Information title="Episode Duration">
 												<span>{data.duration} min</span>

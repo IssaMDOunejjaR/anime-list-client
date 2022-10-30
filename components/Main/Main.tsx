@@ -64,7 +64,6 @@ export default function Main() {
 		season: getCurrentSeason()?.toUpperCase(),
 		seasonYear: new Date().getFullYear(),
 	});
-	const [scrollPos, setScrollPos] = useState(0);
 	const [count, setCount] = useState(0);
 
 	const divRef = useRef<HTMLDivElement>(null);
@@ -76,35 +75,8 @@ export default function Main() {
 				block: "end",
 				inline: "start",
 			});
-
-			// if (scrollPos >= divRef.current.scrollWidth) {
-			// 	console.log(0);
-			// 	setScrollPos(0);
-			// }
-			// divRef.current.scrollTo({
-			// 	behavior: "smooth",
-			// 	left: scrollPos,
-			// });
-			// console.log(scrollPos);
-			// setScrollPos(
-			// 	divRef.current.children[count].clientWidth * (count + 1)
-			// );
 		}
 	}, [divRef, count]);
-
-	// useEffect(() => {
-	// 	const handleScroll = () => {
-	// 		if (divRef && divRef.current) {
-	// 			setScrollPos(scrollPos + divRef.current.clientWidth);
-	// 		}
-	// 	};
-
-	// 	divRef?.current?.addEventListener("scroll", handleScroll);
-
-	// 	return () => {
-	// 		divRef?.current?.removeEventListener("scroll", handleScroll);
-	// 	};
-	// }, [divRef]);
 
 	return (
 		<div className="w-full h-[550px] px-4 pr-8 flex flex-col justify-end">
@@ -117,8 +89,8 @@ export default function Main() {
 							<motion.div
 								key={anime.id}
 								className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 flex items-center rounded-md shadow-[0_2px_8px_#999] dark:shadow-[0_2px_8px_#333]"
-								initial={{ scaleX: 0 }}
-								animate={{ scaleX: 1 }}
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
 							>
 								<div className="absolute w-full h-full">
 									{anime.bannerImage && (
