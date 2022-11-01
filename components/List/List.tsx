@@ -32,6 +32,14 @@ export default function List({ children, title, url }: Props) {
 		}
 	};
 
+	console.log(scrollState);
+
+	useEffect(() => {
+		if (listRef && listRef.current) {
+			listRef.current.scrollLeft = scrollPos;
+		}
+	}, [listRef, scrollPos]);
+
 	useEffect(() => {
 		const handleScroll = () => {
 			if (listRef && listRef.current) {
@@ -43,18 +51,32 @@ export default function List({ children, title, url }: Props) {
 
 		const handleMouseDown = (e: MouseEvent) => {
 			setScrollState({ ...scrollState, start: e.clientX });
+			// console.log(scrollState);
 		};
 
 		const handleMouseMove = (e: MouseEvent) => {
-			if (e.clientX < scrollState.start) {
-				setScrollPos(scrollPos + (scrollState.start - e.clientX));
-			} else if (e.clientX > scrollState.start) {
-				setScrollPos(scrollPos - (e.clientX - scrollState.start));
+			if (scrollState.start !== 0) {
+				if (e.clientX < scrollState.start) {
+					// console.log(e.clientX);
+					// if (listRef && listRef.current) {
+					// 	listRef.current.scrollLeft +=
+					// 		scrollState.start - e.clientX;
+					// }
+					// setScrollPos(scrollPos + (scrollState.start - e.clientX));
+				} else if (e.clientX > scrollState.start) {
+					// if (listRef && listRef.current) {
+					// 	listRef.current.scrollLeft -=
+					// 		e.clientX - scrollState.start;
+					// }
+					// setScrollPos(scrollPos + (e.clientX - scrollState.start));
+				}
 			}
 		};
 
 		const handleMouseUp = (e: MouseEvent) => {
-			console.log(e.target);
+			setScrollState({ ...scrollState, start: 0 });
+			setScrollPos(0);
+			// console.log(scrollState);
 		};
 
 		if (listRef && listRef.current) {
@@ -78,7 +100,7 @@ export default function List({ children, title, url }: Props) {
 				listRef.current.removeEventListener("mouseup", handleMouseUp);
 			}
 		};
-	}, [listRef]);
+	}, [listRef, scrollState]);
 
 	return (
 		<div className="pr-3">

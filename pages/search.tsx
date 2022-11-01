@@ -169,8 +169,6 @@ export default function Search() {
 		<CardSkeleton key={index} />
 	));
 
-	console.log(state);
-
 	const handleSearchChange = (e: any) => {
 		dispatch({ type: "SET_SEARCH_VALUE", payload: e.target.value });
 	};

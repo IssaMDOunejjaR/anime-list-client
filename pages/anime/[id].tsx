@@ -2,14 +2,21 @@ import { useRouter } from "next/router";
 import parse from "html-react-parser";
 import { useAnimeById } from "../../hooks/useAnimeById";
 import Container from "../../components/Container/Container";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import MediaDetail from "../../components/MediaDetail/MediaDetail";
-import { Skeleton, Tab, Tabs } from "@mui/material";
+import { IconButton, Skeleton, Tab, Tabs } from "@mui/material";
 import Characters from "../../components/Characters/Characters";
 import Staff from "../../components/Staff/Staff";
 import moment from "moment";
 import Link from "next/link";
 import Head from "next/head";
+import AddIcon from "@mui/icons-material/Add";
+import StarIcon from "@mui/icons-material/Star";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import { useLoggedUser } from "../../hooks/useLoggedUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addMediaFavorite, addMediaPreference } from "../../fetchers/user";
+import { PreferenceStatus } from "../../types/user";
 
 const AnimeInformationSkeleton = () => {
 	return (
@@ -45,8 +52,8 @@ const InformationSkeleton = () => {
 	return (
 		<div className="md:w-52 flex flex-col h-fit space-y-3">
 			<div className="p-6 grid grid-cols-3 gap-4 flex-col md:flex rounded-sm w-full bg-slate-200 dark:bg-secondary">
-				{[...new Array(15)].map((_) => (
-					<div>
+				{[...new Array(15)].map((_, index) => (
+					<div key={index}>
 						<Skeleton variant="text" height={20} width="30%" />
 						<Skeleton variant="text" height={20} width="10%" />
 					</div>
@@ -76,19 +83,80 @@ const Information = ({
 export default function AnimeInformation() {
 	const { query } = useRouter();
 	const id = Number(query.id);
+	const queryClient = useQueryClient();
+	const { data: me } = useLoggedUser();
 	const { data } = useAnimeById(id);
 
 	const [extendDescription, setExtendDescription] = useState(false);
 	const [tabValue, setTabValue] = useState("overview");
 
+	const { mutate: addFavorite } = useMutation(addMediaFavorite);
+	const { mutate: addPreference } = useMutation(addMediaPreference);
+
+	const buttonClass =
+		"text-sm shadow-none capitalize p-2 px-4 w-full hover:bg-white hover:text-black";
+
+	const media = me?.animePreferences.find((f) => f.animeId === data?.id);
+
+	const [episode, setEpisode] = useState<number>(0);
+
 	const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
 		setTabValue(newValue);
+	};
+
+	const handleEpisodeChange = (e: any) => {
+		setEpisode(+e.target.value);
+	};
+
+	const handleAddMediaFavorite = () => {
+		if (data) {
+			addFavorite(
+				{ animeId: data.id },
+				{
+					onSuccess: (_) => {
+						queryClient.invalidateQueries(["logged-user"]);
+						console.log("test");
+					},
+					onError: (err) => console.log(err),
+				}
+			);
+		}
+	};
+
+	const handleAddMediaPreference = (status: PreferenceStatus) => {
+		if (data) {
+			const media = me?.animePreferences.find(
+				(f) => f.animeId === data.id
+			);
+
+			addPreference(
+				{
+					animeId: data.id,
+					id: media ? media.id : 0,
+					status,
+					episode,
+				},
+				{
+					onSuccess: (_) =>
+						queryClient.invalidateQueries(["logged-user"]),
+					onError: (err) => console.log(err),
+				}
+			);
+		}
 	};
 
 	const duration = moment.duration(
 		Number(data?.nextAiringEpisode?.timeUntilAiring) * 1000,
 		"milliseconds"
 	);
+
+	useEffect(() => {
+		if (media) setEpisode(media.episode);
+	}, [media]);
+
+	useEffect(() => {
+		if (media) handleAddMediaPreference(media?.status);
+	}, [episode]);
 
 	return (
 		<>
@@ -119,8 +187,143 @@ export default function AnimeInformation() {
 								</div>
 								<div className="p-8 col-span-3">
 									<div className="lg:pt-24 mb-8">
-										<h2 className="text-white text-center lg:text-left font-bold text-xl md:text-3xl">
+										<h2 className="text-white flex justify-between items-center text-center lg:text-left font-bold text-xl md:text-3xl">
 											{data.title.romaji}
+											{me && (
+												<span className="flex gap-2">
+													<select
+														className="px-2 text-sm"
+														value={episode}
+														onChange={
+															handleEpisodeChange
+														}
+													>
+														{new Array(
+															data.nextAiringEpisode
+																? data
+																		.nextAiringEpisode
+																		.episode -
+																  1 +
+																  1
+																: data.episodes +
+																  1
+														)
+															.fill(0)
+															.map((_, index) => (
+																<option
+																	key={index}
+																	value={
+																		index
+																	}
+																>
+																	{index}
+																</option>
+															))}
+													</select>
+													<IconButton
+														className="!shadow-none !text-white"
+														onClick={
+															handleAddMediaFavorite
+														}
+													>
+														{me?.favorites.find(
+															(f) =>
+																f.animeId ===
+																data.id
+														) ? (
+															<StarIcon className="!text-yellow-400" />
+														) : (
+															<StarOutlineIcon />
+														)}
+													</IconButton>
+													<IconButton className="group relative !shadow-none !bg-red-500 !text-white transition-all hover:!rounded-none">
+														<AddIcon />
+														<div className="absolute z-[2] w-[200px] h-0 transition-all delay-100 top-full right-0 bg-red-500 overflow-hidden group-hover:h-[200px]">
+															<div
+																className={`${buttonClass} ${
+																	!media ||
+																	(media &&
+																		media.status ===
+																			PreferenceStatus.NOTHING)
+																		? "bg-white text-black"
+																		: null
+																}`}
+																onClick={() =>
+																	handleAddMediaPreference(
+																		PreferenceStatus.NOTHING
+																	)
+																}
+															>
+																Nothing for now
+															</div>
+															<div
+																className={`${buttonClass} ${
+																	media &&
+																	media.status ===
+																		PreferenceStatus.PLAN_TO_WATCH
+																		? "bg-white text-black"
+																		: null
+																}`}
+																onClick={() =>
+																	handleAddMediaPreference(
+																		PreferenceStatus.PLAN_TO_WATCH
+																	)
+																}
+															>
+																Plan to watch
+															</div>
+															<div
+																className={`${buttonClass} ${
+																	media &&
+																	media.status ===
+																		PreferenceStatus.WATCHING
+																		? "bg-white text-black"
+																		: null
+																}`}
+																onClick={() =>
+																	handleAddMediaPreference(
+																		PreferenceStatus.WATCHING
+																	)
+																}
+															>
+																Watching
+															</div>
+															<div
+																className={`${buttonClass} ${
+																	media &&
+																	media.status ===
+																		PreferenceStatus.DROPPED
+																		? "bg-white text-black"
+																		: null
+																}`}
+																onClick={() =>
+																	handleAddMediaPreference(
+																		PreferenceStatus.DROPPED
+																	)
+																}
+															>
+																Dropped
+															</div>
+															<div
+																className={`${buttonClass} ${
+																	media &&
+																	media.status ===
+																		PreferenceStatus.FINISHED
+																		? "bg-white text-black"
+																		: null
+																}`}
+																onClick={() =>
+																	handleAddMediaPreference(
+																		PreferenceStatus.FINISHED
+																	)
+																}
+															>
+																Finished
+															</div>
+														</div>
+													</IconButton>
+												</span>
+											)}
 										</h2>
 									</div>
 									<div className="w-full relative pb-10">
@@ -134,20 +337,25 @@ export default function AnimeInformation() {
 													: "h-[135px]"
 											} text-ellipsis overflow-hidden py-2`}
 										>
-											{parse(data.description)}
+											{parse(
+												data.description ||
+													"No description"
+											)}
 										</p>
-										<span className="absolute bottom-0 right-0 bg-white dark:bg-primary">
-											<span
-												className="text-xs cursor-pointer bg-gradient-blue bg-clip-text text-transparent"
-												onClick={() =>
-													setExtendDescription(
-														!extendDescription
-													)
-												}
-											>
-												Show more
+										{data.description && (
+											<span className="absolute bottom-0 right-0 bg-white dark:bg-primary">
+												<span
+													className="text-xs cursor-pointer bg-gradient-blue bg-clip-text text-transparent"
+													onClick={() =>
+														setExtendDescription(
+															!extendDescription
+														)
+													}
+												>
+													Show more
+												</span>
 											</span>
-										</span>
+										)}
 									</div>
 								</div>
 							</div>
@@ -264,8 +472,8 @@ export default function AnimeInformation() {
 										)}
 										<Information title="Studios">
 											{data.studios.edges.map(
-												(studio) => (
-													<span>
+												(studio, index) => (
+													<span key={index}>
 														{studio.node.name}
 													</span>
 												)
@@ -280,8 +488,9 @@ export default function AnimeInformation() {
 											</span>
 										</Information>
 										<Information title="Genres">
-											{data.genres.map((genre) => (
+											{data.genres.map((genre, index) => (
 												<Link
+													key={index}
 													href={`/genre/${genre.toLowerCase()}`}
 												>
 													<a>{genre}</a>
@@ -289,8 +498,9 @@ export default function AnimeInformation() {
 											))}
 										</Information>
 										<Information title="Tags">
-											{data.tags.map((tag) => (
+											{data.tags.map((tag, index) => (
 												<Link
+													key={index}
 													href={`/tag/${tag.name.toLowerCase()}`}
 												>
 													<a>{tag.name}</a>
@@ -319,8 +529,9 @@ export default function AnimeInformation() {
 										<Information title="External Links">
 											<span className="gap-4 flex flex-col mt-2">
 												{data.externalLinks.map(
-													(link) => (
+													(link, index) => (
 														<a
+															key={index}
 															href={link.url}
 															className="capitalize flex items-center"
 															target="_blank"

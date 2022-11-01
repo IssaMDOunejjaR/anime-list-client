@@ -8,12 +8,20 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Card from "../Card/Card";
 import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
-import { Dispatch, Fragment, ReactNode, SetStateAction, useRef } from "react";
+import {
+	Dispatch,
+	Fragment,
+	ReactNode,
+	SetStateAction,
+	useRef,
+	useState,
+} from "react";
 import Loader from "../Loader/Loader";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useLoggedUser } from "../../hooks/useLoggedUser";
 import CardPreference from "../CardPreference/CardPreference";
+import Settings from "../Settings/Settings";
 
 const List = ({ children }: { children: ReactNode }) => {
 	const listRef = useRef<HTMLDivElement>(null);
@@ -62,19 +70,28 @@ export default function Profile({
 	const { data: me } = useLoggedUser();
 	const { data: popularAnime } = useAnimesByPopularity();
 
+	const [openSettings, setOpenSettings] = useState(false);
+
 	return (
-		<div className="p-8">
-			{me && (
-				<>
-					<div className="flex gap-4 items-center">
-						<Avatar className="!w-16 !h-16">
-							{me?.username[0]}
-						</Avatar>
-						<h2 className="font-semibold text-lg md:text-2xl">
-							{me?.username}
-						</h2>
-					</div>
-					<div className="py-8">
+		<>
+			<div className="p-8">
+				{me && (
+					<>
+						<div className="flex gap-4 items-center">
+							<button onClick={() => setOpenSettings(true)}>
+								<Avatar
+									className="!w-16 !h-16"
+									src={me?.avatar}
+									alt={me?.username}
+								>
+									{me?.username[0]}
+								</Avatar>
+							</button>
+							<h2 className="font-semibold text-lg md:text-2xl">
+								{me?.username}
+							</h2>
+						</div>
+						{/* <div className="py-8">
 						<Accordion
 							className="text-white dark:!bg-primary"
 							defaultExpanded
@@ -242,9 +259,11 @@ export default function Profile({
 								</List>
 							</AccordionDetails>
 						</Accordion>
-					</div>
-				</>
-			)}
-		</div>
+					</div> */}
+					</>
+				)}
+			</div>
+			<Settings open={openSettings} setOpen={setOpenSettings} />
+		</>
 	);
 }

@@ -93,6 +93,8 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 								<Avatar
 									className="cursor-pointer"
 									onClick={() => setOpenProfile(!openProfile)}
+									src={me?.avatar}
+									alt={me?.username}
 								>
 									{me?.username[0]}
 								</Avatar>

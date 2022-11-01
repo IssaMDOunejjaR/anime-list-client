@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useAnimePopularBySeason } from "../../hooks/useAnimePopularBySeason";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useEffect, useRef, useState } from "react";
-import { Skeleton } from "@mui/material";
+import { IconButton, Skeleton } from "@mui/material";
 import { motion } from "framer-motion";
 
 function getCurrentSeason() {

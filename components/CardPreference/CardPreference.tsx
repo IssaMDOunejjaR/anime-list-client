@@ -31,6 +31,7 @@ export default function CardPreference({ data, setOpenProfile }: Props) {
 					<div className="flex flex-col gap-1 items-center">
 						<h4 className="text-xs">Status:</h4>
 						<select
+							className="p-1"
 							value={status}
 							onChange={(e: any) => setStatus(e.target.value)}
 						>
@@ -42,7 +43,7 @@ export default function CardPreference({ data, setOpenProfile }: Props) {
 					</div>
 					<div className="flex flex-col gap-1 items-center">
 						<h4 className="text-xs">Episode:</h4>
-						<select>
+						<select className="p-1">
 							{new Array(
 								data.nextAiringEpisode
 									? data.nextAiringEpisode.episode - 1
@@ -50,7 +51,7 @@ export default function CardPreference({ data, setOpenProfile }: Props) {
 							)
 								.fill(0)
 								.map((_, index) => (
-									<option value={index + 1}>
+									<option key={index} value={index + 1}>
 										{index + 1}
 									</option>
 								))}

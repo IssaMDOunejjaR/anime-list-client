@@ -3,6 +3,47 @@ import { endpoint } from "../constants";
 import { SearchOptions } from "../pages/search";
 import { Anime, Page } from "../types";
 
+export const getCharacters = async ({
+	pageParam = 1,
+}): Promise<{
+	pageInfo: {
+		currentPage: number;
+		hasNextPage: boolean;
+	};
+	characters: {
+		name: {
+			full: string;
+		};
+		image: {
+			large: string;
+		};
+	}[];
+}> => {
+	const { Page } = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
+					characters {
+						name {
+							full
+						}
+						image {
+							large
+						}
+					}
+				}
+			}
+		`
+	);
+
+	return Page;
+};
+
 export const getGenres = async (): Promise<string[]> => {
 	const { GenreCollection } = await request(
 		endpoint,
@@ -15,6 +56,7 @@ export const getGenres = async (): Promise<string[]> => {
 
 	return GenreCollection;
 };
+
 export const getTags = async (): Promise<
 	{ name: string; isAdult: boolean }[]
 > => {
