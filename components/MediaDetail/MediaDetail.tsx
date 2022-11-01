@@ -55,8 +55,8 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.relations.nodes
 								.filter((relation) => relation.type !== "MANGA")
-								.map((relation) => (
-									<Relation id={relation.id} />
+								.map((relation, index) => (
+									<Relation key={index} id={relation.id} />
 								))}
 						</div>
 					</Section>
@@ -68,8 +68,8 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.relations.nodes
 								.filter((relation) => relation.type !== "ANIME")
-								.map((relation) => (
-									<Relation id={relation.id} />
+								.map((relation, index) => (
+									<Relation key={index} id={relation.id} />
 								))}
 						</div>
 					</Section>
@@ -79,8 +79,8 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.characters.nodes
 								.slice(0, 6)
-								.map((character) => (
-									<Character data={character} />
+								.map((character, index) => (
+									<Character key={index} data={character} />
 								))}
 						</div>
 					</Section>
@@ -88,8 +88,8 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 				{data.staff.nodes.length > 0 && (
 					<Section title="Staff" setTabValue={setTabValue}>
 						<div className="flex flex-wrap gap-4 py-4">
-							{data.staff.nodes.slice(0, 6).map((s) => (
-								<Character data={s} />
+							{data.staff.nodes.slice(0, 6).map((s, index) => (
+								<Character key={index} data={s} />
 							))}
 						</div>
 					</Section>
@@ -107,9 +107,14 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 				{data.recommendations.nodes.length > 0 && (
 					<Section title="Recommendations" setTabValue={setTabValue}>
 						<div className="flex flex-wrap gap-4 py-4">
-							{data.recommendations.nodes.slice(0, 5).map((s) => (
-								<Card data={s.mediaRecommendation as Anime} />
-							))}
+							{data.recommendations.nodes
+								.slice(0, 5)
+								.map((s, index) => (
+									<Card
+										key={index}
+										data={s.mediaRecommendation as Anime}
+									/>
+								))}
 						</div>
 					</Section>
 				)}

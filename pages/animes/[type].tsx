@@ -2,7 +2,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
 import Card, { CardSkeleton } from "../../components/Card/Card";
-import Loader from "../../components/Loader/Loader";
 import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../../hooks/useAnimeByTrending";
 import { useAnimesLatestEpisode } from "../../hooks/useAnimesLatestEpisode";
@@ -17,22 +16,27 @@ interface Props {
 const LatestEpisodes = ({ scrollY }: Props) => {
 	const { data: latestEpisodes } = useAnimesLatestEpisode();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
 	return (
 		<>
 			{latestEpisodes
-				? latestEpisodes.map(
-						({
-							episode,
-							media,
-						}: {
-							episode: number;
-							media: Anime;
-						}) => <Card key={media.id + episode} data={media} />
-				  )
+				? latestEpisodes
+						.filter(
+							({ media }: { media: Anime }) =>
+								media.isAdult === false
+						)
+						.map(
+							({
+								episode,
+								media,
+							}: {
+								episode: number;
+								media: Anime;
+							}) => <Card key={media.id + episode} data={media} />
+						)
 				: placeholder}
 		</>
 	);
@@ -45,7 +49,7 @@ const PopularAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByPopularity();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -78,7 +82,7 @@ const TrendingAnime = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useAnimesByTrending();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -111,7 +115,7 @@ const TrendingMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByTrending();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -143,7 +147,7 @@ const PopularMovies = ({ scrollY }: Props) => {
 		isFetchingNextPage,
 	} = useMoviesByPopularity();
 
-	const placeholder = [...new Array(20)].map((_, index) => (
+	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
 	));
 
@@ -202,7 +206,7 @@ export default function AnimeList() {
 				<h2 className="text-lg md:text-3xl capitalize font-extrabold w-2/4 border-b-[1px] pb-3">
 					{title?.replace("-", " ")}
 				</h2>
-				<div className="flex flex-wrap py-4 gap-4">
+				<div className="flex flex-wrap py-4 gap-4 justify-between">
 					<Component scrollY={scrollY} />
 				</div>
 			</section>

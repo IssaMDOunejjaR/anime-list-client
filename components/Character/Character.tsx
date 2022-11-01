@@ -30,8 +30,8 @@ export default function Character({ data }: CharacterProps) {
 				</h4>
 				<p className="text-xs text-primary">{data.name.native}</p>
 				<div className="text-xs text-primary mt-auto flex gap-3 flex-wrap">
-					{data.primaryOccupations?.map((occup) => (
-						<span>{occup}</span>
+					{data.primaryOccupations?.map((occup, index) => (
+						<span key={index}>{occup}</span>
 					))}
 				</div>
 			</motion.div>

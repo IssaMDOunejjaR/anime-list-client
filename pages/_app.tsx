@@ -5,13 +5,21 @@ import Header from "../components/Header/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Profile from "../components/Profile/Profile";
 
 function MyApp({ Component, pageProps }: AppProps) {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+			},
+		},
+	});
 
 	const [openProfile, setOpenProfile] = useState(false);
+
+	const divRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (openProfile) {
@@ -22,6 +30,24 @@ function MyApp({ Component, pageProps }: AppProps) {
 			document.body.style.overflow = "auto";
 		}
 	}, [openProfile]);
+
+	useEffect(() => {
+		if (divRef && divRef.current) {
+			divRef.current.style.width = `${divRef.current.parentElement?.clientWidth}px`;
+		}
+
+		const handleResize = () => {
+			if (divRef && divRef.current) {
+				divRef.current.style.width = `${divRef.current.parentElement?.clientWidth}px`;
+			}
+		};
+
+		window.addEventListener("resize", handleResize);
+
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, [divRef]);
 
 	return (
 		<>
@@ -42,7 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					<div className="flex">
 						<div
 							className={`relative transition-all duration-500 ${
-								openProfile ? "w-2/4" : "w-full"
+								openProfile ? "w-0 lg:w-2/4" : "w-full"
 							}`}
 						>
 							<div
@@ -54,9 +80,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 								onClick={() => setOpenProfile(false)}
 							></div>
 							<div
-								className={`overflow-hidden transition-all duration-500 origin-top ${
+								ref={divRef}
+								className={`overflow-hidden transition-transform duration-500 origin-top ${
 									openProfile
-										? "-translate-x-[100px] translate-y-[100px] scale-[.9]"
+										? "-translate-x-[60%] translate-y-[5%] scale-[.9]"
 										: null
 								}`}
 							>
@@ -65,10 +92,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 						</div>
 						<div
 							className={`transition-all scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-gray-600 duration-500 sticky top-[65px] right-0 h-[calc(100vh-65px)] overflow-y-auto ${
-								openProfile ? "w-2/4" : "w-0"
+								openProfile ? "w-full lg:w-2/4" : "w-0"
 							} bg-slate-200 dark:bg-secondary`}
 						>
-							<Profile />
+							<Profile setOpenProfile={setOpenProfile} />
 						</div>
 					</div>
 					<ReactQueryDevtools initialIsOpen={false} />

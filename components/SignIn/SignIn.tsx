@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { login } from "../../fetchers/auth";
@@ -13,7 +13,9 @@ export default function SignIn({ close }: Props) {
 	const [password, setPassword] = useState("");
 	const { mutate } = useMutation(login);
 
-	const router = useRouter();
+	const queryClient = useQueryClient();
+
+	const { reload } = useRouter();
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
@@ -23,9 +25,11 @@ export default function SignIn({ close }: Props) {
 		mutate(
 			{ username, password },
 			{
-				onSuccess: () => {
+				onSuccess: ({ access_token }: { access_token: string }) => {
+					localStorage.setItem("token", access_token);
+					// queryClient.invalidateQueries(["logged-user"]);
+					reload();
 					close();
-					router.reload();
 				},
 				onError: (err) => {
 					console.log(err);

@@ -90,6 +90,7 @@ export default function Card({ data }: Props) {
 					src={data.coverImage.extraLarge}
 					alt={data.title.romaji}
 					className="shadow-md w-[170px] h-[260px]"
+					draggable={false}
 				/>
 			</div>
 			<div className="py-2 flex flex-col">

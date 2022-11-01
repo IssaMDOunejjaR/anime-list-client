@@ -1,3 +1,4 @@
+import { useTheme } from "next-themes";
 import Select, { StylesConfig } from "react-select";
 
 interface Props {
@@ -13,23 +14,25 @@ export default function SelectBox({
 	options,
 	change,
 }: Props) {
+	const { theme } = useTheme();
 	const styles: StylesConfig = {
 		control: (css) => ({
 			...css,
-			backgroundColor: "#1E2530",
+			backgroundColor: theme === "dark" ? "#1E2530" : "rgb(226 232 240)",
+			boxShadow: theme === "dark" ? "0 1px 2px #222" : "0 1px 2px #aaa",
 			border: "none",
 			padding: 12,
 		}),
 		option: (css) => ({
 			...css,
-			backgroundColor: "#1E2530",
+			backgroundColor: theme === "dark" ? "#1E2530" : "rgb(226 232 240)",
 			":hover": {
-				backgroundColor: "#272C38",
+				backgroundColor: theme === "dark" ? "#272C38" : "white",
 			},
 		}),
 		menu: (css) => ({
 			...css,
-			backgroundColor: "#1E2530",
+			backgroundColor: theme === "dark" ? "#1E2530" : "rgb(226 232 240)",
 		}),
 		singleValue: (css) => ({
 			...css,
@@ -47,7 +50,8 @@ export default function SelectBox({
 			styles={styles}
 			placeholder={placeholder}
 			isSearchable
-			onChange={(e: any) => change(e.value)}
+			isClearable
+			onChange={(e: any) => change(e ? e.value : null)}
 		/>
 	);
 }

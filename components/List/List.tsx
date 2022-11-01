@@ -13,6 +13,10 @@ interface Props {
 
 export default function List({ children, title, url }: Props) {
 	const [scrollPos, setScrollPos] = useState(0);
+	const [scrollState, setScrollState] = useState<{
+		start: number;
+		end: number;
+	}>({ start: 0, end: 0 });
 
 	const listRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +32,14 @@ export default function List({ children, title, url }: Props) {
 		}
 	};
 
+	// console.log(scrollState);
+
+	useEffect(() => {
+		if (listRef && listRef.current) {
+			listRef.current.scrollLeft = scrollPos;
+		}
+	}, [listRef, scrollPos]);
+
 	useEffect(() => {
 		const handleScroll = () => {
 			if (listRef && listRef.current) {
@@ -37,16 +49,58 @@ export default function List({ children, title, url }: Props) {
 			}
 		};
 
+		const handleMouseDown = (e: MouseEvent) => {
+			setScrollState({ ...scrollState, start: e.clientX });
+			// console.log(scrollState);
+		};
+
+		const handleMouseMove = (e: MouseEvent) => {
+			if (scrollState.start !== 0) {
+				if (e.clientX < scrollState.start) {
+					// console.log(e.clientX);
+					// if (listRef && listRef.current) {
+					// 	listRef.current.scrollLeft +=
+					// 		scrollState.start - e.clientX;
+					// }
+					// setScrollPos(scrollPos + (scrollState.start - e.clientX));
+				} else if (e.clientX > scrollState.start) {
+					// if (listRef && listRef.current) {
+					// 	listRef.current.scrollLeft -=
+					// 		e.clientX - scrollState.start;
+					// }
+					// setScrollPos(scrollPos + (e.clientX - scrollState.start));
+				}
+			}
+		};
+
+		const handleMouseUp = (e: MouseEvent) => {
+			setScrollState({ ...scrollState, start: 0 });
+			setScrollPos(0);
+			// console.log(scrollState);
+		};
+
 		if (listRef && listRef.current) {
 			listRef.current.addEventListener("scroll", handleScroll);
+			listRef.current.addEventListener("mousedown", handleMouseDown);
+			listRef.current.addEventListener("mousemove", handleMouseMove);
+			listRef.current.addEventListener("mouseup", handleMouseUp);
 		}
 
 		return () => {
 			if (listRef && listRef.current) {
 				listRef.current.removeEventListener("scroll", handleScroll);
+				listRef.current.removeEventListener(
+					"mousedown",
+					handleMouseDown
+				);
+				listRef.current.removeEventListener(
+					"mousemove",
+					handleMouseMove
+				);
+				listRef.current.removeEventListener("mouseup", handleMouseUp);
 			}
 		};
-	}, [listRef]);
+	}, [listRef, scrollState]);
 
 	return (
 		<div className="pr-3">
@@ -56,18 +110,18 @@ export default function List({ children, title, url }: Props) {
 					<IconButton
 						onClick={handleScrollRight}
 						disabled={listRef?.current?.scrollLeft === 0}
-						className="disabled:!opacity-50"
+						className="!shadow-none disabled:!opacity-50"
 					>
-						<ChevronLeftIcon className="!text-white" />
+						<ChevronLeftIcon className="dark:!text-white" />
 					</IconButton>
 					<IconButton
 						onClick={handleScrollLeft}
 						disabled={
 							scrollPos >= Number(listRef?.current?.scrollWidth)
 						}
-						className="disabled:!opacity-50"
+						className="!shadow-none disabled:!opacity-50"
 					>
-						<ChevronRightIcon className="!text-white" />
+						<ChevronRightIcon className="dark:!text-white" />
 					</IconButton>
 				</span>
 			</h2>
@@ -78,7 +132,7 @@ export default function List({ children, title, url }: Props) {
 				{children}
 			</div>
 			<div className="relative flex justify-center mt-4">
-				<span className="absolute h-[1px] w-full bg-light-gray top-2/4 -translate-y-2/4 -z-10"></span>
+				<span className="absolute h-[1px] w-full bg-[#ddd] dark:bg-light-gray top-2/4 -translate-y-2/4 -z-10"></span>
 				<div className="bg-white dark:bg-primary px-4 min-w-[100px] w-1/6">
 					<GradientBorder>
 						<Link href={url}>

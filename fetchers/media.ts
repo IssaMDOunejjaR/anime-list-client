@@ -3,6 +3,51 @@ import { endpoint } from "../constants";
 import { SearchOptions } from "../pages/search";
 import { Anime, Page } from "../types";
 
+export const getCharacters = async ({
+	pageParam = 1,
+	searchValue,
+}: {
+	pageParam: number;
+	searchValue: string;
+}): Promise<{
+	pageInfo: {
+		currentPage: number;
+		hasNextPage: boolean;
+	};
+	characters: {
+		name: {
+			full: string;
+		};
+		image: {
+			large: string;
+		};
+	}[];
+}> => {
+	const { Page } = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
+					characters(search: ${searchValue ? `"${searchValue}"` : null}) {
+						name {
+							full
+						}
+						image {
+							large
+						}
+					}
+				}
+			}
+		`
+	);
+
+	return Page;
+};
+
 export const getGenres = async (): Promise<string[]> => {
 	const { GenreCollection } = await request(
 		endpoint,
@@ -15,6 +60,7 @@ export const getGenres = async (): Promise<string[]> => {
 
 	return GenreCollection;
 };
+
 export const getTags = async (): Promise<
 	{ name: string; isAdult: boolean }[]
 > => {
@@ -263,6 +309,55 @@ export const getMoviesByPopularity = async ({
 						hasNextPage
 					}
 					media(sort: POPULARITY_DESC, type: ANIME, format: MOVIE, isAdult: false) {
+                        id
+						title {
+							romaji
+						}
+						coverImage {
+							extraLarge
+						}
+						format
+						status
+						description
+						episodes
+						nextAiringEpisode {
+							episode
+						}
+						genres
+						averageScore
+                        studios {
+                            edges {
+                                node {
+                                    name
+                                }
+                            }
+                        }
+					}
+				}
+			}
+		`
+	);
+
+	return Page;
+};
+
+export const getMediaByTag = async ({
+	pageParam = 1,
+	tag,
+}: {
+	pageParam: number;
+	tag: string;
+}): Promise<Page> => {
+	const { Page } = await request(
+		endpoint,
+		gql`
+			query {
+				Page(page: ${pageParam}) {
+					pageInfo {
+						currentPage
+						hasNextPage
+					}
+					media(tag: "${tag}", sort: POPULARITY_DESC, isAdult: false) {
                         id
 						title {
 							romaji

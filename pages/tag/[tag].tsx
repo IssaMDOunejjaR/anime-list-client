@@ -2,13 +2,13 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import Card, { CardSkeleton } from "../../components/Card/Card";
-import { useMediaByGenre } from "../../hooks/useMediaByGenre";
+import { useMediaByTag } from "../../hooks/useMediaByTag";
 
-export default function Genre() {
+export default function Tag() {
 	const { query } = useRouter();
-	const genre = query.genre as string;
+	const tag = query.tag as string;
 	const [scrollY, setScrollY] = useState(0);
-	const { data, fetchNextPage, isFetchingNextPage } = useMediaByGenre(genre);
+	const { data, fetchNextPage, isFetchingNextPage } = useMediaByTag(tag);
 
 	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
@@ -35,11 +35,11 @@ export default function Genre() {
 	return (
 		<>
 			<Head>
-				<title>{genre}</title>
+				<title>{tag}</title>
 			</Head>
 			<section className="p-5 min-h-screen">
 				<h2 className="text-lg md:text-3xl capitalize font-extrabold w-2/4 border-b-[1px] pb-3">
-					{genre}
+					{tag}
 				</h2>
 				<div className="flex flex-wrap py-4 gap-4 justify-between">
 					{data

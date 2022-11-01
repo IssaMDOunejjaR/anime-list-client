@@ -5,17 +5,17 @@ import { Dispatch, SetStateAction, useState } from "react";
 import SignIn from "../SignIn/SignIn";
 import SignUp from "../SignUp/SignUp";
 import SearchContainer from "../Search/Search";
-import { Avatar, FormControlLabel, IconButton, Switch } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Navbar from "../Navbar/Navbar";
+import { Avatar, IconButton } from "@mui/material";
 import Link from "next/link";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import LoginIcon from "@mui/icons-material/Login";
 import { useLoggedUser } from "../../hooks/useLoggedUser";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Cookie from "js-cookie";
-import { useRouter } from "next/router";
 import TuneIcon from "@mui/icons-material/Tune";
+import DarkModeSwitch from "../DarkModeSwitch/DarkModeSwitch";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 interface Props {
 	openProfile: boolean;
@@ -24,9 +24,9 @@ interface Props {
 
 export default function Header({ openProfile, setOpenProfile }: Props) {
 	const { theme, setTheme, systemTheme } = useTheme();
-	const router = useRouter();
 
-	const [openNavbar, setOpenNavbar] = useState(false);
+	const queryClient = useQueryClient();
+
 	const [openSignIn, setOpenSignIn] = useState(false);
 	const [openSignUp, setOpenSignUp] = useState(false);
 
@@ -34,18 +34,23 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 
 	const currentTheme = theme === "system" ? systemTheme : theme;
 
+	const { reload } = useRouter();
+
 	const handleCloseSignIn = () => setOpenSignIn(false);
 	const handleCloseSignUp = () => setOpenSignUp(false);
 
 	const handleLogout = () => {
-		Cookie.remove("token");
-		router.reload();
+		if (typeof window !== "undefined") {
+			localStorage.removeItem("token");
+			// queryClient.resetQueries(["logged-user"]);
+			reload();
+		}
 	};
 
 	return (
 		<>
-			<header className="sticky top-0 z-[99999] bg-white dark:bg-primary">
-				<div className="flex justify-between items-center border-b-[1px] border-light-gray py-3 px-5 pr-8">
+			<header className="sticky top-0 z-50 bg-white dark:bg-primary">
+				<div className="flex justify-between items-center border-b-[1px] dark:border-light-gray py-3 px-5 pr-8">
 					<div className="flex items-center">
 						<Link href="/">
 							<a>
@@ -63,39 +68,33 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					<div className="w-1/3 relative hidden items-center gap-2 md:flex">
 						<SearchContainer />
 						<Link href="/search">
-							<a className="bg-secondary p-[6.6px] rounded-sm">
+							<a className="bg-slate-200 dark:bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>
 						</Link>
 					</div>
 					<div className="flex space-x-4 items-center">
-						<FormControlLabel
-							className="!hidden md:!block"
-							value="end"
-							control={
-								<Switch
-									size="small"
-									checked={currentTheme === "dark"}
-									onChange={() =>
-										setTheme(
-											currentTheme === "dark"
-												? "light"
-												: "dark"
-										)
-									}
-								/>
+						<DarkModeSwitch
+							value={currentTheme === "dark"}
+							change={() =>
+								setTheme(
+									currentTheme === "dark" ? "light" : "dark"
+								)
 							}
-							label="Dark"
-							labelPlacement="end"
 						/>
 						{me ? (
 							<div className="flex gap-4">
-								<IconButton onClick={handleLogout}>
+								<IconButton
+									onClick={handleLogout}
+									className="!shadow-none"
+								>
 									<LogoutIcon className="!w-6 !h-6 dark:!text-white" />
 								</IconButton>
 								<Avatar
 									className="cursor-pointer"
 									onClick={() => setOpenProfile(!openProfile)}
+									src={me?.avatar}
+									alt={me?.username}
 								>
 									{me?.username[0]}
 								</Avatar>
@@ -130,7 +129,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					<div className="relative items-center gap-2 flex">
 						<SearchContainer />
 						<Link href="/search">
-							<a className="bg-secondary p-[6.6px] rounded-sm">
+							<a className="bg-slate-200 dark:bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>
 						</Link>

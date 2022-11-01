@@ -25,7 +25,7 @@ export default function SignUp({ close }: Props) {
 				onSuccess: () => {
 					close();
 				},
-				onError: () => console.log("error"),
+				onError: (err) => console.log(err),
 			}
 		);
 	};
