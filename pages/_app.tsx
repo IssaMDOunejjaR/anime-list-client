@@ -81,9 +81,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 							></div>
 							<div
 								ref={divRef}
-								className={`overflow-hidden transition-all duration-500 origin-top ${
+								className={`overflow-hidden transition-transform duration-500 origin-top ${
 									openProfile
-										? "-translate-x-[700px] translate-y-[100px] scale-[.9]"
+										? "-translate-x-[60%] translate-y-[5%] scale-[.9]"
 										: null
 								}`}
 							>

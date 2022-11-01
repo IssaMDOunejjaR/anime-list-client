@@ -5,6 +5,10 @@ import { Anime, Page } from "../types";
 
 export const getCharacters = async ({
 	pageParam = 1,
+	searchValue,
+}: {
+	pageParam: number;
+	searchValue: string;
 }): Promise<{
 	pageInfo: {
 		currentPage: number;
@@ -28,7 +32,7 @@ export const getCharacters = async ({
 						currentPage
 						hasNextPage
 					}
-					characters {
+					characters(search: ${searchValue ? `"${searchValue}"` : null}) {
 						name {
 							full
 						}

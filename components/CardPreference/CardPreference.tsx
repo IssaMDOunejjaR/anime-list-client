@@ -1,16 +1,75 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Anime } from "../../types";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { addMediaPreference } from "../../fetchers/user";
+import { useAnimeById } from "../../hooks/useAnimeById";
+import { useLoggedUser } from "../../hooks/useLoggedUser";
+import { PreferenceStatus } from "../../types/user";
 
 interface Props {
-	data: Anime;
+	animeId: number;
 	setOpenProfile: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function CardPreference({ data, setOpenProfile }: Props) {
-	const [status, setStatus] = useState("");
-	const [episode, setEpisode] = useState(1);
+export default function CardPreference({ animeId, setOpenProfile }: Props) {
+	const { data: me } = useLoggedUser();
+	const { data } = useAnimeById(animeId);
+	const [status, setStatus] = useState<PreferenceStatus>(
+		PreferenceStatus.NOTHING
+	);
+	const [episode, setEpisode] = useState(0);
+
+	const { mutate: addPreference } = useMutation(addMediaPreference);
+
+	const queryClient = useQueryClient();
+
+	const preference = me?.animePreferences.find(
+		(pref) => pref.animeId === animeId
+	);
+
+	const handleAddMediaPreference = () => {
+		if (data) {
+			const media = me?.animePreferences.find(
+				(f) => f.animeId === data.id
+			);
+
+			console.log({ episode, status });
+
+			addPreference(
+				{
+					animeId: data.id,
+					id: media ? media.id : 0,
+					status,
+					episode,
+				},
+				{
+					onSuccess: (_) =>
+						queryClient.invalidateQueries(["logged-user"]),
+					onError: (err) => console.log(err),
+				}
+			);
+		}
+	};
+
+	const handleStatusChange = (e: any) => {
+		setStatus(e.target.value);
+		handleAddMediaPreference();
+	};
+
+	const handleEpisodeChange = (e: any) => {
+		setEpisode(+e.target.value);
+		handleAddMediaPreference();
+	};
+
+	useEffect(() => {
+		if (me && preference) {
+			setStatus(preference.status);
+			setEpisode(preference.episode);
+		}
+	}, [me]);
+
+	if (!data || !me) return null;
 
 	return (
 		<motion.div
@@ -33,7 +92,7 @@ export default function CardPreference({ data, setOpenProfile }: Props) {
 						<select
 							className="p-1"
 							value={status}
-							onChange={(e: any) => setStatus(e.target.value)}
+							onChange={handleStatusChange}
 						>
 							<option value="FINISHED">Finished</option>
 							<option value="WATCHING">Watching</option>
@@ -43,16 +102,20 @@ export default function CardPreference({ data, setOpenProfile }: Props) {
 					</div>
 					<div className="flex flex-col gap-1 items-center">
 						<h4 className="text-xs">Episode:</h4>
-						<select className="p-1">
+						<select
+							className="p-1"
+							value={episode}
+							onChange={handleEpisodeChange}
+						>
 							{new Array(
 								data.nextAiringEpisode
-									? data.nextAiringEpisode.episode - 1
-									: data.episodes
+									? data.nextAiringEpisode.episode
+									: data.episodes + 1
 							)
 								.fill(0)
 								.map((_, index) => (
-									<option key={index} value={index + 1}>
-										{index + 1}
+									<option key={index} value={index}>
+										{index}
 									</option>
 								))}
 						</select>

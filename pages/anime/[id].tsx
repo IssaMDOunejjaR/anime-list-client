@@ -187,7 +187,7 @@ export default function AnimeInformation() {
 								</div>
 								<div className="p-8 col-span-3">
 									<div className="lg:pt-24 mb-8">
-										<h2 className="text-white flex justify-between items-center text-center lg:text-left font-bold text-xl md:text-3xl">
+										<h2 className="text-white flex flex-col lg:flex-row justify-between items-center text-center gap-y-5 lg:text-left font-bold text-xl md:text-3xl">
 											{data.title.romaji}
 											{me && (
 												<span className="flex gap-2">

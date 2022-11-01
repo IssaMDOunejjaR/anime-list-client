@@ -32,7 +32,7 @@ export default function List({ children, title, url }: Props) {
 		}
 	};
 
-	console.log(scrollState);
+	// console.log(scrollState);
 
 	useEffect(() => {
 		if (listRef && listRef.current) {
