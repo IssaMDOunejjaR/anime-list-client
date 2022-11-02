@@ -8,8 +8,8 @@ export default function Characters({ data }: { data: Anime }) {
 				Characters
 			</h3>
 			<div className="flex flex-wrap gap-4">
-				{data.characters.nodes.map((character) => (
-					<Character data={character} />
+				{data.characters.nodes.map((character, index) => (
+					<Character key={index} data={character} />
 				))}
 			</div>
 		</div>

@@ -6,8 +6,8 @@ export default function Staff({ data }: { data: Anime }) {
 		<div>
 			<h3 className="text-lg md:text-2xl font-semibold mb-4">Staff</h3>
 			<div className="flex flex-wrap gap-4">
-				{data.staff.nodes.map((s) => (
-					<Character data={s} />
+				{data.staff.nodes.map((s, index) => (
+					<Character key={index} data={s} />
 				))}
 			</div>
 		</div>
