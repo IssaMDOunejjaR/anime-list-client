@@ -648,6 +648,7 @@ export const getMediaById = async (id: number): Promise<Anime> => {
 						nodes {
 							id
 							type
+							format
 							title {
 								romaji
 							}

@@ -267,7 +267,7 @@ export default function AnimeInformation() {
 													</IconButton>
 													<IconButton className="group relative !shadow-none !bg-red-500 !text-white transition-all hover:!rounded-none">
 														<AddIcon />
-														<div className="absolute z-[2] w-[200px] h-0 transition-all delay-100 top-full right-0 bg-red-500 overflow-hidden group-hover:h-[200px]">
+														<div className="absolute z-[2] w-[200px] h-0 transition-all delay-100 top-full right-0 bg-red-500 overflow-hidden group-hover:h-[180px]">
 															<div
 																className={`${buttonClass} ${
 																	!media ||
