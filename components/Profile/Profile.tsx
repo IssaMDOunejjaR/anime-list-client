@@ -58,7 +58,7 @@ export default function Profile({
 							</h2>
 						</div>
 						<div className="py-8">
-							<Accordion className="text-white dark:!bg-primary">
+							<Accordion className="dark:!text-white dark:!bg-primary">
 								<AccordionSummary
 									expandIcon={
 										<ExpandMoreIcon className="!text-white" />
@@ -82,7 +82,7 @@ export default function Profile({
 									</div>
 								</AccordionDetails>
 							</Accordion>
-							<Accordion className="text-white dark:!bg-primary">
+							<Accordion className="dark:!text-white dark:!bg-primary">
 								<AccordionSummary
 									expandIcon={
 										<ExpandMoreIcon className="!text-white" />
@@ -106,7 +106,7 @@ export default function Profile({
 									</div>
 								</AccordionDetails>
 							</Accordion>
-							<Accordion className="text-white dark:!bg-primary">
+							<Accordion className="dark:!text-white dark:!bg-primary">
 								<AccordionSummary
 									expandIcon={
 										<ExpandMoreIcon className="!text-white" />
@@ -130,7 +130,7 @@ export default function Profile({
 									</div>
 								</AccordionDetails>
 							</Accordion>
-							<Accordion className="text-white dark:!bg-primary">
+							<Accordion className="dark:!text-white dark:!bg-primary">
 								<AccordionSummary
 									expandIcon={
 										<ExpandMoreIcon className="!text-white" />
@@ -154,7 +154,7 @@ export default function Profile({
 									</div>
 								</AccordionDetails>
 							</Accordion>
-							<Accordion className="text-white dark:!bg-primary">
+							<Accordion className="dark:!text-white dark:!bg-primary">
 								<AccordionSummary
 									expandIcon={
 										<ExpandMoreIcon className="!text-white" />
