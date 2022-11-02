@@ -13,10 +13,10 @@ import { Anime } from "../types";
 
 const Home: NextPage = () => {
 	const { data: latestEpisodes } = useAnimesLatestEpisode(20);
-	// const { data: popularAnime } = useAnimesByPopularity(20);
-	// const { data: trendingAnime } = useAnimesByTrending(20);
-	// const { data: popularMovies } = useMoviesByPopularity(20);
-	// const { data: trendingMovies } = useMoviesByTrending(20);
+	const { data: popularAnime } = useAnimesByPopularity(20);
+	const { data: trendingAnime } = useAnimesByTrending(20);
+	const { data: popularMovies } = useMoviesByPopularity(20);
+	const { data: trendingMovies } = useMoviesByTrending(20);
 
 	const placeholder = [...new Array(20)].map((_, index) => (
 		<CardSkeleton key={index} />
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
 								)
 						: placeholder}
 				</List>
-				{/* <List title="Trending Now" url="/animes/trending">
+				<List title="Trending Now" url="/animes/trending">
 					{trendingAnime
 						? trendingAnime.pages.map((page, index) => (
 								<Fragment key={index}>
@@ -98,7 +98,7 @@ const Home: NextPage = () => {
 								</Fragment>
 						  ))
 						: placeholder}
-				</List> */}
+				</List>
 			</div>
 		</>
 	);
