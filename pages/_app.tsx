@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			queries: {
 				refetchOnWindowFocus: false,
 				retry: Infinity,
-				retryDelay: 60000,
+				retryDelay: 65000,
 			},
 		},
 	});

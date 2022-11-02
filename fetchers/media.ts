@@ -114,7 +114,7 @@ export const getAnimePopularBySeason = async ({
 	return Page;
 };
 
-export const getAnimesLatestEpisode = async (): Promise<any> => {
+export const getAnimesLatestEpisode = async (perPage: number): Promise<any> => {
 	const now = Math.round(Date.now() / 1000);
 
 	const {
@@ -123,7 +123,7 @@ export const getAnimesLatestEpisode = async (): Promise<any> => {
 		endpoint,
 		gql`
 			query {
-				Page(page: 1) {
+				Page(page: 1, perPage: ${perPage}) {
 					airingSchedules(
 						airingAt_lesser: ${now},
 						sort: TIME_DESC
@@ -167,12 +167,16 @@ export const getAnimesLatestEpisode = async (): Promise<any> => {
 
 export const getAnimesByPopularity = async ({
 	pageParam = 1,
+	perPage,
+}: {
+	pageParam: number;
+	perPage: number;
 }): Promise<Page> => {
 	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${pageParam}) {
+				Page(page: ${pageParam}, perPage: ${perPage}) {
 					pageInfo {
 						currentPage
 						hasNextPage
@@ -210,12 +214,18 @@ export const getAnimesByPopularity = async ({
 	return Page;
 };
 
-export const getAnimesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
+export const getAnimesByTrending = async ({
+	pageParam = 1,
+	perPage,
+}: {
+	pageParam: number;
+	perPage: number;
+}): Promise<Page> => {
 	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${pageParam}) {
+				Page(page: ${pageParam}, perPage: ${perPage}) {
 					pageInfo {
 						currentPage
 						hasNextPage
@@ -253,12 +263,18 @@ export const getAnimesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
 	return Page;
 };
 
-export const getMoviesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
+export const getMoviesByTrending = async ({
+	pageParam = 1,
+	perPage,
+}: {
+	pageParam: number;
+	perPage: number;
+}): Promise<Page> => {
 	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${pageParam}) {
+				Page(page: ${pageParam}, perPage: ${perPage}) {
 					pageInfo {
 						currentPage
 						hasNextPage
@@ -298,12 +314,16 @@ export const getMoviesByTrending = async ({ pageParam = 1 }): Promise<Page> => {
 
 export const getMoviesByPopularity = async ({
 	pageParam = 1,
+	perPage,
+}: {
+	pageParam: number;
+	perPage: number;
 }): Promise<Page> => {
 	const { Page } = await request(
 		endpoint,
 		gql`
 			query {
-				Page(page: ${pageParam}) {
+				Page(page: ${pageParam}, perPage: ${perPage}) {
 					pageInfo {
 						currentPage
 						hasNextPage
@@ -628,6 +648,18 @@ export const getMediaById = async (id: number): Promise<Anime> => {
 						nodes {
 							id
 							type
+							title {
+								romaji
+							}
+							coverImage {
+								extraLarge
+							}
+							description
+							episodes
+							nextAiringEpisode {
+								episode
+							}
+							genres
 						}
 					}
 					characters(sort: ROLE) {

@@ -81,6 +81,18 @@ export type Anime = {
 			{
 				id: number;
 				type: string;
+				title: {
+					romaji: string;
+				};
+				coverImage: {
+					extraLarge: string;
+				};
+				description: string;
+				episodes: number;
+				nextAiringEpisode: {
+					episode: number;
+				};
+				genres: string[];
 			}
 		];
 	};

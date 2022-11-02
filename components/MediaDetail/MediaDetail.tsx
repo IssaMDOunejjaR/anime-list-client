@@ -1,16 +1,12 @@
-import Link from "next/link";
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
-import { useAnimeById } from "../../hooks/useAnimeById";
 import { Anime } from "../../types";
 import Card, { CardSkeleton } from "../Card/Card";
 import Character from "../Character/Character";
 
-const Relation = ({ id }: { id: number }) => {
-	const { data } = useAnimeById(id);
+const Relation = ({ relation }: { relation: Anime }) => {
+	if (!relation) return <CardSkeleton />;
 
-	if (!data) return <CardSkeleton />;
-
-	return <Card data={data} />;
+	return <Card data={relation} />;
 };
 
 interface SectionProps {
@@ -56,7 +52,10 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 							{data.relations.nodes
 								.filter((relation) => relation.type !== "MANGA")
 								.map((relation, index) => (
-									<Relation key={index} id={relation.id} />
+									<Relation
+										key={index}
+										relation={relation as any}
+									/>
 								))}
 						</div>
 					</Section>
@@ -69,7 +68,10 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 							{data.relations.nodes
 								.filter((relation) => relation.type !== "ANIME")
 								.map((relation, index) => (
-									<Relation key={index} id={relation.id} />
+									<Relation
+										key={index}
+										relation={relation as any}
+									/>
 								))}
 						</div>
 					</Section>

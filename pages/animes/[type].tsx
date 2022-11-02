@@ -14,7 +14,7 @@ interface Props {
 }
 
 const LatestEpisodes = ({ scrollY }: Props) => {
-	const { data: latestEpisodes } = useAnimesLatestEpisode();
+	const { data: latestEpisodes } = useAnimesLatestEpisode(50);
 
 	const placeholder = [...new Array(10)].map((_, index) => (
 		<CardSkeleton key={index} />
