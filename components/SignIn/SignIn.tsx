@@ -42,7 +42,6 @@ export default function SignIn({ close }: Props) {
 						close();
 					},
 					onError: (err) => {
-						console.log((err as any).response);
 						const error = err as any;
 
 						setError({

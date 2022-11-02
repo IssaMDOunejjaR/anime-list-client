@@ -65,6 +65,20 @@ export const addMediaFavorite = async ({ animeId }: { animeId: number }) => {
 	return AddMediaFavorite;
 };
 
+export const removeMediaFavorite = async ({ id }: { id: number }) => {
+	const { RemoveMediaFavorite } = await backendGql.request(
+		gql`
+			mutation {
+				RemoveMediaFavorite(id: ${id}) {
+					id
+				}
+			}
+		`
+	);
+
+	return RemoveMediaFavorite;
+};
+
 export const addMediaPreference = async ({
 	animeId,
 	status,

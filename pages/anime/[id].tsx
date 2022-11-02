@@ -15,7 +15,11 @@ import StarIcon from "@mui/icons-material/Star";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { useLoggedUser } from "../../hooks/useLoggedUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addMediaFavorite, addMediaPreference } from "../../fetchers/user";
+import {
+	addMediaFavorite,
+	addMediaPreference,
+	removeMediaFavorite,
+} from "../../fetchers/user";
 import { PreferenceStatus } from "../../types/user";
 
 const AnimeInformationSkeleton = () => {
@@ -91,6 +95,7 @@ export default function AnimeInformation() {
 	const [tabValue, setTabValue] = useState("overview");
 
 	const { mutate: addFavorite } = useMutation(addMediaFavorite);
+	const { mutate: removeFavorite } = useMutation(removeMediaFavorite);
 	const { mutate: addPreference } = useMutation(addMediaPreference);
 
 	const buttonClass =
@@ -109,17 +114,32 @@ export default function AnimeInformation() {
 	};
 
 	const handleAddMediaFavorite = () => {
-		if (data) {
-			addFavorite(
-				{ animeId: data.id },
-				{
-					onSuccess: (_) => {
-						queryClient.invalidateQueries(["logged-user"]);
-						console.log("test");
+		if (data && me) {
+			const fav = me.favorites.find((f) => f.animeId === data.id);
+
+			if (fav) {
+				removeFavorite(
+					{
+						id: fav.id,
 					},
-					onError: (err) => console.log(err),
-				}
-			);
+					{
+						onSuccess: (_) => {
+							queryClient.invalidateQueries(["logged-user"]);
+						},
+						onError: (err) => console.log(err),
+					}
+				);
+			} else {
+				addFavorite(
+					{ animeId: data.id },
+					{
+						onSuccess: (_) => {
+							queryClient.invalidateQueries(["logged-user"]);
+						},
+						onError: (err) => console.log(err),
+					}
+				);
+			}
 		}
 	};
 

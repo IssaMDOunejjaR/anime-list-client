@@ -25,7 +25,6 @@ interface Props {
 export default function Card({ data }: Props) {
 	const [windowSize, setWindowSize] = useState(0);
 	const [cardPosition, setCardPosition] = useState(0);
-	const [isScrolled, setIsScrolled] = useState(false);
 
 	const cardRef = useRef<HTMLDivElement>(null);
 
@@ -45,8 +44,6 @@ export default function Card({ data }: Props) {
 		};
 
 		window.addEventListener("resize", handleResize);
-
-		if (isScrolled) setIsScrolled(false);
 
 		return () => {
 			window.removeEventListener("resize", handleResize);

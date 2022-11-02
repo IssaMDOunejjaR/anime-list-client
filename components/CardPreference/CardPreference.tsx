@@ -15,9 +15,6 @@ interface Props {
 export default function CardPreference({ animeId, setOpenProfile }: Props) {
 	const { data: me } = useLoggedUser();
 	const { data } = useAnimeById(animeId);
-	const [status, setStatus] = useState<PreferenceStatus>(
-		PreferenceStatus.NOTHING
-	);
 	const [episode, setEpisode] = useState(0);
 
 	const { mutate: addPreference } = useMutation(addMediaPreference);
@@ -28,24 +25,19 @@ export default function CardPreference({ animeId, setOpenProfile }: Props) {
 		(pref) => pref.animeId === animeId
 	);
 
-	const handleAddMediaPreference = () => {
+	const handleAddMediaPreference = (status: PreferenceStatus) => {
 		if (data) {
-			const media = me?.animePreferences.find(
-				(f) => f.animeId === data.id
-			);
-
-			console.log({ episode, status });
-
 			addPreference(
 				{
 					animeId: data.id,
-					id: media ? media.id : 0,
+					id: preference ? preference.id : 0,
 					status,
 					episode,
 				},
 				{
-					onSuccess: (_) =>
-						queryClient.invalidateQueries(["logged-user"]),
+					onSuccess: (_) => {
+						queryClient.invalidateQueries(["logged-user"]);
+					},
 					onError: (err) => console.log(err),
 				}
 			);
@@ -53,21 +45,16 @@ export default function CardPreference({ animeId, setOpenProfile }: Props) {
 	};
 
 	const handleStatusChange = (e: any) => {
-		setStatus(e.target.value);
-		handleAddMediaPreference();
-	};
-
-	const handleEpisodeChange = (e: any) => {
-		setEpisode(+e.target.value);
-		handleAddMediaPreference();
+		handleAddMediaPreference(e.target.value);
 	};
 
 	useEffect(() => {
-		if (me && preference) {
-			setStatus(preference.status);
-			setEpisode(preference.episode);
-		}
-	}, [me]);
+		if (preference) setEpisode(preference.episode);
+	}, [preference]);
+
+	useEffect(() => {
+		if (preference) handleAddMediaPreference(preference?.status);
+	}, [episode]);
 
 	if (!data || !me) return null;
 
@@ -91,9 +78,10 @@ export default function CardPreference({ animeId, setOpenProfile }: Props) {
 						<h4 className="text-xs">Status:</h4>
 						<select
 							className="p-1"
-							value={status}
+							value={preference?.status}
 							onChange={handleStatusChange}
 						>
+							<option value="NOTHING">Nothing for now</option>
 							<option value="FINISHED">Finished</option>
 							<option value="WATCHING">Watching</option>
 							<option value="DROPPED">Dropped</option>
@@ -104,8 +92,11 @@ export default function CardPreference({ animeId, setOpenProfile }: Props) {
 						<h4 className="text-xs">Episode:</h4>
 						<select
 							className="p-1"
-							value={episode}
-							onChange={handleEpisodeChange}
+							value={preference?.episode}
+							onChange={(e: any) => setEpisode(+e.target.value)}
+							disabled={
+								preference?.status !== PreferenceStatus.WATCHING
+							}
 						>
 							{new Array(
 								data.nextAiringEpisode
