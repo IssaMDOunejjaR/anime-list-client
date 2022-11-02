@@ -133,6 +133,7 @@ export default function Card({ data }: Props) {
 								<Link
 									key={index}
 									href={`/genre/${genre.toLowerCase()}`}
+									prefetch={false}
 								>
 									<a key={index} className="text-[10px] px-1">
 										{genre}
@@ -140,7 +141,7 @@ export default function Card({ data }: Props) {
 								</Link>
 							))}
 						</div>
-						<Link href={`/anime/${data.id}`}>
+						<Link href={`/anime/${data.id}`} prefetch={false}>
 							<a className="custom-link">More</a>
 						</Link>
 					</div>

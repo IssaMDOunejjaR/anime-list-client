@@ -120,7 +120,7 @@ export default function CardPreference({ animeId, setOpenProfile }: Props) {
 								))}
 						</select>
 					</div>
-					<Link href={`/anime/${data.id}`}>
+					<Link href={`/anime/${data.id}`} prefetch={false}>
 						<a
 							className="text-sm cursor-pointer bg-gradient-blue bg-clip-text text-transparent"
 							onClick={() => setOpenProfile(false)}

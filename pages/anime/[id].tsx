@@ -134,7 +134,12 @@ export default function AnimeInformation() {
 					animeId: data.id,
 					id: media ? media.id : 0,
 					status,
-					episode,
+					episode:
+						status === PreferenceStatus.FINISHED
+							? data.nextAiringEpisode
+								? data.nextAiringEpisode.episode - 1
+								: data.episodes
+							: episode,
 				},
 				{
 					onSuccess: (_) =>
@@ -192,10 +197,14 @@ export default function AnimeInformation() {
 											{me && (
 												<span className="flex gap-2">
 													<select
-														className="px-2 text-sm"
+														className="px-2 text-sm text-black dark:text-inherit"
 														value={episode}
 														onChange={
 															handleEpisodeChange
+														}
+														disabled={
+															media?.status !==
+															PreferenceStatus.WATCHING
 														}
 													>
 														{new Array(
@@ -492,6 +501,7 @@ export default function AnimeInformation() {
 												<Link
 													key={index}
 													href={`/genre/${genre.toLowerCase()}`}
+													prefetch={false}
 												>
 													<a>{genre}</a>
 												</Link>
@@ -502,6 +512,7 @@ export default function AnimeInformation() {
 												<Link
 													key={index}
 													href={`/tag/${tag.name.toLowerCase()}`}
+													prefetch={false}
 												>
 													<a>{tag.name}</a>
 												</Link>

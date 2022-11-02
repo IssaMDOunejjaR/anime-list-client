@@ -44,7 +44,10 @@ export default function Profile({
 				{me && (
 					<>
 						<div className="flex gap-4 items-center">
-							<button onClick={() => setOpenSettings(true)}>
+							<button
+								className="shadow-none"
+								onClick={() => setOpenSettings(true)}
+							>
 								<Avatar
 									className="!w-16 !h-16"
 									src={me?.avatar}

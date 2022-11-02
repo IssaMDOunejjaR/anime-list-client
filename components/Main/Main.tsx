@@ -108,7 +108,10 @@ export default function Main() {
 									<p className="h-[100px] overflow-hidden mb-4 text-md text-[#333] dark:text-[#ddd]">
 										{HTMLReactParser(anime.description)}
 									</p>
-									<Link href={`/anime/${anime.id}`}>
+									<Link
+										href={`/anime/${anime.id}`}
+										prefetch={false}
+									>
 										<a className="custom-link !w-fit !px-8 md:!px-12">
 											More
 										</a>

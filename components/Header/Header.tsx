@@ -47,7 +47,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 			<header className="sticky top-0 z-[51] bg-white dark:bg-primary">
 				<div className="flex justify-between items-center border-b-[1px] dark:border-light-gray py-3 px-5 pr-8">
 					<div className="flex items-center">
-						<Link href="/">
+						<Link href="/" prefetch={false}>
 							<a>
 								<h1 className="ml-4 text-2xl md:text-3xl font-extrabold uppercase">
 									<span className="bg-gradient-blue p-0.5 text-white">
@@ -62,7 +62,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 					</div>
 					<div className="w-1/3 relative hidden items-center gap-2 md:flex">
 						<SearchContainer />
-						<Link href="/search">
+						<Link href="/search" prefetch={false}>
 							<a className="bg-slate-200 dark:bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>
@@ -123,7 +123,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 				<div className="p-4 pr-8 md:hidden">
 					<div className="relative items-center gap-2 flex">
 						<SearchContainer />
-						<Link href="/search">
+						<Link href="/search" prefetch={false}>
 							<a className="bg-slate-200 dark:bg-secondary p-[6.6px] rounded-sm">
 								<TuneIcon />
 							</a>

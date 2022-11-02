@@ -135,7 +135,7 @@ export default function List({ children, title, url }: Props) {
 				<span className="absolute h-[1px] w-full bg-[#ddd] dark:bg-light-gray top-2/4 -translate-y-2/4 -z-10"></span>
 				<div className="bg-white dark:bg-primary px-4 min-w-[100px] w-1/6">
 					<GradientBorder>
-						<Link href={url}>
+						<Link href={url} prefetch={false}>
 							<a className="block uppercase rounded-sm transition-colors shadow-sm w-full p-2 text-center text-xs custom-link-gradient bg-white dark:bg-primary py-3 font-semibold">
 								More
 							</a>

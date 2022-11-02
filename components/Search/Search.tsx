@@ -62,6 +62,7 @@ const Search = ({ searchValue, isFocused }: SearchProps) => {
 									<Link
 										key={media.id}
 										href={`/anime/${media.id}`}
+										prefetch={false}
 									>
 										<div className="flex mb-1 cursor-pointer h-[185px]">
 											<img

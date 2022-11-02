@@ -7,14 +7,23 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import Profile from "../components/Profile/Profile";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const queryClient = new QueryClient({
 		defaultOptions: {
 			queries: {
 				refetchOnWindowFocus: false,
+				retry: Infinity,
+				retryDelay: 60000,
 			},
 		},
+	});
+
+	const persister = createSyncStoragePersister({
+		storage:
+			typeof window !== "undefined" ? window.localStorage : undefined,
 	});
 
 	const [openProfile, setOpenProfile] = useState(false);
@@ -59,7 +68,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 				/>
 			</Head>
 			<ThemeProvider attribute="class">
-				<QueryClientProvider client={queryClient}>
+				{/* <QueryClientProvider client={queryClient}> */}
+				<PersistQueryClientProvider
+					client={queryClient}
+					persistOptions={{ persister, maxAge: 300000 }}
+				>
 					<Header
 						openProfile={openProfile}
 						setOpenProfile={setOpenProfile}
@@ -96,7 +109,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 						</div>
 					</div>
 					<ReactQueryDevtools initialIsOpen={false} />
-				</QueryClientProvider>
+				</PersistQueryClientProvider>
+				{/* </QueryClientProvider> */}
 			</ThemeProvider>
 		</>
 	);
