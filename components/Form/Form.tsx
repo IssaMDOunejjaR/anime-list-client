@@ -39,22 +39,28 @@ Form.Title = function FormTitle({
 };
 
 Form.Input = function FormInput({
-	error,
+	isError = false,
+	errorMsg,
 	...restOfProps
-}: { error?: string } & DetailedHTMLProps<
+}: { isError?: boolean; errorMsg?: string } & DetailedHTMLProps<
 	InputHTMLAttributes<HTMLInputElement>,
 	HTMLInputElement
 >) {
 	return (
-		<div className="">
-			<input
-				className="custom-input text-black dark:bg-secondary dark:text-white"
-				{...restOfProps}
-			/>
-			{error && (
-				<div className="bg-red-500 mt-2 p-1 text-center text-white">
-					{error}
-				</div>
+		<div>
+			<div className="relative">
+				<input
+					className={`custom-input text-black dark:bg-secondary dark:text-white`}
+					{...restOfProps}
+				/>
+				<span
+					className={`absolute ${
+						isError ? "w-full" : "w-0"
+					} transition-all left-0 bottom-0 h-[1px] bg-red-500`}
+				></span>
+			</div>
+			{isError && (
+				<div className={`text-xs text-red-500 p-1`}>{errorMsg}</div>
 			)}
 		</div>
 	);
@@ -76,5 +82,21 @@ Form.Button = function FormInput({
 				{children}
 			</button>
 		</GradientBorder>
+	);
+};
+
+Form.Error = function FormError({
+	message,
+	...restOfProps
+}: {
+	message: string;
+}) {
+	return (
+		<div
+			className="bg-red-500 text-center p-2 text-white font-semibold"
+			{...restOfProps}
+		>
+			{message}
+		</div>
 	);
 };

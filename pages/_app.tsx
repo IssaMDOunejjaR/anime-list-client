@@ -26,8 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			document.body.style.height = "100vh";
 			document.body.style.overflow = "hidden";
 		} else {
-			document.body.style.height = "auto";
-			document.body.style.overflow = "auto";
+			document.body.style.overflow = "unset";
 		}
 	}, [openProfile]);
 
@@ -82,9 +81,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 							<div
 								ref={divRef}
 								className={`overflow-hidden transition-transform duration-500 origin-top ${
-									openProfile
-										? "-translate-x-[60%] translate-y-[5%] scale-[.9]"
-										: null
+									openProfile ? "-translate-x-[49%]" : null
 								}`}
 							>
 								<Component {...pageProps} />

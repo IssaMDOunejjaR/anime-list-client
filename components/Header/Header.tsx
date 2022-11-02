@@ -11,10 +11,8 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import LoginIcon from "@mui/icons-material/Login";
 import { useLoggedUser } from "../../hooks/useLoggedUser";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Cookie from "js-cookie";
 import TuneIcon from "@mui/icons-material/Tune";
 import DarkModeSwitch from "../DarkModeSwitch/DarkModeSwitch";
-import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 interface Props {
@@ -24,8 +22,6 @@ interface Props {
 
 export default function Header({ openProfile, setOpenProfile }: Props) {
 	const { theme, setTheme, systemTheme } = useTheme();
-
-	const queryClient = useQueryClient();
 
 	const [openSignIn, setOpenSignIn] = useState(false);
 	const [openSignUp, setOpenSignUp] = useState(false);
@@ -42,14 +38,13 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 	const handleLogout = () => {
 		if (typeof window !== "undefined") {
 			localStorage.removeItem("token");
-			// queryClient.resetQueries(["logged-user"]);
 			reload();
 		}
 	};
 
 	return (
 		<>
-			<header className="sticky top-0 z-50 bg-white dark:bg-primary">
+			<header className="sticky top-0 z-[51] bg-white dark:bg-primary">
 				<div className="flex justify-between items-center border-b-[1px] dark:border-light-gray py-3 px-5 pr-8">
 					<div className="flex items-center">
 						<Link href="/">
@@ -140,7 +135,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 				<SignIn close={handleCloseSignIn} />
 			</Modal>
 			<Modal open={openSignUp} onClose={handleCloseSignUp}>
-				<SignUp close={handleCloseSignIn} />
+				<SignUp close={handleCloseSignUp} />
 			</Modal>
 		</>
 	);

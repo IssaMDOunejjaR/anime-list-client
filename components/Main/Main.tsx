@@ -45,7 +45,7 @@ function getCurrentSeason() {
 
 export const MainSkeleton = () => {
 	return (
-		<div className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 overflow-hidden flex items-center rounded-md dark:bg-opacity-30 bg-[#555]">
+		<div className="relative w-full lg:basis-[1200px] h-[600px] flex-grow-0 flex-shrink-0 overflow-hidden flex items-center rounded-md dark:bg-opacity-30 bg-[#555]">
 			<div className="w-2/4 ml-8">
 				<h2 className="font-bold text-lg md:text-2xl mb-4">
 					<Skeleton variant="rectangular" />
@@ -79,7 +79,7 @@ export default function Main() {
 	}, [divRef, count]);
 
 	return (
-		<div className="w-full h-[550px] px-4 pr-8 flex flex-col justify-end">
+		<div className="w-full h-[750px] px-4 pr-8 flex flex-col justify-end">
 			<div
 				ref={divRef}
 				className="flex items-center gap-4 py-4 overflow-x-scroll scrollbar-hide"
@@ -88,7 +88,7 @@ export default function Main() {
 					? data.media.map((anime) => (
 							<motion.div
 								key={anime.id}
-								className="relative w-full lg:basis-[900px] h-[400px] flex-grow-0 flex-shrink-0 flex items-center rounded-md shadow-[0_2px_8px_#999] dark:shadow-[0_2px_8px_#333]"
+								className="relative w-full lg:basis-[1200px] h-[600px] flex-grow-0 flex-shrink-0 flex items-center rounded-md shadow-[0_2px_8px_#999] dark:shadow-[0_2px_8px_#333]"
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
 							>

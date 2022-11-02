@@ -14,45 +14,6 @@ import CardPreference from "../CardPreference/CardPreference";
 import Settings from "../Settings/Settings";
 import { PreferenceStatus } from "../../types/user";
 
-// const List = ({ children }: { children: ReactNode }) => {
-// 	const listRef = useRef<HTMLDivElement>(null);
-
-// 	const handleScrollLeft = () => {
-// 		if (listRef && listRef.current) {
-// 			listRef.current.scrollLeft += listRef.current.clientWidth;
-// 		}
-// 	};
-
-// 	const handleScrollRight = () => {
-// 		if (listRef && listRef.current) {
-// 			listRef.current.scrollLeft -= listRef.current.clientWidth;
-// 		}
-// 	};
-
-// 	return (
-// 		<div className="relative">
-// 			<span
-// 				className="absolute top-2/4 -translate-y-2/4 left-0 bg-gradient-blue z-10 rounded-full cursor-pointer"
-// 				onClick={handleScrollRight}
-// 			>
-// 				<ChevronLeftIcon className="!text-3xl" />
-// 			</span>
-// 			<div
-// 				className="flex overflow-x-auto scrollbar-hide gap-3 scroll-smooth h-[300px]"
-// 				ref={listRef}
-// 			>
-// 				{children}
-// 			</div>
-// 			<span
-// 				className="absolute top-2/4 -translate-y-2/4 right-0 bg-gradient-blue z-10 rounded-full cursor-pointer"
-// 				onClick={handleScrollLeft}
-// 			>
-// 				<ChevronRightIcon className="!text-3xl" />
-// 			</span>
-// 		</div>
-// 	);
-// };
-
 export default function Profile({
 	setOpenProfile,
 }: {
@@ -110,7 +71,7 @@ export default function Profile({
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									<div className="flex gap-2 flex-wrap justify-between">
+									<div className="flex gap-4 flex-wrap">
 										{me.favorites.map((anime) => (
 											<CardPreference
 												key={anime.id}
@@ -134,7 +95,7 @@ export default function Profile({
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									<div className="flex gap-2 flex-wrap justify-between">
+									<div className="flex gap-4 flex-wrap">
 										{planToWatch.map((anime) => (
 											<CardPreference
 												key={anime.id}
@@ -158,7 +119,7 @@ export default function Profile({
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									<div className="flex gap-2 flex-wrap justify-between">
+									<div className="flex gap-4 flex-wrap">
 										{watching.map((anime) => (
 											<CardPreference
 												key={anime.id}
@@ -182,7 +143,7 @@ export default function Profile({
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									<div className="flex gap-2 flex-wrap justify-between">
+									<div className="flex gap-4 flex-wrap">
 										{finished.map((anime) => (
 											<CardPreference
 												key={anime.id}
@@ -206,7 +167,7 @@ export default function Profile({
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									<div className="flex gap-2 flex-wrap justify-between">
+									<div className="flex gap-4 flex-wrap">
 										{dropped.map((anime) => (
 											<CardPreference
 												key={anime.id}
