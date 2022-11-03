@@ -103,7 +103,7 @@ export default function List({ children, title, url }: Props) {
 	}, [listRef, scrollState]);
 
 	return (
-		<div className="pr-3">
+		<div className="md:pr-3">
 			<h2 className="flex items-center text-2xl font-bold py-4 uppercase">
 				{title}
 				<span className="ml-auto">

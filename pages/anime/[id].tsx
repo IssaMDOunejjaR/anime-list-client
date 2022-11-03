@@ -190,7 +190,7 @@ export default function AnimeInformation() {
 			</Head>
 			<section>
 				{data ? (
-					<div className={`p-8 pt-24 relative`}>
+					<div className={`p-8 px-5 pt-24 relative`}>
 						<div className="absolute top-0 left-0 -z-10 h-[280px] w-full">
 							<div className="absolute top-0 h-full w-full bg-secondary bg-opacity-80 z-[1]"></div>
 							{data.bannerImage && (
@@ -424,7 +424,7 @@ export default function AnimeInformation() {
 						}`}
 					/>
 				</Tabs>
-				<div className="p-8">
+				<div className="p-8 px-5">
 					<Container>
 						<div className="flex gap-8 flex-col md:flex-row">
 							{data ? (

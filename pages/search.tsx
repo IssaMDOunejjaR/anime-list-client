@@ -224,7 +224,7 @@ export default function Search() {
 	if (!genres || !tags) return null;
 
 	return (
-		<div className="p-4 pr-8 md:p-8">
+		<div className="p-5 md:pr-8 md:p-8">
 			<div className="flex gap-3 flex-wrap w-full">
 				<div className="flex flex-col md:flex-row gap-2 w-full">
 					<input
@@ -335,10 +335,10 @@ export default function Search() {
 					</div>
 				</div>
 			</div>
-			<div className="px-2 py-4">
-				<h2 className="font-semibold flex items-end md:text-2xl">
+			<div className="py-4">
+				<h2 className="font-semibold flex items-center md:text-2xl">
 					Results for:
-					<span className="ml-auto text-xs flex gap-2">
+					<span className="ml-auto text-[9px] md:text-xs flex gap-2">
 						SORT:
 						<button
 							className={`${

@@ -79,7 +79,7 @@ export default function Main() {
 	}, [divRef, count]);
 
 	return (
-		<div className="w-full h-[750px] px-4 pr-8 flex flex-col justify-end">
+		<div className="w-full h-[750px] px-5 md:pr-8 flex flex-col justify-end">
 			<div
 				ref={divRef}
 				className="flex items-center gap-4 py-4 overflow-x-scroll scrollbar-hide"
