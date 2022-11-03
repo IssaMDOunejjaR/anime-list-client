@@ -166,7 +166,7 @@ export default function Profile({
 									id="panel1a-header"
 								>
 									<Typography className="!font-semibold !text-lg md:!text-xl">
-										Droped
+										Dropped
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
