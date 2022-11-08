@@ -24,8 +24,8 @@ import { PreferenceStatus } from "../../types/user";
 
 const AnimeInformationSkeleton = () => {
 	return (
-		<div className={`p-8 pt-24 relative`}>
-			<div className="absolute top-0 left-0 -z-10 h-[280px] w-full">
+		<div className={`p-8 pt-56 relative`}>
+			<div className="absolute top-0 left-0 -z-10 h-[400px] w-full">
 				<div className="absolute top-0 h-full w-full bg-secondary bg-opacity-80 z-[1]"></div>
 			</div>
 			<Container>
@@ -190,8 +190,8 @@ export default function AnimeInformation() {
 			</Head>
 			<section>
 				{data ? (
-					<div className={`p-8 px-5 pt-24 relative`}>
-						<div className="absolute top-0 left-0 -z-10 h-[280px] w-full">
+					<div className={`p-8 px-5 pt-48 relative`}>
+						<div className="absolute top-0 left-0 -z-10 h-[400px] w-full">
 							<div className="absolute top-0 h-full w-full bg-secondary bg-opacity-80 z-[1]"></div>
 							{data.bannerImage && (
 								<img
@@ -202,15 +202,15 @@ export default function AnimeInformation() {
 							)}
 						</div>
 						<Container>
-							<div className="grid grid-cols-1 lg:grid-cols-4">
-								<div className="rounded-sm overflow-hidden flex justify-center">
+							<div className="flex flex-col items-center lg:flex-row">
+								<div className="rounded-sm overflow-hidden w-[350px] flex justify-center">
 									<img
 										src={data.coverImage.extraLarge}
 										alt={data.title.romaji}
-										className="shadow-md h-[490px]"
+										className="shadow-md w-[300px] h-[490px]"
 									/>
 								</div>
-								<div className="p-8 col-span-3">
+								<div className="p-8 flex-1">
 									<div className="lg:pt-24 mb-8">
 										<h2 className="text-white flex flex-col lg:flex-row justify-between items-center text-center gap-y-5 lg:text-left font-bold text-xl md:text-3xl">
 											{data.title.romaji}
@@ -507,9 +507,6 @@ export default function AnimeInformation() {
 													</span>
 												)
 											)}
-										</Information>
-										<Information title="Producers">
-											<span>{data.format}</span>
 										</Information>
 										<Information title="Source">
 											<span>
