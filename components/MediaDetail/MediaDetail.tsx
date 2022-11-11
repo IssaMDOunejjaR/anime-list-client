@@ -1,4 +1,9 @@
-import React, { Dispatch, ReactNode, SetStateAction } from "react";
+import React, {
+	Dispatch,
+	MutableRefObject,
+	ReactNode,
+	SetStateAction,
+} from "react";
 import { Anime } from "../../types";
 import Card, { CardSkeleton } from "../Card/Card";
 import Character from "../Character/Character";
@@ -12,21 +17,33 @@ const Relation = ({ relation }: { relation: Anime }) => {
 interface SectionProps {
 	children?: ReactNode;
 	title: string;
+	tabsRef: MutableRefObject<HTMLButtonElement | null>;
 	setTabValue: Dispatch<SetStateAction<string>>;
 }
 
-const Section = ({ title, children, setTabValue }: SectionProps) => {
+const Section = ({ title, children, tabsRef, setTabValue }: SectionProps) => {
+	const handleClick = () => {
+		if (
+			title.toLowerCase() !== "trailer" &&
+			title.toLowerCase() !== "anime relations" &&
+			title.toLowerCase() !== "manga relations" &&
+			title.toLowerCase() !== "recommendations"
+		) {
+			if (tabsRef && tabsRef.current) {
+				window.scrollTo({
+					top: tabsRef.current.getBoundingClientRect().top,
+					behavior: "smooth",
+				});
+
+				setTabValue(title.toLocaleLowerCase());
+			}
+		}
+	};
 	return (
 		<div className="my-4">
 			<h3
 				className="text-lg md:text-xl py-2 font-semibold cursor-pointer border-b-[1px] lg:w-2/4"
-				onClick={() =>
-					title.toLowerCase() !== "trailer" &&
-					title.toLowerCase() !== "anime relations" &&
-					title.toLowerCase() !== "manga relations" &&
-					title.toLowerCase() !== "recommendations" &&
-					setTabValue(title.toLocaleLowerCase())
-				}
+				onClick={handleClick}
 			>
 				{title}
 			</h3>
@@ -37,17 +54,26 @@ const Section = ({ title, children, setTabValue }: SectionProps) => {
 
 interface MediaDetailProps {
 	data: Anime;
+	tabsRef: MutableRefObject<HTMLButtonElement | null>;
 	setTabValue: Dispatch<SetStateAction<string>>;
 }
 
-export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
+export default function MediaDetail({
+	data,
+	tabsRef,
+	setTabValue,
+}: MediaDetailProps) {
 	return (
 		<div>
 			<div className="flex-1">
 				{data.relations.nodes.filter(
 					(relation) => relation.type !== "MANGA"
 				).length > 0 && (
-					<Section title="Anime Relations" setTabValue={setTabValue}>
+					<Section
+						title="Anime Relations"
+						tabsRef={tabsRef}
+						setTabValue={setTabValue}
+					>
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.relations.nodes
 								.filter((relation) => relation.type !== "MANGA")
@@ -63,7 +89,11 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 				{data.relations.nodes.filter(
 					(relation) => relation.type !== "ANIME"
 				).length > 0 && (
-					<Section title="Manga Relations" setTabValue={setTabValue}>
+					<Section
+						title="Manga Relations"
+						tabsRef={tabsRef}
+						setTabValue={setTabValue}
+					>
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.relations.nodes
 								.filter((relation) => relation.type !== "ANIME")
@@ -77,7 +107,11 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 					</Section>
 				)}
 				{data.characters.nodes.length > 0 && (
-					<Section title="Characters" setTabValue={setTabValue}>
+					<Section
+						title="Characters"
+						tabsRef={tabsRef}
+						setTabValue={setTabValue}
+					>
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.characters.nodes
 								.slice(0, 6)
@@ -88,7 +122,11 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 					</Section>
 				)}
 				{data.staff.nodes.length > 0 && (
-					<Section title="Staff" setTabValue={setTabValue}>
+					<Section
+						title="Staff"
+						tabsRef={tabsRef}
+						setTabValue={setTabValue}
+					>
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.staff.nodes.slice(0, 6).map((s, index) => (
 								<Character key={index} data={s} />
@@ -97,7 +135,11 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 					</Section>
 				)}
 				{data.trailer && (
-					<Section title="Trailer" setTabValue={setTabValue}>
+					<Section
+						title="Trailer"
+						tabsRef={tabsRef}
+						setTabValue={setTabValue}
+					>
 						<div className="mt-4 w-3/4">
 							<iframe
 								className="aspect-video w-full"
@@ -107,7 +149,11 @@ export default function MediaDetail({ data, setTabValue }: MediaDetailProps) {
 					</Section>
 				)}
 				{data.recommendations.nodes.length > 0 && (
-					<Section title="Recommendations" setTabValue={setTabValue}>
+					<Section
+						title="Recommendations"
+						tabsRef={tabsRef}
+						setTabValue={setTabValue}
+					>
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.recommendations.nodes
 								.slice(0, 5)

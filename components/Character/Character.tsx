@@ -19,7 +19,7 @@ export default function Character({ data }: CharacterProps) {
 			<motion.img
 				src={data.image.large}
 				alt={data.name.full}
-				className="w-[100px]"
+				className="w-[120px] h-[180px]"
 				initial={{ scale: 0 }}
 				whileInView={{ scale: 1 }}
 				viewport={{ once: true }}

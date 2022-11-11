@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import parse from "html-react-parser";
 import { useAnimeById } from "../../hooks/useAnimeById";
 import Container from "../../components/Container/Container";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import MediaDetail from "../../components/MediaDetail/MediaDetail";
 import { IconButton, Skeleton, Tab, Tabs } from "@mui/material";
 import Characters from "../../components/Characters/Characters";
@@ -106,6 +106,8 @@ export default function AnimeInformation() {
 
 	const [episode, setEpisode] = useState<number>(0);
 
+	const tabsRef = useRef<HTMLButtonElement | null>(null);
+
 	const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
 		setTabValue(newValue);
 	};
@@ -204,7 +206,7 @@ export default function AnimeInformation() {
 						</div>
 						<Container>
 							<div className="flex flex-col items-center lg:flex-row">
-								<div className="rounded-sm overflow-hidden w-[350px] flex justify-center">
+								<div className="rounded-sm overflow-hidden w-[300px] flex justify-center">
 									<img
 										src={data.coverImage.extraLarge}
 										alt={data.title.romaji}
@@ -395,6 +397,7 @@ export default function AnimeInformation() {
 					<AnimeInformationSkeleton />
 				)}
 				<Tabs
+					ref={tabsRef}
 					value={tabValue}
 					onChange={handleChange}
 					aria-label="scrollable prevent tabs example"
@@ -619,6 +622,7 @@ export default function AnimeInformation() {
 									{tabValue === "overview" && (
 										<MediaDetail
 											data={data}
+											tabsRef={tabsRef}
 											setTabValue={setTabValue}
 										/>
 									)}

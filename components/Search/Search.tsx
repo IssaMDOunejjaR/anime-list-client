@@ -77,10 +77,11 @@ const Search = ({ searchValue, isFocused }: SearchProps) => {
 													{media.title.romaji}
 												</h2>
 												<span className="text-xs italic capitalize text-[#aaa] mb-2">
-													{media.format?.toLowerCase()}
-													{media.format !== "MOVIE" &&
-														media.format !==
-															"MANGA" &&
+													{media.format
+														?.replace("_", " ")
+														.toLowerCase()}
+													{(media.episodes ||
+														media.nextAiringEpisode) &&
 														(media.episodes
 															? ` | Episodes: ${media.episodes}`
 															: ` | Last Episode: ${
