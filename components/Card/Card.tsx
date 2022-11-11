@@ -113,9 +113,8 @@ export default function Card({ data }: Props) {
 						></span>
 						<h3 className="font-semibold">{data.title.romaji}</h3>
 						<span className="mb-2 text-xs italic text-[#444] capitalize">
-							{data.format?.toLowerCase()}
-							{data.format !== "MOVIE" &&
-								data.format !== "MANGA" &&
+							{data.format?.replace("_", " ").toLowerCase()}
+							{(data.episodes || data.nextAiringEpisode) &&
 								(data.episodes
 									? ` | Episodes: ${data.episodes}`
 									: ` | Last Episode: ${

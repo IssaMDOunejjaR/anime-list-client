@@ -21,6 +21,7 @@ import {
 	removeMediaFavorite,
 } from "../../fetchers/user";
 import { PreferenceStatus } from "../../types/user";
+import ScrollTop from "../../components/ScrollTop/ScrollTop";
 
 const AnimeInformationSkeleton = () => {
 	return (
@@ -464,16 +465,21 @@ export default function AnimeInformation() {
 												<span>{data.duration} min</span>
 											</Information>
 										)}
-										<Information title="Status">
-											<span>
-												{data.status
-													.toLowerCase()
-													.replace(
-														new RegExp("_", "g"),
-														" "
-													)}
-											</span>
-										</Information>
+										{data.status && (
+											<Information title="Status">
+												<span>
+													{data.status
+														.toLowerCase()
+														.replace(
+															new RegExp(
+																"_",
+																"g"
+															),
+															" "
+														)}
+												</span>
+											</Information>
+										)}
 										{data.startDate.year && (
 											<Information title="Start Date">
 												<span>
@@ -499,42 +505,52 @@ export default function AnimeInformation() {
 												</span>
 											</Information>
 										)}
-										<Information title="Studios">
-											{data.studios.edges.map(
-												(studio, index) => (
-													<span key={index}>
-														{studio.node.name}
-													</span>
-												)
-											)}
-										</Information>
-										<Information title="Source">
-											<span>
-												{data.source.toLowerCase()}
-											</span>
-										</Information>
-										<Information title="Genres">
-											{data.genres.map((genre, index) => (
-												<Link
-													key={index}
-													href={`/genre/${genre.toLowerCase()}`}
-													prefetch={false}
-												>
-													<a>{genre}</a>
-												</Link>
-											))}
-										</Information>
-										<Information title="Tags">
-											{data.tags.map((tag, index) => (
-												<Link
-													key={index}
-													href={`/tag/${tag.name.toLowerCase()}`}
-													prefetch={false}
-												>
-													<a>{tag.name}</a>
-												</Link>
-											))}
-										</Information>
+										{data.studios.edges.length > 0 && (
+											<Information title="Studios">
+												{data.studios.edges.map(
+													(studio, index) => (
+														<span key={index}>
+															{studio.node.name}
+														</span>
+													)
+												)}
+											</Information>
+										)}
+										{data.source && (
+											<Information title="Source">
+												<span>
+													{data.source.toLowerCase()}
+												</span>
+											</Information>
+										)}
+										{data.genres.length > 0 && (
+											<Information title="Genres">
+												{data.genres.map(
+													(genre, index) => (
+														<Link
+															key={index}
+															href={`/genre/${genre.toLowerCase()}`}
+															prefetch={false}
+														>
+															<a>{genre}</a>
+														</Link>
+													)
+												)}
+											</Information>
+										)}
+										{data.tags.length > 0 && (
+											<Information title="Tags">
+												{data.tags.map((tag, index) => (
+													<Link
+														key={index}
+														href={`/tag/${tag.name.toLowerCase()}`}
+														prefetch={false}
+													>
+														<a>{tag.name}</a>
+													</Link>
+												))}
+											</Information>
+										)}
 										{data.title.romaji && (
 											<Information title="Romaji">
 												<span>{data.title.romaji}</span>
@@ -618,6 +634,7 @@ export default function AnimeInformation() {
 					</Container>
 				</div>
 			</section>
+			<ScrollTop />
 		</>
 	);
 }

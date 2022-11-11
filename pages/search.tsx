@@ -13,6 +13,8 @@ import { useTags } from "../hooks/useTags";
 import SelectBox from "../components/Select/SelectBox";
 import { useAdvancedSearchedMedia } from "../hooks/useAdvancedSearchedMedia";
 import Card, { CardSkeleton } from "../components/Card/Card";
+import ScrollTop from "../components/ScrollTop/ScrollTop";
+import Head from "next/head";
 
 enum AnimeSeason {
 	WINTER = "WINTER",
@@ -224,167 +226,181 @@ export default function Search() {
 	if (!genres || !tags) return null;
 
 	return (
-		<div className="p-5 md:pr-8 md:p-8">
-			<div className="flex gap-3 flex-wrap w-full">
-				<div className="flex flex-col md:flex-row gap-2 w-full">
-					<input
-						className="custom-input !py-3 shadow-[0_1px_1px_#aaa] dark:shadow-[0_1px_1px_#222] md:!w-2/4"
-						type="text"
-						placeholder="Search..."
-						value={state.searchValue || ""}
-						onChange={handleSearchChange}
-					/>
-					<div className="flex-1">
-						<SelectBox
-							defaultValue={`${state.year}`}
-							placeholder="Year"
-							options={years(1940)}
-							change={handleYearChange}
+		<>
+			<Head>
+				<title>Search</title>
+			</Head>
+			<div className="p-5 md:pr-8 md:p-8">
+				<div className="flex gap-3 flex-wrap w-full">
+					<div className="flex flex-col md:flex-row gap-2 w-full">
+						<input
+							className="custom-input !py-3 shadow-[0_1px_1px_#aaa] dark:shadow-[0_1px_1px_#222] md:!w-2/4"
+							type="text"
+							placeholder="Search..."
+							value={state.searchValue || ""}
+							onChange={handleSearchChange}
 						/>
+						<div className="flex-1">
+							<SelectBox
+								defaultValue={`${state.year}`}
+								placeholder="Year"
+								options={years(1940)}
+								change={handleYearChange}
+							/>
+						</div>
+						<div className="flex-1">
+							<SelectBox
+								defaultValue={`${state.season}`}
+								placeholder="Season"
+								options={[
+									AnimeSeason.WINTER,
+									AnimeSeason.SPRING,
+									AnimeSeason.SUMMER,
+									AnimeSeason.FALL,
+								]}
+								change={handleSeasonChange}
+							/>
+						</div>
+						<div className="flex-1">
+							<SelectBox
+								defaultValue={`${state.format}`}
+								placeholder="Format"
+								options={[
+									AnimeFormat.TV,
+									AnimeFormat.MOVIE,
+									AnimeFormat.TV_SHORT,
+									AnimeFormat.SPECIAL,
+									AnimeFormat.OVA,
+									AnimeFormat.ONA,
+									AnimeFormat.MUSIC,
+								]}
+								change={handleFormatChange}
+							/>
+						</div>
 					</div>
-					<div className="flex-1">
-						<SelectBox
-							defaultValue={`${state.season}`}
-							placeholder="Season"
-							options={[
-								AnimeSeason.WINTER,
-								AnimeSeason.SPRING,
-								AnimeSeason.SUMMER,
-								AnimeSeason.FALL,
-							]}
-							change={handleSeasonChange}
-						/>
-					</div>
-					<div className="flex-1">
-						<SelectBox
-							defaultValue={`${state.format}`}
-							placeholder="Format"
-							options={[
-								AnimeFormat.TV,
-								AnimeFormat.MOVIE,
-								AnimeFormat.TV_SHORT,
-								AnimeFormat.SPECIAL,
-								AnimeFormat.OVA,
-								AnimeFormat.ONA,
-								AnimeFormat.MUSIC,
-							]}
-							change={handleFormatChange}
-						/>
+					<div className="grid gap-2">
+						<div>
+							<Accordion className="bg-slate-200 dark:!bg-secondary dark:!text-white">
+								<AccordionSummary
+									expandIcon={
+										<ExpandMoreIcon className="dark:!text-white" />
+									}
+									aria-controls="panel1a-content"
+									id="panel1a-header"
+								>
+									<Typography>Genres</Typography>
+								</AccordionSummary>
+								<AccordionDetails>
+									{genres
+										.filter((genre) => genre !== "Hentai")
+										.map((genre, index) => (
+											<FormControlLabel
+												key={index}
+												control={
+													<Checkbox
+														onChange={
+															handleGenreChange
+														}
+														value={genre}
+														className="dark:!text-white"
+													/>
+												}
+												label={genre}
+											/>
+										))}
+								</AccordionDetails>
+							</Accordion>
+						</div>
+						<div>
+							<Accordion className="bg-slate-200 dark:!bg-secondary dark:!text-white">
+								<AccordionSummary
+									expandIcon={
+										<ExpandMoreIcon className="dark:!text-white" />
+									}
+									aria-controls="panel1a-content"
+									id="panel1a-header"
+								>
+									<Typography>Tags</Typography>
+								</AccordionSummary>
+								<AccordionDetails>
+									{tags
+										.filter((tag) => tag.isAdult === false)
+										.map((tag, index) => (
+											<FormControlLabel
+												key={index}
+												control={
+													<Checkbox
+														onChange={
+															handleTagChange
+														}
+														value={tag.name}
+														className="dark:!text-white"
+													/>
+												}
+												label={tag.name}
+											/>
+										))}
+								</AccordionDetails>
+							</Accordion>
+						</div>
 					</div>
 				</div>
-				<div className="grid gap-2">
-					<div>
-						<Accordion className="bg-slate-200 dark:!bg-secondary dark:!text-white">
-							<AccordionSummary
-								expandIcon={
-									<ExpandMoreIcon className="dark:!text-white" />
-								}
-								aria-controls="panel1a-content"
-								id="panel1a-header"
+				<div className="py-4">
+					<h2 className="font-semibold flex items-center md:text-2xl">
+						Results for:
+						<span className="ml-auto text-[9px] md:text-xs flex gap-2">
+							SORT:
+							<button
+								className={`${
+									state.sort === "TITLE_ROMAJI"
+										? "underline"
+										: null
+								} hover:underline`}
+								onClick={() => handleSortChange("TITLE_ROMAJI")}
 							>
-								<Typography>Genres</Typography>
-							</AccordionSummary>
-							<AccordionDetails>
-								{genres
-									.filter((genre) => genre !== "Hentai")
-									.map((genre, index) => (
-										<FormControlLabel
-											key={index}
-											control={
-												<Checkbox
-													onChange={handleGenreChange}
-													value={genre}
-													className="dark:!text-white"
-												/>
-											}
-											label={genre}
-										/>
-									))}
-							</AccordionDetails>
-						</Accordion>
-					</div>
-					<div>
-						<Accordion className="bg-slate-200 dark:!bg-secondary dark:!text-white">
-							<AccordionSummary
-								expandIcon={
-									<ExpandMoreIcon className="dark:!text-white" />
+								name
+							</button>
+							<button
+								className={`${
+									state.sort === "POPULARITY_DESC"
+										? "underline"
+										: null
+								} hover:underline`}
+								onClick={() =>
+									handleSortChange("POPULARITY_DESC")
 								}
-								aria-controls="panel1a-content"
-								id="panel1a-header"
 							>
-								<Typography>Tags</Typography>
-							</AccordionSummary>
-							<AccordionDetails>
-								{tags
-									.filter((tag) => tag.isAdult === false)
-									.map((tag, index) => (
-										<FormControlLabel
-											key={index}
-											control={
-												<Checkbox
-													onChange={handleTagChange}
-													value={tag.name}
-													className="dark:!text-white"
-												/>
-											}
-											label={tag.name}
-										/>
-									))}
-							</AccordionDetails>
-						</Accordion>
+								popularity
+							</button>
+							<button
+								className={`${
+									state.sort === "TRENDING_DESC"
+										? "underline"
+										: null
+								} hover:underline`}
+								onClick={() =>
+									handleSortChange("TRENDING_DESC")
+								}
+							>
+								trending
+							</button>
+						</span>
+					</h2>
+					<div className="flex flex-wrap py-4 gap-4 justify-between">
+						{results
+							? results.pages.map((page, index) => (
+									<Fragment key={index}>
+										{page.media.map((anime) => (
+											<Card key={anime.id} data={anime} />
+										))}
+									</Fragment>
+							  ))
+							: placeholder}
+						{isFetchingNextPage && placeholder}
 					</div>
 				</div>
 			</div>
-			<div className="py-4">
-				<h2 className="font-semibold flex items-center md:text-2xl">
-					Results for:
-					<span className="ml-auto text-[9px] md:text-xs flex gap-2">
-						SORT:
-						<button
-							className={`${
-								state.sort === "TITLE_ROMAJI"
-									? "underline"
-									: null
-							} hover:underline`}
-							onClick={() => handleSortChange("TITLE_ROMAJI")}
-						>
-							name
-						</button>
-						<button
-							className={`${
-								state.sort === "POPULARITY_DESC"
-									? "underline"
-									: null
-							} hover:underline`}
-							onClick={() => handleSortChange("POPULARITY_DESC")}
-						>
-							popularity
-						</button>
-						<button
-							className={`${
-								state.sort === "TRENDING_DESC"
-									? "underline"
-									: null
-							} hover:underline`}
-							onClick={() => handleSortChange("TRENDING_DESC")}
-						>
-							trending
-						</button>
-					</span>
-				</h2>
-				<div className="flex flex-wrap py-4 gap-4 justify-between">
-					{results
-						? results.pages.map((page, index) => (
-								<Fragment key={index}>
-									{page.media.map((anime) => (
-										<Card key={anime.id} data={anime} />
-									))}
-								</Fragment>
-						  ))
-						: placeholder}
-					{isFetchingNextPage && placeholder}
-				</div>
-			</div>
-		</div>
+			<ScrollTop />
+		</>
 	);
 }

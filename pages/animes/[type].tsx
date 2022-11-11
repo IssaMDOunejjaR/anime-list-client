@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { Fragment, useEffect, useState } from "react";
 import Card, { CardSkeleton } from "../../components/Card/Card";
+import ScrollTop from "../../components/ScrollTop/ScrollTop";
 import { useAnimesByPopularity } from "../../hooks/useAnimeByPopularity";
 import { useAnimesByTrending } from "../../hooks/useAnimeByTrending";
 import { useAnimesLatestEpisode } from "../../hooks/useAnimesLatestEpisode";
@@ -210,6 +211,7 @@ export default function AnimeList() {
 					<Component scrollY={scrollY} />
 				</div>
 			</section>
+			<ScrollTop />
 		</>
 	);
 }

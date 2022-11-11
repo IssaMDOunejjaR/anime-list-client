@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import Card, { CardSkeleton } from "../../components/Card/Card";
+import ScrollTop from "../../components/ScrollTop/ScrollTop";
 import { useMediaByTag } from "../../hooks/useMediaByTag";
 
 export default function Tag() {
@@ -54,6 +55,7 @@ export default function Tag() {
 					{isFetchingNextPage && placeholder}
 				</div>
 			</section>
+			<ScrollTop />
 		</>
 	);
 }
