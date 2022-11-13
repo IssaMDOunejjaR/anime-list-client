@@ -5,6 +5,8 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useEffect, useRef, useState } from "react";
 import { IconButton, Skeleton } from "@mui/material";
 import { motion } from "framer-motion";
+import SwiperBox from "../SwiperBox/SwiperBox";
+import { SwiperSlide } from "swiper/react";
 
 function getCurrentSeason() {
 	const now = new Date();
@@ -123,6 +125,49 @@ export default function Main() {
 							<MainSkeleton key={index} />
 					  ))}
 			</div>
+			{/* <SwiperBox>
+				{data
+					? data.media.map((anime) => (
+							<SwiperSlide key={anime.id} className="w-[1200px]">
+								<motion.div
+									className="relative w-full lg:basis-[1200px] h-[600px] flex-grow-0 flex-shrink-0 flex items-center rounded-md shadow-[0_2px_8px_#999] dark:shadow-[0_2px_8px_#333]"
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+								>
+									<div className="absolute w-full h-full">
+										{anime.bannerImage && (
+											<img
+												src={anime.bannerImage}
+												alt={anime.title.romaji}
+												className="w-full h-full object-cover absolute right-0 opacity-[0.5]"
+											/>
+										)}
+									</div>
+									<div className="relative z-[1] w-2/4 ml-8">
+										<h2 className="font-bold text-lg md:text-2xl mb-4">
+											{anime.title.romaji}
+										</h2>
+										<p className="h-[100px] overflow-hidden mb-4 text-md text-[#333] dark:text-[#ddd]">
+											{HTMLReactParser(anime.description)}
+										</p>
+										<Link
+											href={`/anime/${anime.id}`}
+											prefetch={false}
+										>
+											<a className="custom-link !w-fit !px-8 md:!px-12">
+												More
+											</a>
+										</Link>
+									</div>
+								</motion.div>
+							</SwiperSlide>
+					  ))
+					: [...new Array(7)].map((_, index) => (
+							<SwiperSlide key={index} className="w-[1200px]">
+								<MainSkeleton />
+							</SwiperSlide>
+					  ))}
+			</SwiperBox> */}
 			<div className="flex justify-center gap-3 p-8">
 				{data ? (
 					data.media.map((_anime, index) => (

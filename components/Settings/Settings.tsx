@@ -114,7 +114,7 @@ export default function Settings({ open, setOpen }: Props) {
 					</div>
 					<div
 						ref={divRef}
-						className="flex flex-wrap gap-2 justify-center py-1 h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-gray-600"
+						className="flex flex-wrap justify-center py-1 gap-2 max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-gray-600"
 						onScroll={(_) =>
 							setScrollY(
 								Number(divRef?.current?.scrollHeight) + 150
@@ -127,7 +127,7 @@ export default function Settings({ open, setOpen }: Props) {
 									{page.characters.map((character, index) => (
 										<div
 											key={index}
-											className={`cursor-pointer ${
+											className={`cursor-pointer w-fit h-fit ${
 												character.image.large === avatar
 													? "bg-white"
 													: null

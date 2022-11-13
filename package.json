@@ -25,6 +25,7 @@
 		"react-countdown-circle-timer": "^3.0.9",
 		"react-dom": "^18.2.0",
 		"react-select": "^5.5.9",
+		"swiper": "^8.4.4",
 		"tailwind-scrollbar": "^2.0.1",
 		"tailwind-scrollbar-hide": "^1.1.7"
 	},

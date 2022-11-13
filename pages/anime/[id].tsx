@@ -219,39 +219,51 @@ export default function AnimeInformation() {
 											{data.title.romaji}
 											{me && (
 												<span className="flex gap-2">
-													<select
-														className="px-2 text-sm text-black dark:text-inherit"
-														value={episode}
-														onChange={
-															handleEpisodeChange
-														}
-														disabled={
-															media?.status !==
-															PreferenceStatus.WATCHING
-														}
-													>
-														{new Array(
-															data.nextAiringEpisode
-																? data
-																		.nextAiringEpisode
-																		.episode -
-																  1 +
-																  1
-																: data.episodes +
-																  1
-														)
-															.fill(0)
-															.map((_, index) => (
-																<option
-																	key={index}
-																	value={
+													{(data.nextAiringEpisode ||
+														data.episodes) && (
+														<select
+															className="px-2 text-sm text-black dark:text-inherit"
+															value={episode}
+															onChange={
+																handleEpisodeChange
+															}
+															disabled={
+																media?.status !==
+																PreferenceStatus.WATCHING
+															}
+														>
+															{new Array(
+																data.nextAiringEpisode
+																	? data
+																			.nextAiringEpisode
+																			.episode -
+																	  1 +
+																	  1
+																	: data.episodes +
+																	  1
+															)
+																.fill(0)
+																.map(
+																	(
+																		_,
 																		index
-																	}
-																>
-																	{index}
-																</option>
-															))}
-													</select>
+																	) => (
+																		<option
+																			key={
+																				index
+																			}
+																			value={
+																				index
+																			}
+																		>
+																			{
+																				index
+																			}
+																		</option>
+																	)
+																)}
+														</select>
+													)}
 													<IconButton
 														className="!shadow-none !text-white"
 														onClick={
@@ -268,92 +280,97 @@ export default function AnimeInformation() {
 															<StarOutlineIcon />
 														)}
 													</IconButton>
-													<IconButton className="group relative !shadow-none !bg-red-500 !text-white transition-all hover:!rounded-none">
-														<AddIcon />
-														<div className="absolute z-[2] w-[200px] h-0 transition-all delay-100 top-full right-0 bg-red-500 overflow-hidden group-hover:h-[180px]">
-															<div
-																className={`${buttonClass} ${
-																	!media ||
-																	(media &&
+													{(data.nextAiringEpisode ||
+														data.episodes) && (
+														<IconButton className="group relative !shadow-none !bg-red-500 !text-white transition-all hover:!rounded-none">
+															<AddIcon />
+															<div className="absolute z-[2] w-[200px] h-0 transition-all delay-100 top-full right-0 bg-red-500 overflow-hidden group-hover:h-[180px]">
+																<div
+																	className={`${buttonClass} ${
+																		!media ||
+																		(media &&
+																			media.status ===
+																				PreferenceStatus.NOTHING)
+																			? "bg-white text-black"
+																			: null
+																	}`}
+																	onClick={() =>
+																		handleAddMediaPreference(
+																			PreferenceStatus.NOTHING
+																		)
+																	}
+																>
+																	Nothing for
+																	now
+																</div>
+																<div
+																	className={`${buttonClass} ${
+																		media &&
 																		media.status ===
-																			PreferenceStatus.NOTHING)
-																		? "bg-white text-black"
-																		: null
-																}`}
-																onClick={() =>
-																	handleAddMediaPreference(
-																		PreferenceStatus.NOTHING
-																	)
-																}
-															>
-																Nothing for now
+																			PreferenceStatus.PLAN_TO_WATCH
+																			? "bg-white text-black"
+																			: null
+																	}`}
+																	onClick={() =>
+																		handleAddMediaPreference(
+																			PreferenceStatus.PLAN_TO_WATCH
+																		)
+																	}
+																>
+																	Plan to
+																	watch
+																</div>
+																<div
+																	className={`${buttonClass} ${
+																		media &&
+																		media.status ===
+																			PreferenceStatus.WATCHING
+																			? "bg-white text-black"
+																			: null
+																	}`}
+																	onClick={() =>
+																		handleAddMediaPreference(
+																			PreferenceStatus.WATCHING
+																		)
+																	}
+																>
+																	Watching
+																</div>
+																<div
+																	className={`${buttonClass} ${
+																		media &&
+																		media.status ===
+																			PreferenceStatus.DROPPED
+																			? "bg-white text-black"
+																			: null
+																	}`}
+																	onClick={() =>
+																		handleAddMediaPreference(
+																			PreferenceStatus.DROPPED
+																		)
+																	}
+																>
+																	Dropped
+																</div>
+																<div
+																	className={`${buttonClass} ${
+																		media &&
+																		media.status ===
+																			PreferenceStatus.FINISHED
+																			? "bg-white text-black"
+																			: null
+																	}`}
+																	onClick={() =>
+																		handleAddMediaPreference(
+																			PreferenceStatus.FINISHED
+																		)
+																	}
+																>
+																	Finished
+																</div>
 															</div>
-															<div
-																className={`${buttonClass} ${
-																	media &&
-																	media.status ===
-																		PreferenceStatus.PLAN_TO_WATCH
-																		? "bg-white text-black"
-																		: null
-																}`}
-																onClick={() =>
-																	handleAddMediaPreference(
-																		PreferenceStatus.PLAN_TO_WATCH
-																	)
-																}
-															>
-																Plan to watch
-															</div>
-															<div
-																className={`${buttonClass} ${
-																	media &&
-																	media.status ===
-																		PreferenceStatus.WATCHING
-																		? "bg-white text-black"
-																		: null
-																}`}
-																onClick={() =>
-																	handleAddMediaPreference(
-																		PreferenceStatus.WATCHING
-																	)
-																}
-															>
-																Watching
-															</div>
-															<div
-																className={`${buttonClass} ${
-																	media &&
-																	media.status ===
-																		PreferenceStatus.DROPPED
-																		? "bg-white text-black"
-																		: null
-																}`}
-																onClick={() =>
-																	handleAddMediaPreference(
-																		PreferenceStatus.DROPPED
-																	)
-																}
-															>
-																Dropped
-															</div>
-															<div
-																className={`${buttonClass} ${
-																	media &&
-																	media.status ===
-																		PreferenceStatus.FINISHED
-																		? "bg-white text-black"
-																		: null
-																}`}
-																onClick={() =>
-																	handleAddMediaPreference(
-																		PreferenceStatus.FINISHED
-																	)
-																}
-															>
-																Finished
-															</div>
-														</div>
-													</IconButton>
+														</IconButton>
+													)}
 												</span>
 											)}
 										</h2>
