@@ -22,6 +22,7 @@ import {
 } from "../../fetchers/user";
 import { PreferenceStatus } from "../../types/user";
 import ScrollTop from "../../components/ScrollTop/ScrollTop";
+import Image from "next/image";
 
 const AnimeInformationSkeleton = () => {
 	return (
@@ -197,24 +198,26 @@ export default function AnimeInformation() {
 						<div className="absolute top-0 left-0 -z-10 h-[400px] w-full">
 							<div className="absolute top-0 h-full w-full bg-secondary bg-opacity-80 z-[1]"></div>
 							{data.bannerImage && (
-								<img
+								<Image
 									src={data.bannerImage}
 									alt={data.title.romaji}
 									className="h-full w-full object-cover"
+									layout="fill"
 								/>
 							)}
 						</div>
 						<Container>
-							<div className="flex flex-col items-center lg:flex-row">
-								<div className="rounded-sm overflow-hidden w-[300px] flex justify-center">
-									<img
+							<div className="flex flex-col items-center lg:items-start lg:flex-row">
+								<div className="relative h-[490px] rounded-sm overflow-hidden w-[300px] flex justify-center">
+									<Image
 										src={data.coverImage.extraLarge}
 										alt={data.title.romaji}
-										className="shadow-md w-[300px] h-[490px]"
+										className="shadow-md"
+										layout="fill"
 									/>
 								</div>
 								<div className="p-8 flex-1">
-									<div className="lg:pt-24 mb-8">
+									<div className="lg:pt-32 mb-8">
 										<h2 className="text-white flex flex-col lg:flex-row justify-between items-center text-center gap-y-5 lg:text-left font-bold text-xl md:text-3xl">
 											{data.title.romaji}
 											{me && (
@@ -602,20 +605,21 @@ export default function AnimeInformation() {
 														>
 															{link.icon && (
 																<span
-																	className={`block p-1 mr-3 rounded-sm`}
+																	className={`relative w-5 h-5 block p-1 mr-3 rounded-sm`}
 																	style={{
 																		backgroundColor:
 																			link.color,
 																	}}
 																>
-																	<img
+																	<Image
 																		src={
 																			link.icon
 																		}
 																		alt={
 																			link.site
 																		}
-																		className="w-4 h-4"
+																		className="!p-1"
+																		layout="fill"
 																	/>
 																</span>
 															)}

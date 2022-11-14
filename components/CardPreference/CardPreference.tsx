@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { addMediaPreference } from "../../fetchers/user";
@@ -66,10 +67,12 @@ export default function CardPreference({ animeId, setOpenProfile }: Props) {
 			viewport={{ once: true }}
 		>
 			<div className="group relative">
-				<img
+				<Image
 					src={data.coverImage.extraLarge}
 					alt={data.title.romaji}
-					className="shadow-md w-[180px] h-[270px]"
+					className="shadow-md"
+					width={180}
+					height={270}
 				/>
 				<div
 					className={`absolute w-full h-full top-0 bg-secondary transition-all bg-opacity-90 z-[1] opacity-0 flex flex-col gap-4 justify-center items-center group-hover:opacity-100`}

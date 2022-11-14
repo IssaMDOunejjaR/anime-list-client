@@ -1,5 +1,6 @@
 import { Avatar } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import {
 	Dispatch,
 	Fragment,
@@ -127,7 +128,7 @@ export default function Settings({ open, setOpen }: Props) {
 									{page.characters.map((character, index) => (
 										<div
 											key={index}
-											className={`cursor-pointer w-fit h-fit ${
+											className={`flex items-center justify-center cursor-pointer w-fit h-fit ${
 												character.image.large === avatar
 													? "bg-white"
 													: null
@@ -136,10 +137,12 @@ export default function Settings({ open, setOpen }: Props) {
 												setAvatar(character.image.large)
 											}
 										>
-											<Avatar
-												className="!w-14 !h-14"
+											<Image
 												src={character.image.large}
 												alt={character.name.full}
+												width={60}
+												height={60}
+												className="!rounded-full"
 											/>
 										</div>
 									))}

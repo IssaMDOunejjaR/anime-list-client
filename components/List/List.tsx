@@ -32,14 +32,6 @@ export default function List({ children, title, url }: Props) {
 		}
 	};
 
-	// console.log(scrollState);
-
-	// useEffect(() => {
-	// 	if (listRef && listRef.current) {
-	// 		listRef.current.scrollLeft = scrollPos;
-	// 	}
-	// }, [listRef, scrollPos]);
-
 	useEffect(() => {
 		const handleScroll = () => {
 			if (listRef && listRef.current) {
@@ -49,55 +41,13 @@ export default function List({ children, title, url }: Props) {
 			}
 		};
 
-		// const handleMouseDown = (e: MouseEvent) => {
-		// 	setScrollState({ ...scrollState, start: e.clientX });
-		// 	// console.log(scrollState);
-		// };
-
-		// const handleMouseMove = (e: MouseEvent) => {
-		// 	if (scrollState.start !== 0) {
-		// 		if (e.clientX < scrollState.start) {
-		// 			// console.log(e.clientX);
-		// 			// if (listRef && listRef.current) {
-		// 			// 	listRef.current.scrollLeft +=
-		// 			// 		scrollState.start - e.clientX;
-		// 			// }
-		// 			// setScrollPos(scrollPos + (scrollState.start - e.clientX));
-		// 		} else if (e.clientX > scrollState.start) {
-		// 			// if (listRef && listRef.current) {
-		// 			// 	listRef.current.scrollLeft -=
-		// 			// 		e.clientX - scrollState.start;
-		// 			// }
-		// 			// setScrollPos(scrollPos + (e.clientX - scrollState.start));
-		// 		}
-		// 	}
-		// };
-
-		// const handleMouseUp = (e: MouseEvent) => {
-		// 	setScrollState({ ...scrollState, start: 0 });
-		// 	setScrollPos(0);
-		// 	// console.log(scrollState);
-		// };
-
 		if (listRef && listRef.current) {
 			listRef.current.addEventListener("scroll", handleScroll);
-			// listRef.current.addEventListener("mousedown", handleMouseDown);
-			// listRef.current.addEventListener("mousemove", handleMouseMove);
-			// listRef.current.addEventListener("mouseup", handleMouseUp);
 		}
 
 		return () => {
 			if (listRef && listRef.current) {
 				listRef.current.removeEventListener("scroll", handleScroll);
-				// listRef.current.removeEventListener(
-				// 	"mousedown",
-				// 	handleMouseDown
-				// );
-				// listRef.current.removeEventListener(
-				// 	"mousemove",
-				// 	handleMouseMove
-				// );
-				// listRef.current.removeEventListener("mouseup", handleMouseUp);
 			}
 		};
 	}, [listRef, scrollState]);

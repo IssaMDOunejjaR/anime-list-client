@@ -4,6 +4,7 @@ import parse from "html-react-parser";
 import Link from "next/link";
 import { Skeleton } from "@mui/material";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export const CardSkeleton = () => {
 	return (
@@ -82,12 +83,13 @@ export default function Card({ data }: Props) {
 			whileInView={{ scale: 1 }}
 			viewport={{ once: true }}
 		>
-			<div>
-				<img
+			<div className="relative w-[170px] h-[260px]">
+				<Image
 					src={data.coverImage?.extraLarge}
 					alt={data.title.romaji}
-					className="shadow-md w-[170px] h-[260px]"
+					className="shadow-md"
 					draggable={false}
+					layout="fill"
 				/>
 			</div>
 			<div className="py-2 flex flex-col">

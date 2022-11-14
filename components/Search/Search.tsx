@@ -4,6 +4,7 @@ import Loader from "../Loader/Loader";
 import { useMediaSearch } from "../../hooks/useMediaSearch";
 import Link from "next/link";
 import parse from "html-react-parser";
+import Image from "next/image";
 
 interface SearchProps {
 	searchValue: string;
@@ -64,15 +65,18 @@ const Search = ({ searchValue, isFocused }: SearchProps) => {
 										href={`/anime/${media.id}`}
 										prefetch={false}
 									>
-										<div className="flex mb-1 cursor-pointer h-[185px]">
-											<img
-												src={
-													media.coverImage.extraLarge
-												}
-												alt={media.title.romaji}
-												className="w-[130px]"
-											/>
-											<div className="px-4 flex flex-col py-1">
+										<div className="relative flex mb-1 cursor-pointer h-[185px]">
+											<div className="w-[130px] h-full relative">
+												<Image
+													src={
+														media.coverImage
+															.extraLarge
+													}
+													alt={media.title.romaji}
+													layout="fill"
+												/>
+											</div>
+											<div className="px-4 flex flex-col py-1 flex-1">
 												<h2 className="font-bold">
 													{media.title.romaji}
 												</h2>

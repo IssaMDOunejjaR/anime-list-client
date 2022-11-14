@@ -21,14 +21,10 @@ interface Props {
 }
 
 export default function Header({ openProfile, setOpenProfile }: Props) {
-	const { theme, setTheme, systemTheme } = useTheme();
-
 	const [openSignIn, setOpenSignIn] = useState(false);
 	const [openSignUp, setOpenSignUp] = useState(false);
 
 	const { data: me } = useLoggedUser();
-
-	const currentTheme = theme === "system" ? systemTheme : theme;
 
 	const { reload } = useRouter();
 
@@ -69,14 +65,7 @@ export default function Header({ openProfile, setOpenProfile }: Props) {
 						</Link>
 					</div>
 					<div className="flex space-x-4 items-center">
-						<DarkModeSwitch
-							value={currentTheme === "dark"}
-							change={() =>
-								setTheme(
-									currentTheme === "dark" ? "light" : "dark"
-								)
-							}
-						/>
+						<DarkModeSwitch />
 						{me ? (
 							<div className="flex gap-4">
 								<IconButton
