@@ -156,6 +156,7 @@ export default function MediaDetail({
 					>
 						<div className="flex flex-wrap gap-4 py-4">
 							{data.recommendations.nodes
+								.filter((media) => media.mediaRecommendation)
 								.slice(0, 5)
 								.map((s, index) => (
 									<Card
