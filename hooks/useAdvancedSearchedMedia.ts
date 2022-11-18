@@ -1,12 +1,15 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getAdvancedSearchedMedia } from "../fetchers/media";
-import { SearchOptions } from "../pages/search";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getAdvancedSearchedMedia } from '../fetchers/media';
+import { SearchOptions } from '../pages/search';
 
-export const useAdvancedSearchedMedia = (searchOptions: SearchOptions) => {
+export const useAdvancedSearchedMedia = (
+	searchValue: string,
+	searchOptions: SearchOptions
+) => {
 	return useInfiniteQuery(
 		[
-			"search",
-			searchOptions.searchValue,
+			'search',
+			searchValue,
 			searchOptions.format,
 			searchOptions.season,
 			searchOptions.year,
@@ -15,7 +18,7 @@ export const useAdvancedSearchedMedia = (searchOptions: SearchOptions) => {
 			searchOptions.sort,
 		],
 		({ pageParam = 1 }) =>
-			getAdvancedSearchedMedia({ pageParam, searchOptions }),
+			getAdvancedSearchedMedia({ pageParam, searchValue, searchOptions }),
 		{
 			getNextPageParam: (lastPage) => {
 				if (lastPage.pageInfo.hasNextPage)
