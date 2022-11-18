@@ -1,5 +1,6 @@
-import { useTheme } from "next-themes";
-import Select, { StylesConfig } from "react-select";
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+import Select, { StylesConfig } from 'react-select';
 
 interface Props {
 	placeholder: string;
@@ -14,29 +15,41 @@ export default function SelectBox({
 	options,
 	change,
 }: Props) {
-	const { theme } = useTheme();
+	const { theme, systemTheme } = useTheme();
+	const [currentTheme, setCurrentTheme] = useState(
+		theme === 'system' ? systemTheme : theme
+	);
+
+	useEffect(() => {
+		setCurrentTheme(theme === 'system' ? systemTheme : theme);
+	}, [theme, systemTheme]);
+
 	const styles: StylesConfig = {
 		control: (css) => ({
 			...css,
-			backgroundColor: theme === "dark" ? "#1E2530" : "rgb(226 232 240)",
-			boxShadow: theme === "dark" ? "0 1px 2px #222" : "0 1px 2px #aaa",
-			border: "none",
+			backgroundColor:
+				currentTheme === 'dark' ? '#1E2530' : 'rgb(226 232 240)',
+			boxShadow:
+				currentTheme === 'dark' ? '0 1px 2px #222' : '0 1px 2px #aaa',
+			border: 'none',
 			padding: 12,
 		}),
 		option: (css) => ({
 			...css,
-			backgroundColor: theme === "dark" ? "#1E2530" : "rgb(226 232 240)",
-			":hover": {
-				backgroundColor: theme === "dark" ? "#272C38" : "white",
+			backgroundColor:
+				currentTheme === 'dark' ? '#1E2530' : 'rgb(226 232 240)',
+			':hover': {
+				backgroundColor: currentTheme === 'dark' ? '#272C38' : 'white',
 			},
 		}),
 		menu: (css) => ({
 			...css,
-			backgroundColor: theme === "dark" ? "#1E2530" : "rgb(226 232 240)",
+			backgroundColor:
+				currentTheme === 'dark' ? '#1E2530' : 'rgb(226 232 240)',
 		}),
 		singleValue: (css) => ({
 			...css,
-			color: "white",
+			color: 'white',
 		}),
 	};
 
