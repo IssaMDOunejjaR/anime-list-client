@@ -1,7 +1,7 @@
-import { request, gql } from "graphql-request";
-import { endpoint } from "../constants";
-import { SearchOptions } from "../pages/search";
-import { Anime, Page } from "../types";
+import { request, gql } from 'graphql-request';
+import { endpoint } from '../constants';
+import { SearchOptions } from '../pages/search';
+import { Anime, Page } from '../types';
 
 export const getCharacters = async ({
 	pageParam = 1,
@@ -510,9 +510,11 @@ export const getSearchedMedia = async ({
 
 export const getAdvancedSearchedMedia = async ({
 	pageParam = 1,
+	searchValue,
 	searchOptions,
 }: {
 	pageParam: number;
+	searchValue: string;
 	searchOptions: SearchOptions;
 }): Promise<Page> => {
 	const { Page } = await request(
@@ -525,7 +527,7 @@ export const getAdvancedSearchedMedia = async ({
 						hasNextPage
 					}
 					media(sort: ${searchOptions.sort}, type: ANIME, search: ${
-			searchOptions.searchValue ? `"${searchOptions.searchValue}"` : null
+			searchValue ? `"${searchValue}"` : null
 		}, genre_in: ${
 			searchOptions.genres.length
 				? JSON.stringify(searchOptions.genres)
@@ -535,9 +537,9 @@ export const getAdvancedSearchedMedia = async ({
 				? JSON.stringify(searchOptions.tags)
 				: null
 		}, seasonYear: ${searchOptions.year}, ${
-			searchOptions.season ? `season: ${searchOptions.season},` : ""
+			searchOptions.season ? `season: ${searchOptions.season},` : ''
 		} ${
-			searchOptions.format ? `format: ${searchOptions.format},` : ""
+			searchOptions.format ? `format: ${searchOptions.format},` : ''
 		} isAdult: false) {
                         id
 						title {
