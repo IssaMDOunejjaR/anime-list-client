@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  client:
+    container_name: "anime-list-client"
+    image: custom-node-alpine
+    env_file:
+      - "./.client.env"
+    volumes:
+      - ./:/var/www/
+    networks:
+      - homelab
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.anime-list_client.rule=Host(`anime-list.issamounejjar.live`)"
+      - "traefik.http.routers.anime-list_client.entrypoints=websecure"
+      - "traefik.http.routers.anime-list_client.tls.certresolver=letsencrypt"
+    restart: unless-stopped
+    
+networks:
+  homelab:
+    external: true
