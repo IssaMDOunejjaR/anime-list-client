@@ -12,10 +12,10 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
             - name: Setup Node
-              uses: "actions/setup-node@v2"
+              uses: 'actions/setup-node@v2'
               with:
                   node-version: ${{ matrix.node-version }}
-                  cache: "npm"
+                  cache: 'npm'
             - name: Install Dependencies
               run: npm install
             - name: Build
@@ -32,15 +32,15 @@ jobs:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.USERNAME }}
                   password: ${{ secrets.PASSWORD }}
-                  source: "."
-                  target: "/home/${{ secrets.USERNAME }}/home-lab/websites/anime-list/client/"
-            - name: Ssh into host
+                  source: '.'
+                  target: '/home/${{ secrets.USERNAME }}/home-lab/websites/${{ github.event.repository.name }}'
+            - name: SSH into host
               uses: appleboy/ssh-action@master
               with:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.USERNAME }}
                   password: ${{ secrets.PASSWORD }}
                   script: |
-                      cd /home/${{ secrets.USERNAME }}/home-lab/websites/anime-list/
-                      echo y | docker compose rm -s -v client
-                      docker compose up --build -d client
+                      cd /home/${{ secrets.USERNAME }}/home-lab/websites/${{ github.event.repository.name }}
+                      echo y | docker compose rm -s
+                      docker compose up -d
